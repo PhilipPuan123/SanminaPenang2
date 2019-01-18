@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 using System.Net;
 
-namespace RVISDev
+namespace RVIS
 {
     public partial class FrmSetting : Form
     {

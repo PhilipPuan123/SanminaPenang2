@@ -33,3 +33,9 @@ E:\Visual Studio 2017\Projects\Work\RVISDev\TMModbusIF\obj\Debug\TMModbusIF.cspr
 E:\Visual Studio 2017\Projects\Work\RVISDev\TMModbusIF\obj\Debug\TMModbusIF.csproj.CoreCompileInputs.cache
 E:\Visual Studio 2017\Projects\Work\RVISDev\TMModbusIF\obj\Debug\TMModbusIF.dll
 E:\Visual Studio 2017\Projects\Work\RVISDev\TMModbusIF\obj\Debug\TMModbusIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\TMModbusIF\bin\Debug\TMModbusIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\TMModbusIF\bin\Debug\TMModbusIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\TMModbusIF\obj\Debug\TMModbusIF.csprojAssemblyReference.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\TMModbusIF\obj\Debug\TMModbusIF.csproj.CoreCompileInputs.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\TMModbusIF\obj\Debug\TMModbusIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\TMModbusIF\obj\Debug\TMModbusIF.pdb

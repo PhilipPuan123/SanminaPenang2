@@ -14,7 +14,7 @@ using MesIF;
 using TcpIF;
 using TMModbusIF;
 
-namespace RVISDev
+namespace RVIS
 {
     public partial class FrmMain : Form
     {
@@ -48,6 +48,7 @@ namespace RVISDev
         public FrmMain()
         {
             InitializeComponent();
+
         }
         private void FrmMain_Shown(object sender, EventArgs e)
         {

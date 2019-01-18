@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 using System.Data.SqlClient;
 
-namespace RVISDev
+namespace RVIS
 {
     public partial class FrmLogin : Form
     {

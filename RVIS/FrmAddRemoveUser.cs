@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Data.SqlClient;
 
-namespace RVISDev
+namespace RVIS
 {
     public partial class FrmAddRemoveUser : Form
     {

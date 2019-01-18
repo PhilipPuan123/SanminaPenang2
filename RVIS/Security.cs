@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.Security.Cryptography;
 
-namespace RVISDev
+namespace RVIS
 {
     internal class Security
     {

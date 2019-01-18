@@ -1,4 +1,4 @@
-﻿namespace RVISDev
+﻿namespace RVIS
 {
     partial class FrmAddRemoveUser
     {
