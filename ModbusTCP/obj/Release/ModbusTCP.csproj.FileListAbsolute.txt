@@ -1,0 +1,13 @@
+C:\Users\12127\Documents\Visual Studio 2017\Projects\MESSystemTesterV00.00.01\ModbusTCP\bin\Release\ModbusTCP.XML
+C:\Users\12127\Documents\Visual Studio 2017\Projects\MESSystemTesterV00.00.01\ModbusTCP\bin\Release\ModbusTCP.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\MESSystemTesterV00.00.01\ModbusTCP\bin\Release\ModbusTCP.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.csprojAssemblyReference.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.csproj.CoreCompileInputs.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\MESSystemTesterV00.00.01\ModbusTCP\bin\Release\ModbusTCP.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\MESSystemTesterV00.00.01\ModbusTCP\bin\Release\ModbusTCP.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.csprojAssemblyReference.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.csproj.CoreCompileInputs.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\MESSystemTesterV00.00.01\ModbusTCP\obj\Release\ModbusTCP.pdb

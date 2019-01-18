@@ -1,0 +1,539 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net;
+using System.Collections;
+
+namespace TMModbusIF
+{
+    public class ModbusControl
+    {
+        #region Declaration
+            // Constants
+            private const byte SLAVE_ID = 1;
+       
+            // Private declaration
+            private static ushort modbusTransactionId = 0;
+            private static Master master = null;
+            private static IPAddress ipAddress = IPAddress.Loopback;
+            private static int portNum = 99999;
+        #endregion
+
+        #region Start
+            public static int Start(string ip, string port)
+            {
+                IPAddress _ip;
+                int _port;
+
+                // Check IP Address Format
+                if (IPAddress.TryParse(ip, out _ip) != true) return (int)MError.InvalidIP;
+                if (Int32.TryParse(port, out _port) != true) return (int)MError.InvalidPort;
+
+                return Start(_ip, _port);
+            }
+
+            public static int Start(IPAddress ip, int port)
+            {
+                // Stop
+                Stop();
+
+                // Start Modbus Connection
+                if (master == null)
+                {
+                    try
+                    {
+                        master = new Master(ip, port);
+                    }
+                    catch (Exception)
+                    {
+                        master = null;
+                        return (int)MError.InitializeFail;
+                    }
+                }
+
+                if (master == null || !master.connected)
+                {
+                    return (int)MError.InitializeFail;
+                }
+
+                // Store ip address & port
+                ipAddress = ip;
+                portNum = port;
+                return (int)MError.OK;
+            }
+        #endregion
+
+        #region Stop
+            public static void Stop()
+            {
+                // Stop Modbus Connection
+                if (master != null && master.connected)
+                {
+                    master.Disconnect();
+                }
+
+                master = null;
+            }
+        #endregion
+        
+        public static int ProcCommand(TMModbusCmd command,out string result)
+        {
+            int error = 0;
+            float coordinate = 0.00f;
+            bool onOff = false;
+            string data = string.Empty;
+
+            switch (command)
+            {
+                case TMModbusCmd.Start:
+                    error = StartProject();
+                    break;
+                case TMModbusCmd.Stop:
+                    error = StopProject();
+                    break;
+                case TMModbusCmd.Pause:
+                    error = PauseProject();
+                    break;
+                case TMModbusCmd.GetRobotCoorX:
+                    error = GetRobotCoordinateX(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetRobotCoorY:
+                    error = GetRobotCoordinateY(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetRobotCoorZ:
+                    error = GetRobotCoordinateZ(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetRobotCoorRX:
+                    error = GetRobotCoordinateRX(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetRobotCoorRY:
+                    error = GetRobotCoordinateRY(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetRobotCoorRZ:
+                    error = GetRobotCoordinateRZ(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetToolCoorX:
+                    error = GetToolCoordinateX(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetToolCoorY:
+                    error = GetToolCoordinateY(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetToolCoorZ:
+                    error = GetToolCoordinateZ(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetToolCoorRX:
+                    error = GetToolCoordinateRX(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetToolCoorRY:
+                    error = GetToolCoordinateRY(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetToolCoorRZ:
+                    error = GetToolCoordinateRZ(ref coordinate);
+                    data = coordinate.ToString();
+                    break;
+                case TMModbusCmd.GetErrorStatus:
+                    error = GetProjectErrorStatus(ref onOff);
+                    data = onOff.ToString();
+                    break;
+                case TMModbusCmd.GetRunStatus:
+                    error = GetProjectRunningStatus(ref onOff);
+                    data = onOff.ToString();
+                    break;
+                case TMModbusCmd.GetEditStatus:
+                    error = GetProjectEditingStatus(ref onOff);
+                    data = onOff.ToString();
+                    break;
+                case TMModbusCmd.GetPauseStatus:
+                    error = GetProjectPauseStatus(ref onOff);
+                    data = onOff.ToString();
+                    break;
+                case TMModbusCmd.GetPermissionStatus:
+                    error = GetProjectPermissionStatus(ref onOff);
+                    data = onOff.ToString();
+                    break;
+            }
+
+            if ((MError)error != MError.OK)
+                result = string.Empty;
+            else
+                result = data;
+
+            return error;
+        }
+        
+        #region Control
+            /// <summary>
+            /// Start TM Robot project.
+            /// </summary>
+            /// <returns></returns>
+            private static int StartProject()
+            {
+                return WriteSingleDigitalOut(TMModbusAddress.PLAY_PAUSE, true);
+            }
+
+            /// <summary>
+            /// Pause TM Robot project.
+            /// </summary>
+            /// <returns></returns>
+            private static int PauseProject()
+            {
+                return WriteSingleDigitalOut(TMModbusAddress.PLAY_PAUSE, false);
+            }
+
+            /// <summary>
+            /// Stop TM Robot project.
+            /// </summary>
+            /// <returns></returns>
+            private static int StopProject()
+            {
+                return WriteSingleDigitalOut(TMModbusAddress.STOP, true);
+            }
+        #endregion Control
+
+        #region Read Project Status
+            /// <summary>
+            /// Get project error status.
+            /// </summary>
+            /// <param name="isError">Contains value of error status.</param>
+            /// <returns></returns>
+            private static int GetProjectErrorStatus(ref bool isError)
+            {
+                return ReadRobotStatus(TMModbusAddress.STS_ERROR, ref isError);
+            }
+
+            /// <summary>
+            /// Get project running status.
+            /// </summary>
+            /// <param name="isRunning">Contains value of project running status.</param>
+            /// <returns></returns>
+            private static int GetProjectRunningStatus(ref bool isRunning)
+            {
+                return ReadRobotStatus(TMModbusAddress.STS_RUN, ref isRunning);
+            }
+
+            /// <summary>
+            /// Get project editing status.
+            /// </summary>
+            /// <param name="isEditing">Contains value of project editing status.</param>
+            /// <returns></returns>
+            private static int GetProjectEditingStatus(ref bool isEditing)
+            {
+                return ReadRobotStatus(TMModbusAddress.STS_EDIT, ref isEditing);
+            }
+
+            /// <summary>
+            /// Get project pause status.
+            /// </summary>
+            /// <param name="isPausing">Contains value of project pause status.</param>
+            /// <returns></returns>
+            private static int GetProjectPauseStatus(ref bool isPausing)
+            {
+                return ReadRobotStatus(TMModbusAddress.STS_PAUSE, ref isPausing);
+            }
+
+            /// <summary>
+            /// Get permission get status.
+            /// </summary>
+            /// <param name="hasPermission">Contains value of permission status.</param>
+            /// <returns></returns>
+            private static int GetProjectPermissionStatus(ref bool hasPermission)
+            {
+                return ReadRobotStatus(TMModbusAddress.STS_PERMISSION, ref hasPermission);
+            }
+        #endregion Read Project Status
+
+        #region Robot Coordinate
+            /// <summary>
+            /// Get robot coordinate X.
+            /// </summary>
+            /// <param name="x">Contains value of robot coordinate X.</param>
+            /// <returns></returns>
+            private static int GetRobotCoordinateX(ref float x)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_ROBOT_X, ref x);
+            }
+
+            /// <summary>
+            /// Get robot coordinate Y.
+            /// </summary>
+            /// <param name="y">Contains value of robot coordinate Y.</param>
+            /// <returns></returns>
+            private static int GetRobotCoordinateY(ref float y)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_ROBOT_Y, ref y);
+            }
+
+            /// <summary>
+            /// Get robot coordinate Z.
+            /// </summary>
+            /// <param name="z">Contains value of robot coordinate Z.</param>
+            /// <returns></returns>
+            private static int GetRobotCoordinateZ(ref float z)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_ROBOT_Z, ref z);
+            }
+
+            /// <summary>
+            /// Get robot coordinate RX.
+            /// </summary>
+            /// <param name="rx">Contains value of robot coordinate RX.</param>
+            /// <returns></returns>
+            private static int GetRobotCoordinateRX(ref float rx)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_ROBOT_RX, ref rx);
+            }
+
+            /// <summary>
+            /// Get robot coordinate RY.
+            /// </summary>
+            /// <param name="ry">Contains value of robot coordinate RY.</param>
+            /// <returns></returns>
+            private static int GetRobotCoordinateRY(ref float ry)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_ROBOT_RY, ref ry);
+            }
+
+            /// <summary>
+            /// Get robot coordinate RZ.
+            /// </summary>
+            /// <param name="rz">Contains value of robot coordinate RZ.</param>
+            /// <returns></returns>
+            private static int GetRobotCoordinateRZ(ref float rz)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_ROBOT_RZ, ref rz);
+            }
+        #endregion Robot Coordinate
+
+        #region Tool Coordinate
+            /// <summary>
+            /// Get tool coordinate X.
+            /// </summary>
+            /// <param name="x">Contains value of tool coordinate X.</param>
+            /// <returns></returns>
+            private static int GetToolCoordinateX(ref float x)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_TOOL_X, ref x);
+            }
+
+            /// <summary>
+            /// Get tool coordinate Y.
+            /// </summary>
+            /// <param name="y">Contains value of tool coordinate Y.</param>
+            /// <returns></returns>
+            private static int GetToolCoordinateY(ref float y)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_TOOL_Y, ref y);
+            }
+
+            /// <summary>
+            /// Get tool coordinate Z.
+            /// </summary>
+            /// <param name="z">Contains value of tool coordinate Z.</param>
+            /// <returns></returns>
+            private static int GetToolCoordinateZ(ref float z)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_TOOL_Z, ref z);
+            }
+
+            /// <summary>
+            /// Get tool coordinate RX.
+            /// </summary>
+            /// <param name="rx">Contains value of tool coordinate RX.</param>
+            /// <returns></returns>
+            private static int GetToolCoordinateRX(ref float rx)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_TOOL_RX, ref rx);
+            }
+
+            /// <summary>
+            /// Get tool coordinate RY.
+            /// </summary>
+            /// <param name="ry">Contains value of tool coordinate RY.</param>
+            /// <returns></returns>
+            private static int GetToolCoordinateRY(ref float ry)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_TOOL_RY, ref ry);
+            }
+
+            /// <summary>
+            /// Get tool coordinate RZ.
+            /// </summary>
+            /// <param name="rz">Contains value of tool coordinate RZ</param>
+            /// <returns></returns>
+            private static int GetToolCoordinateRZ(ref float rz)
+            {
+                return ReadCoordinate(TMModbusAddress.COOR_TOOL_RZ, ref rz);
+            }
+        #endregion Tool Coordinate
+
+        #region Functions
+        private static int GetLastError(out int errCode, out DateTime errDateTime)
+        {
+            MError error = MError.OK;
+            byte[] data = null;
+            ushort length = 8;
+            ushort startAddress = TMModbusAddress.LAST_ERROR_CODE;
+
+            // Initialize variables
+            errCode = 0;
+            errDateTime = new DateTime();
+
+            // Read from modbus
+            error = master.ReadInputRegister(modbusTransactionId++, SLAVE_ID, startAddress, length, ref data);
+            if (error != MError.OK)
+            {
+                return (int)error;
+            }
+
+            if (data.Length < 16)
+            {
+                return (int)MError.InvalidDataLength;
+            }
+            try
+            {
+                // Convert byte array to error code and date time format
+                int errorCode = BitConverter.ToInt32(new byte[] { data[3], data[2], data[1], data[0] }, 0); ;
+                short year = BitConverter.ToInt16(new byte[] { data[5], data[4] }, 0);
+                short month = BitConverter.ToInt16(new byte[] { data[7], data[6] }, 0);
+                short day = BitConverter.ToInt16(new byte[] { data[9], data[8] }, 0);
+                short hour = BitConverter.ToInt16(new byte[] { data[11], data[10] }, 0);
+                short minute = BitConverter.ToInt16(new byte[] { data[13], data[12] }, 0);
+                short second = BitConverter.ToInt16(new byte[] { data[15], data[14] }, 0);
+
+                // Combine DateTime
+                DateTime lastErrDateTime = new DateTime(year, month, day, hour, minute, second);
+
+                // Pass the value to return parameters
+                errCode = errorCode;
+                errDateTime = lastErrDateTime;
+            }
+            catch
+            {
+                return (int)MError.InvalidDataValue;
+            }
+            return (int)MError.OK;
+        }
+
+            /// <summary>
+            /// Read robot status from TM Controller.
+            /// </summary>
+            /// <param name="startAddress">Address from where the data read begins.</param>
+            /// <param name="result">Contains the value of status.</param>
+            /// <returns></returns>
+            private static int ReadRobotStatus(ushort startAddress, ref bool result)
+            {
+                MError error = MError.OK;
+                byte[] data = null;
+                ushort value = 0;
+                // Read from modbus
+                error = master.ReadDiscreteInputs(modbusTransactionId++, SLAVE_ID, startAddress, 1, ref data);
+                if(error != MError.OK)
+                {
+                    return (int)error;
+                }
+                // Check data size
+                if (data.Length == 1) value = data[0];
+                else if (data.Length == 2) value = data[1];
+                else return (int)MError.InvalidDataLength;
+
+                // Set data
+                if (value > 0) result = true;
+                else result = false;
+
+                return (int)MError.OK;
+            }
+
+            /// <summary>
+            /// Read coordinate from TM Controller.
+            /// </summary>
+            /// <param name="startAddress">Address from where the data read begins.</param>
+            /// <param name="coordinate">Contains the value of coordinate.</param>
+            /// <returns></returns>
+            private static int ReadCoordinate(ushort startAddress, ref float coordinate)
+            {
+                MError error = MError.OK;
+                byte[] data = null;
+                ushort length = 2;
+                // Read from modbus
+                error = master.ReadInputRegister(modbusTransactionId++, SLAVE_ID, startAddress, length, ref data);
+                if (error != MError.OK)
+                {
+                    return (int)error;
+                }
+
+                // Check data size
+                if (data.Length < 4)
+                {
+                   return (int)MError.InvalidDataLength;
+                }
+
+                // Convert byte array to float : DC BA 
+                coordinate = BitConverter.ToSingle(new byte[] { data[3], data[2], data[1], data[0] }, 0); ;
+
+                return (int)MError.OK;
+            }
+
+            /// <summary>
+            /// Write single digital output.
+            /// </summary>
+            /// <param name="startAddress">Address from where the data write begins.</param>
+            /// <param name="onOff">Specifys if the coil should be switched on or off.</param>
+            /// <returns></returns>
+            private static int WriteSingleDigitalOut(ushort startAddress, bool onOff)
+            {
+                MError error = MError.OK;
+                byte[] result = null;
+
+                // Write through modbus
+                error = master.WriteSingleCoils(modbusTransactionId++, SLAVE_ID, startAddress, onOff, ref result);
+                if (error != MError.OK)
+                {
+                    return (int)error;
+                }
+
+                return (int)MError.OK;
+            }
+
+            private static int ProcWriteSingleRegister(ushort startAddress, byte[] values)
+            {
+                MError error = MError.OK;
+                byte[] result = null;
+
+                error = master.WriteSingleRegister(modbusTransactionId++, SLAVE_ID, startAddress, values, ref result);
+                if(error != MError.OK)
+                {
+                    return (int)error;
+                }
+
+                return (int)MError.OK;
+            }
+
+            private static int ProcWriteMultipleRegister(ushort startAddress, byte[] values)
+            {
+                MError error = MError.OK;
+                byte[] result = null;
+
+                error = master.WriteMultipleRegister(modbusTransactionId++, SLAVE_ID, startAddress, values, ref result);
+                if(error!= MError.OK)
+                {
+                    return (int)error;
+                }
+
+                return (int)MError.OK;
+            }
+        #endregion Functions
+    }
+}

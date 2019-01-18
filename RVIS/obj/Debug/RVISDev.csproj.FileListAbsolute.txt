@@ -1,0 +1,80 @@
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\RVISDev.exe.config
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\RVISDev.exe
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\RVISDev.pdb
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.csprojAssemblyReference.cache
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.FrmMain.resources
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.Properties.Resources.resources
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.GenerateResource.cache
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CoreCompileInputs.cache
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.exe
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.pdb
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.FrmSetting.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\RVISDev.exe.config
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\RVISDev.exe
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\RVISDev.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csprojAssemblyReference.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmMain.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmSetting.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.Properties.Resources.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.GenerateResource.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CoreCompileInputs.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.exe
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.pdb
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\MesIF.dll
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\TcpIF.dll
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\TMModbusIF.dll
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\MesIF.pdb
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\TcpIF.pdb
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\bin\Debug\TMModbusIF.pdb
+C:\Users\wyeso\Desktop\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CopyComplete
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\RVISDev.exe.config
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\RVISDev.exe
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\RVISDev.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\MesIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\TcpIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\TMModbusIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\MesIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\TcpIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\bin\Debug\TMModbusIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.csprojAssemblyReference.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.FrmMain.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.FrmSetting.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.Properties.Resources.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.GenerateResource.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CoreCompileInputs.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CopyComplete
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.exe
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\RVISDev\obj\Debug\RVISDev.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\MesIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TcpIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TMModbusIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\MesIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TcpIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TMModbusIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CopyComplete
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmLogin.resources
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\db\RVIS_DB.mdf
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\db\RVIS_DB_log.ldf
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmAddRemoveUser.resources
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csprojAssemblyReference.cache
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmAddRemoveUser.resources
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmLogin.resources
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmMain.resources
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.FrmSetting.resources
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.Properties.Resources.resources
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.GenerateResource.cache
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CoreCompileInputs.cache
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.exe
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.pdb
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\db\RVIS_DB.mdf
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\db\RVIS_DB_log.ldf
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\RVISDev.exe.config
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\RVISDev.exe
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\RVISDev.pdb
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\MesIF.dll
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TcpIF.dll
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TMModbusIF.dll
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\MesIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TcpIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\bin\Debug\TMModbusIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\obj\Debug\RVISDev.csproj.CopyComplete

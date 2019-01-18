@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestToolKit", "TestToolKit\TestToolKit.csproj", "{2357FA26-A5DA-4F43-A6C2-E0588F40BB39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMModbusIF", "TMModbusIF\TMModbusIF.csproj", "{8702CFCB-2D68-4DE1-A2B7-5192614F38DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpIF", "TcpIF\TcpIF.csproj", "{1DAA1E3F-10FF-4059-B400-F754D93F410E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MesIF", "MesIF\MesIF.csproj", "{437BFA0C-0B3A-4FEC-B572-2D02E36A1069}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonTester", "JsonTester\JsonTester.csproj", "{C68987FD-5286-4A7A-9626-7DF15D3297BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RVISDev", "RVISDev\RVISDev.csproj", "{6D06FF9B-FBD5-44BB-BE5C-13D1FF3B10B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RVISMMC", "RVISML\RVISMMC.csproj", "{250283B7-0911-4F46-A8F8-DD2A53C78AA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2357FA26-A5DA-4F43-A6C2-E0588F40BB39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2357FA26-A5DA-4F43-A6C2-E0588F40BB39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2357FA26-A5DA-4F43-A6C2-E0588F40BB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2357FA26-A5DA-4F43-A6C2-E0588F40BB39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8702CFCB-2D68-4DE1-A2B7-5192614F38DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8702CFCB-2D68-4DE1-A2B7-5192614F38DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8702CFCB-2D68-4DE1-A2B7-5192614F38DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8702CFCB-2D68-4DE1-A2B7-5192614F38DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DAA1E3F-10FF-4059-B400-F754D93F410E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DAA1E3F-10FF-4059-B400-F754D93F410E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DAA1E3F-10FF-4059-B400-F754D93F410E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DAA1E3F-10FF-4059-B400-F754D93F410E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{437BFA0C-0B3A-4FEC-B572-2D02E36A1069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437BFA0C-0B3A-4FEC-B572-2D02E36A1069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437BFA0C-0B3A-4FEC-B572-2D02E36A1069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437BFA0C-0B3A-4FEC-B572-2D02E36A1069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68987FD-5286-4A7A-9626-7DF15D3297BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68987FD-5286-4A7A-9626-7DF15D3297BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68987FD-5286-4A7A-9626-7DF15D3297BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68987FD-5286-4A7A-9626-7DF15D3297BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D06FF9B-FBD5-44BB-BE5C-13D1FF3B10B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D06FF9B-FBD5-44BB-BE5C-13D1FF3B10B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D06FF9B-FBD5-44BB-BE5C-13D1FF3B10B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D06FF9B-FBD5-44BB-BE5C-13D1FF3B10B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{250283B7-0911-4F46-A8F8-DD2A53C78AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{250283B7-0911-4F46-A8F8-DD2A53C78AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{250283B7-0911-4F46-A8F8-DD2A53C78AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{250283B7-0911-4F46-A8F8-DD2A53C78AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F222C673-A699-470C-9B74-CE27C2E2AE1A}
+	EndGlobalSection
+EndGlobal

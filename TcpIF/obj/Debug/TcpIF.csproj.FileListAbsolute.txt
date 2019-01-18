@@ -1,0 +1,23 @@
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\bin\Debug\TcpIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\bin\Debug\TcpIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.csproj.CoreCompileInputs.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.pdb
+C:\Users\wyeso\Desktop\RVISDev\TcpIF\bin\Debug\TcpIF.dll
+C:\Users\wyeso\Desktop\RVISDev\TcpIF\bin\Debug\TcpIF.pdb
+C:\Users\wyeso\Desktop\RVISDev\TcpIF\obj\Debug\TcpIF.csprojAssemblyReference.cache
+C:\Users\wyeso\Desktop\RVISDev\TcpIF\obj\Debug\TcpIF.csproj.CoreCompileInputs.cache
+C:\Users\wyeso\Desktop\RVISDev\TcpIF\obj\Debug\TcpIF.dll
+C:\Users\wyeso\Desktop\RVISDev\TcpIF\obj\Debug\TcpIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.csprojAssemblyReference.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\TcpIF\bin\Debug\TcpIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\TcpIF\bin\Debug\TcpIF.pdb
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\TcpIF\obj\Debug\TcpIF.csproj.CoreCompileInputs.cache
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\TcpIF\obj\Debug\TcpIF.dll
+C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\TcpIF\obj\Debug\TcpIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\bin\Debug\TcpIF.dll
+E:\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\bin\Debug\TcpIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.csprojAssemblyReference.cache
+E:\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.csproj.CoreCompileInputs.cache
+E:\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.dll
+E:\Visual Studio 2017\Projects\Work\RVISDev\TcpIF\obj\Debug\TcpIF.pdb

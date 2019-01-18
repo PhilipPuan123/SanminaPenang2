@@ -1,0 +1,14 @@
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\RVISML.dll
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\RVISML.pdb
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\TcpIF.dll
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\TestToolKit.exe
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\TMModbusIF.dll
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\TcpIF.pdb
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\TestToolKit.pdb
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\TestToolKit.exe.config
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\bin\Debug\TMModbusIF.pdb
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\obj\Debug\RVISML.csprojAssemblyReference.cache
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\obj\Debug\RVISML.csproj.CoreCompileInputs.cache
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\obj\Debug\RVISML.csproj.CopyComplete
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\obj\Debug\RVISML.dll
+D:\PGproject\RVISDevGUI\RVISDev\RVISML\obj\Debug\RVISML.pdb
