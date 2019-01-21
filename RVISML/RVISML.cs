@@ -51,7 +51,7 @@ namespace RVISMMC
 
         #region create related obj required
         //create TcpIF- Server object
-        Server tcpServer = new Server();
+        public Server tcpServer = new Server();
         #endregion        
         
         #region Main Task to subscribe and start function call

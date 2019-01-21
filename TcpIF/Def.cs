@@ -17,6 +17,12 @@ namespace TcpIF
         StartListenerFail       = -152,
         /// <summary>Listener busy. Unable to change setting.</summary>
         ListenerBusy            = -153,
+        /// <summary>Missing client information to response data.</summary>
+        InvalidClient = -154,
+        /// <summary>Response data is empty or null.</summary>
+        InvalidResponseData     = -155,
+        /// <summary>Error when try to send response data.</summary>
+        SendResponseDataFail    = -156,
 
         // Client related error
         /// <summary>Invalid server IP address.</summary>

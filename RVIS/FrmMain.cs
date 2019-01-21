@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* To-do:
+ * - Force log-off and reset data based on settings(daily/hourly)
+ * - Add local server path in Setting UI
+ * - Add database path in Setting UI
+ * 
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +21,7 @@ using System.IO;
 using MesIF;
 using TcpIF;
 using TMModbusIF;
+using RVISMMC;
 
 namespace RVIS
 {
@@ -22,6 +31,7 @@ namespace RVIS
         #region Constant
         private const int MESLOG_MAX_LINES = 100;
         private const int UI_REFRESH_RATE_MS = 500;
+        private const string LINE_SEPARATOR = "**************************************************";
         #endregion Constant
 
         private enum OverallStatus
@@ -33,26 +43,28 @@ namespace RVIS
             FAIL
         }
 
-        //private static AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)Assembly.GetExecutingAssembly().GetCustomAttribute(typeof(AssemblyTitleAttribute));
+        /* Form Title */
+        private static AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)Assembly.GetExecutingAssembly().GetCustomAttribute(typeof(AssemblyTitleAttribute));
         private static Version appversion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
-        private string MAIN_TITLE = "Robotic Vision Inspection System V" + appversion;
-        //private string MAIN_TITLE = titleAttribute.Title + " V" + appversion;
+        private string MAIN_TITLE = titleAttribute.Title + " V" + appversion;
+        /* Test Data */
+        private DateTime startTime;
+        private DateTime stopTime;
 
-       
-        private Server server;
-        private bool isInspecting = false;
-        private bool needLogOff = false;
+        private bool isInspecting = false;      // flag for inspection in process
+        private bool needLogOff = false;        // flag for log-off required
+
+        /* Classes */
+        private RVISML rvisMMC = new RVISML();
+        //private Server server;
+
+
         #endregion Declaration
 
         #region Form Controls
         public FrmMain()
         {
             InitializeComponent();
-
-        }
-        private void FrmMain_Shown(object sender, EventArgs e)
-        {
-            //LoadLoginForm(sender, e);
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -63,7 +75,6 @@ namespace RVIS
             ShowDateTime();
             EnableAdminAccess(false);
             //SampleUI();
-
 
             /* Start backgroundWorker */
             //bgwUIThread.RunWorkerAsync();
@@ -76,6 +87,23 @@ namespace RVIS
             {
                 bgwUIThread.CancelAsync();
             }
+        }
+
+        #region Buttons
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            /* Start new unit test result */
+            StartNewUnitResult();
+
+            /* Subscribe to MMC event */
+            rvisMMC.OnSerialResultPub += RvisMMC_OnSerialResultPub;
+            rvisMMC.OnResultStringPub += RvisMMC_OnResultStringPub;
+            rvisMMC.OnRobotStatusPub += RvisMMC_OnRobotStatusPub;
+            
+            /* Start MMC */
+            rvisMMC.Start();
+
+            isInspecting = true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -106,6 +134,7 @@ namespace RVIS
                 }
             }
         }
+        #endregion Buttons
 
         private void InitializeTmrClock()
         {
@@ -127,10 +156,10 @@ namespace RVIS
 
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
-            string serverIP = Properties.Settings.Default.pcServerIP;
-            string serverPort = Properties.Settings.Default.pcServerPort;
-            string tmIP = Properties.Settings.Default.tmIP;
-            string tmModbusPort = Properties.Settings.Default.tmModbusPort;
+            string serverIP = SettingData.PcServerIP;
+            string serverPort = SettingData.PcServerPort;
+            string tmIP = SettingData.TmIP;
+            string tmModbusPort = SettingData.TmModbusPort;
             int error;
 
             /* Start Listerner */
@@ -154,15 +183,13 @@ namespace RVIS
         private void tsmiDisconnect_Click(object sender, EventArgs e)
         {
             /* Disconnect TCP Server */
-
-
-            /* Disconnect TCP Client */
-
+            StopListener();
 
             /* Disconnect TM Modbus */
-
-
+            ModbusControl.Disconnect();
+            
             /* Disable button */
+            tsmiConnect.Enabled = true;
             tsmiDisconnect.Enabled = false;
         }
 
@@ -260,7 +287,7 @@ namespace RVIS
         }
         #endregion BackgroundWorker
 
-        #region Functions
+        #region Form Function
         private void LoadLoginForm(object sender, EventArgs e)
         {
             using (FrmLogin frmLogin = new FrmLogin())
@@ -279,7 +306,7 @@ namespace RVIS
 
         private void EnableAdminAccess(bool isAdmin)
         {
-            /* Change User ID background color for admin access */
+            /* If admin access, set background color to Cyan */
             if (isAdmin)
             {
                 tsmiTools.Enabled = true;
@@ -317,29 +344,33 @@ namespace RVIS
             else
             {
                 btnStart.Enabled = true;
-                btnSave.Enabled = true;
                 tsmiLogin.Enabled = true;
                 tsmiConnection.Enabled = true;
+
+                if (rtxUnitResult.TextLength > 0)
+                {
+                    btnSave.Enabled = true;
+                }
             }
+        }
+
+        private void AddLineToUnitResult(string line)
+        {
+            AddLine(rtxUnitResult, line);
         }
 
         private void AddLine(RichTextBox richTextBox, string line)
         {
+            /* Remove empty char in string */
             string text = line.TrimEnd('\0');
+            /* Set data with "PASS" keyword to Green color */
             if (line.Contains("PASS")) richTextBox.SelectionColor = Color.Lime;
+            /* Set data with "FAIL" keyword to Red color */
             else if (line.Contains("FAIL")) richTextBox.SelectionColor = Color.Red;
+            /* Set data without "PASS" & "FAIL" keyword to Lightblue color */
             else richTextBox.SelectionColor = Color.LightBlue;
 
             richTextBox.AppendText(line + "\r\n");
-        }
-
-        private void SetCursorToEnd(object sender, EventArgs e)
-        {
-            RichTextBox rtx = sender as RichTextBox;
-            /* set the current caret position to the end */
-            rtx.SelectionStart = rtx.Text.Length;
-            /* scroll to it */
-            rtx.ScrollToCaret();
         }
 
         /// <summary>Show master and current test unit image on UI.</summary>
@@ -351,6 +382,34 @@ namespace RVIS
             /* Show current test image */
             picTestImg.Image = currentImg;
             picTestImg.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void StartNewUnitResult()
+        {
+            string line;
+
+            /* Clear unit result */
+            rtxUnitResult.Clear();
+            /* Add line separator to unit result */
+            AddLineToUnitResult(LINE_SEPARATOR);
+            /* Add Start Timestamp to unit result */
+            startTime = DateTime.Now;
+            line = "Start Timestamp\t: " + startTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            AddLineToUnitResult(line);
+            /* Add Operator ID to unit result */
+            line = "Operator ID\t: " + UserData.ID;
+            AddLineToUnitResult(line);
+        }
+        #endregion Form Function
+
+        #region Functions
+        private void SetCursorToEnd(object sender, EventArgs e)
+        {
+            RichTextBox rtx = sender as RichTextBox;
+            /* set the current caret position to the end */
+            rtx.SelectionStart = rtx.Text.Length;
+            /* scroll to it */
+            rtx.ScrollToCaret();
         }
 
         /// <summary>Get the time difference between start and stop time.</summary>
@@ -378,21 +437,45 @@ namespace RVIS
         private int StartListener(string serverIP, string serverPort)
         {
             TCPError error = TCPError.OK;
+            ///* Create instance */
+            //if (server == null)
+            //{
+            //    server = new Server();
+            //}
+
+            ///* Set IP and Port number */
+            //error = server.SetConfig(serverIP, serverPort);
+            //if (error != TCPError.OK)
+            //{
+            //    return (int)error;
+            //}
+
+            ///* Start listener */
+            //error = server.Start();
+            //if (error != TCPError.OK)
+            //{
+            //    return (int)error;
+            //}
+
+            ///* return OK */
+            //return (int)error;
+
+
             /* Create instance */
-            if (server == null)
+            if (rvisMMC.tcpServer == null)
             {
-                server = new Server();
+                rvisMMC.tcpServer = new Server();
             }
 
             /* Set IP and Port number */
-            error = server.SetConfig(serverIP, serverPort);
+            error = rvisMMC.tcpServer.SetConfig(serverIP, serverPort);
             if (error != TCPError.OK)
             {
                 return (int)error;
             }
 
             /* Start listener */
-            error = server.Start();
+            error = rvisMMC.tcpServer.Start();
             if (error != TCPError.OK)
             {
                 return (int)error;
@@ -401,10 +484,45 @@ namespace RVIS
             /* return OK */
             return (int)error;
         }
+
+        private void StopListener()
+        {
+            ///* Create instance */
+            //if (server != null && server.IsRunning)
+            //{
+            //    server.Stop();
+            //}
+
+            /* Create instance */
+            if (rvisMMC.tcpServer != null && rvisMMC.tcpServer.IsRunning)
+            {
+                rvisMMC.tcpServer.Stop();
+            }
+        }
         #endregion Functions
 
+        #region Event Handler
+        private void RvisMMC_OnSerialResultPub(string serial)
+        {
+            /* Add SN to unit result */
+            AddLineToUnitResult("Serial Number\t: " + serial);
+            /* Add line separator to unit result */
+            AddLineToUnitResult(LINE_SEPARATOR);
+        }
+
+        private void RvisMMC_OnRobotStatusPub(string robotRunSts, string robotErrSts, string robotPauseSts)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RvisMMC_OnResultStringPub(string checkpt, string result, string dir, string testEnd)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion Event Handler
+
         #region Demo
-            private void SampleUI()
+        private void SampleUI()
             {
                 SampleOverallResult(OverallStatus.ERROR);
                 SampleOperatorID();
@@ -559,8 +677,7 @@ namespace RVIS
             
             }
 
-        #endregion Demo
 
-        
+        #endregion Demo
     }
 }

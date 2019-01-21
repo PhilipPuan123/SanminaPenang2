@@ -349,6 +349,15 @@ namespace TestToolKit
                 execModbusCommand(TMModbusCmd.GetLastError);
             }
 
+            private void btnCtrlBoxDI_Click(object sender, EventArgs e)
+            {
+                execModbusCommand(TMModbusCmd.GetControlBoxDIn);
+            }
+
+            private void btnEndModIO_Click(object sender, EventArgs e)
+            {
+                execModbusCommand(TMModbusCmd.GetEndModuleDIn);
+            }
         #endregion TM Modbus Buttons
 
         #endregion Form Controls
@@ -604,6 +613,7 @@ namespace TestToolKit
                 rtxMESLog.Lines = newLines;
             }
         }
+
         #endregion MES Log
 
         //private void GetProjectStatus()
@@ -619,7 +629,6 @@ namespace TestToolKit
         //    }
         //}
         #endregion Functions
-
-
+        
     }
 }

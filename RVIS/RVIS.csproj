@@ -129,6 +129,10 @@
       <Project>{437bfa0c-0b3a-4fec-b572-2d02e36a1069}</Project>
       <Name>MesIF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RVISML\RVISMMC.csproj">
+      <Project>{250283b7-0911-4f46-a8f8-dd2a53c78aa9}</Project>
+      <Name>RVISMMC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TcpIF\TcpIF.csproj">
       <Project>{1daa1e3f-10ff-4059-b400-f754d93f410e}</Project>
       <Name>TcpIF</Name>

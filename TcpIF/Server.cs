@@ -226,10 +226,10 @@ namespace TcpIF
                     string result = Encoding.UTF8.GetString(buffer);
                     if (OnDataReceived != null) OnDataReceived(client,result);
 
-                    /* Echo back the msg to client */
-                    byte[] echo_msg = Encoding.UTF8.GetBytes(result);
-                    if (OnDataSend != null) OnDataSend(client,result);
-                    client.Send(echo_msg);
+                    ///* Echo back the msg to client */
+                    //byte[] echo_msg = Encoding.UTF8.GetBytes(result);
+                    //if (OnDataSend != null) OnDataSend(client,result);
+                    //client.Send(echo_msg);
                 }
             }
             catch (Exception e)
@@ -248,6 +248,29 @@ namespace TcpIF
             catch { }
             if (OnClientDisconnected != null) OnClientDisconnected(client);
             client = null;
+        }
+
+        public TCPError ResponseToClient(object sender, string response)
+        {
+            var client = sender as Socket;
+            if (client == null || !client.Connected) return TCPError.InvalidClient;
+            if (String.IsNullOrEmpty(response)) return TCPError.InvalidResponseData;
+
+            try
+            {
+                if(isRunning)
+                {
+                    /* Send response to client */
+                    byte[] responseBytes = Encoding.UTF8.GetBytes(response);
+                    if (OnDataSend != null) OnDataSend(client, response);
+                    client.Send(responseBytes);
+                }
+            }
+            catch
+            {
+                return TCPError.SendResponseDataFail;
+            }
+            return TCPError.OK;
         }
 
         /// <summary>

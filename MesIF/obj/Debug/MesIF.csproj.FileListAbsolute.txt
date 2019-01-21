@@ -38,3 +38,13 @@ E:\Visual Studio 2017\Projects\Work\RVISDev\MesIF\obj\Debug\MesIF.csproj.CoreCom
 E:\Visual Studio 2017\Projects\Work\RVISDev\MesIF\obj\Debug\MesIF.csproj.CopyComplete
 E:\Visual Studio 2017\Projects\Work\RVISDev\MesIF\obj\Debug\MesIF.dll
 E:\Visual Studio 2017\Projects\Work\RVISDev\MesIF\obj\Debug\MesIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\bin\Debug\MesIF.dll
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\bin\Debug\MesIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\bin\Debug\Newtonsoft.Json.dll
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\bin\Debug\Newtonsoft.Json.pdb
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\bin\Debug\Newtonsoft.Json.xml
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\obj\Debug\MesIF.csprojAssemblyReference.cache
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\obj\Debug\MesIF.csproj.CoreCompileInputs.cache
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\obj\Debug\MesIF.csproj.CopyComplete
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\obj\Debug\MesIF.dll
+E:\Visual Studio 2017\Projects\Work\RVIS\MesIF\obj\Debug\MesIF.pdb

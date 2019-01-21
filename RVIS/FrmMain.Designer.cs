@@ -142,14 +142,14 @@
             // tsmiConnect
             // 
             this.tsmiConnect.Name = "tsmiConnect";
-            this.tsmiConnect.Size = new System.Drawing.Size(133, 22);
+            this.tsmiConnect.Size = new System.Drawing.Size(180, 22);
             this.tsmiConnect.Text = "Connect";
             this.tsmiConnect.Click += new System.EventHandler(this.tsmiConnect_Click);
             // 
             // tsmiDisconnect
             // 
             this.tsmiDisconnect.Name = "tsmiDisconnect";
-            this.tsmiDisconnect.Size = new System.Drawing.Size(133, 22);
+            this.tsmiDisconnect.Size = new System.Drawing.Size(180, 22);
             this.tsmiDisconnect.Text = "Disconnect";
             this.tsmiDisconnect.Click += new System.EventHandler(this.tsmiDisconnect_Click);
             // 
@@ -159,7 +159,7 @@
             this.tsmiAddRemoveUser,
             this.tsmiSettings});
             this.tsmiTools.Name = "tsmiTools";
-            this.tsmiTools.Size = new System.Drawing.Size(48, 20);
+            this.tsmiTools.Size = new System.Drawing.Size(47, 20);
             this.tsmiTools.Text = "Tools";
             // 
             // tsmiAddRemoveUser
@@ -296,6 +296,7 @@
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnStop
             // 
@@ -590,7 +591,6 @@
             this.Text = "Robotic Vision Inspection System";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
-            this.Shown += new System.EventHandler(this.FrmMain_Shown);
             this.mns1.ResumeLayout(false);
             this.mns1.PerformLayout();
             this.ssStatus.ResumeLayout(false);

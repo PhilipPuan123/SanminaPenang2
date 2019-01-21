@@ -30,6 +30,7 @@
         {
             this.grpModbus = new System.Windows.Forms.GroupBox();
             this.grpControl = new System.Windows.Forms.GroupBox();
+            this.btnEndModIO = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
@@ -46,6 +47,7 @@
             this.btnRobotRZ = new System.Windows.Forms.Button();
             this.btnToolX = new System.Windows.Forms.Button();
             this.grpStatus = new System.Windows.Forms.GroupBox();
+            this.btnGetLastError = new System.Windows.Forms.Button();
             this.btnPauseSts = new System.Windows.Forms.Button();
             this.btnEditSts = new System.Windows.Forms.Button();
             this.btnRunSts = new System.Windows.Forms.Button();
@@ -74,7 +76,7 @@
             this.txtServerIP = new System.Windows.Forms.TextBox();
             this.btnConnectServer = new System.Windows.Forms.Button();
             this.rtxTcpClientLog = new System.Windows.Forms.RichTextBox();
-            this.btnGetLastError = new System.Windows.Forms.Button();
+            this.btnCtrlBoxDI = new System.Windows.Forms.Button();
             this.grpModbus.SuspendLayout();
             this.grpControl.SuspendLayout();
             this.grpStatus.SuspendLayout();
@@ -101,6 +103,8 @@
             // 
             // grpControl
             // 
+            this.grpControl.Controls.Add(this.btnCtrlBoxDI);
+            this.grpControl.Controls.Add(this.btnEndModIO);
             this.grpControl.Controls.Add(this.btnStart);
             this.grpControl.Controls.Add(this.btnStop);
             this.grpControl.Controls.Add(this.btnPause);
@@ -118,10 +122,20 @@
             this.grpControl.Controls.Add(this.btnToolX);
             this.grpControl.Location = new System.Drawing.Point(6, 64);
             this.grpControl.Name = "grpControl";
-            this.grpControl.Size = new System.Drawing.Size(251, 183);
+            this.grpControl.Size = new System.Drawing.Size(251, 235);
             this.grpControl.TabIndex = 22;
             this.grpControl.TabStop = false;
             this.grpControl.Text = "Control:";
+            // 
+            // btnEndModIO
+            // 
+            this.btnEndModIO.Location = new System.Drawing.Point(6, 190);
+            this.btnEndModIO.Name = "btnEndModIO";
+            this.btnEndModIO.Size = new System.Drawing.Size(75, 23);
+            this.btnEndModIO.TabIndex = 19;
+            this.btnEndModIO.Text = "End Mod DI";
+            this.btnEndModIO.UseVisualStyleBackColor = true;
+            this.btnEndModIO.Click += new System.EventHandler(this.btnEndModIO_Click);
             // 
             // btnStart
             // 
@@ -288,6 +302,16 @@
             this.grpStatus.TabIndex = 21;
             this.grpStatus.TabStop = false;
             this.grpStatus.Text = "Status:";
+            // 
+            // btnGetLastError
+            // 
+            this.btnGetLastError.Location = new System.Drawing.Point(6, 164);
+            this.btnGetLastError.Name = "btnGetLastError";
+            this.btnGetLastError.Size = new System.Drawing.Size(75, 23);
+            this.btnGetLastError.TabIndex = 11;
+            this.btnGetLastError.Text = "Last Error";
+            this.btnGetLastError.UseVisualStyleBackColor = true;
+            this.btnGetLastError.Click += new System.EventHandler(this.btnGetLastError_Click);
             // 
             // btnPauseSts
             // 
@@ -568,15 +592,15 @@
             this.rtxTcpClientLog.Text = "";
             this.rtxTcpClientLog.TextChanged += new System.EventHandler(this.rtxTcpClientLog_TextChanged);
             // 
-            // btnGetLastError
+            // btnCtrlBoxDI
             // 
-            this.btnGetLastError.Location = new System.Drawing.Point(6, 164);
-            this.btnGetLastError.Name = "btnGetLastError";
-            this.btnGetLastError.Size = new System.Drawing.Size(75, 23);
-            this.btnGetLastError.TabIndex = 11;
-            this.btnGetLastError.Text = "Last Error";
-            this.btnGetLastError.UseVisualStyleBackColor = true;
-            this.btnGetLastError.Click += new System.EventHandler(this.btnGetLastError_Click);
+            this.btnCtrlBoxDI.Location = new System.Drawing.Point(87, 190);
+            this.btnCtrlBoxDI.Name = "btnCtrlBoxDI";
+            this.btnCtrlBoxDI.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlBoxDI.TabIndex = 20;
+            this.btnCtrlBoxDI.Text = "Ctrl Box DI";
+            this.btnCtrlBoxDI.UseVisualStyleBackColor = true;
+            this.btnCtrlBoxDI.Click += new System.EventHandler(this.btnCtrlBoxDI_Click);
             // 
             // FrmTestToolKit
             // 
@@ -653,6 +677,8 @@
         private System.Windows.Forms.Button btnSendToServer;
         private System.Windows.Forms.TextBox txtClientMsg;
         private System.Windows.Forms.Button btnGetLastError;
+        private System.Windows.Forms.Button btnEndModIO;
+        private System.Windows.Forms.Button btnCtrlBoxDI;
     }
 }
 

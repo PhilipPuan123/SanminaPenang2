@@ -17,18 +17,20 @@ namespace TMModbusIF
             // Private declaration
             private static ushort modbusTransactionId = 0;
             private static Master master = null;
-            private static IPAddress ipAddress = IPAddress.Loopback;
-            private static int portNum = 99999;
         #endregion
 
+        #region Property
+            public static bool IsRunning { get; private set; }
+        #endregion Property
+
         #region Connect
-            /// <summary>
-            /// Start Modbus Communication.
-            /// </summary>
-            /// <param name="ip"></param>
-            /// <param name="port"></param>
-            /// <returns></returns>
-            public static int Connect(string ip, string port)
+        /// <summary>
+        /// Start Modbus Communication.
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        public static int Connect(string ip, string port)
             {
                 IPAddress _ip;
                 int _port;
@@ -79,8 +81,8 @@ namespace TMModbusIF
                 // Stop
                 Disconnect();
 
-                System.Threading.Thread.Sleep(10);
-                //Task.Delay(10);
+                Task.Delay(100);
+                
                 // Start Modbus Connection
                 if (master == null)
                 {
@@ -100,9 +102,7 @@ namespace TMModbusIF
                     return (int)MError.InitializeFail;
                 }
 
-                // Store ip address & port
-                ipAddress = ip;
-                portNum = port;
+                IsRunning = true;
                 return (int)MError.OK;
             }
         #endregion Connect
@@ -112,11 +112,11 @@ namespace TMModbusIF
             public static void Disconnect()
             {
                 // Stop Modbus Connection
-                if (master != null && master.connected)
+                if (master != null || master.connected)
                 {
                     master.Disconnect();
                 }
-
+                IsRunning = false;
                 master = null;
             }
         #endregion Disconnect
@@ -130,6 +130,8 @@ namespace TMModbusIF
 
             int lastErrCode = 0;
             DateTime lastErrDateTime = new DateTime();
+
+            BitArray bits;
 
             switch (command)
             {
@@ -217,10 +219,14 @@ namespace TMModbusIF
                     data += ", ErrCode = " + lastErrCode.ToString();
                     break;
                 case TMModbusCmd.GetControlBoxDIn:
-
+                    bits = new BitArray(16);
+                    error = GetControlBoxAllDigitalInputs(ref bits);
+                    data = BitsToString(bits);
                     break;
                 case TMModbusCmd.GetEndModuleDIn:
-
+                    bits = new BitArray(3);
+                    error = GetEndModuleAllDigitalInputs(ref bits);
+                    data = BitsToString(bits);
                     break;
             }
 
@@ -236,7 +242,7 @@ namespace TMModbusIF
 
             return error;
         }
-        
+
         #region Control
             /// <summary>
             /// Play or pause TM Robot project.
@@ -328,7 +334,6 @@ namespace TMModbusIF
         {
             return ReadDigitalInputs(TMModbusAddress.EMOD_DI0, 3, ref result);
         }
-
         #endregion Read IO
 
         #region Read Robot Coordinate
@@ -506,14 +511,30 @@ namespace TMModbusIF
 
         #region Functions
             /// <summary>
+            /// Convert bit array to string
+            /// </summary>
+            /// <param name="bits"></param>
+            /// <returns></returns>
+            private static string BitsToString(BitArray bits)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var b in bits)
+                {
+                    sb.Append((bool)b ? "1" : "0");
+                }
+                return sb.ToString();
+            }
+        
+            /// <summary>
             /// Get all digital inputs on control box.(16-bits) 
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public static int ReadDigitalInputs(ushort startAddress, ushort numInputs, ref BitArray result)
+            private static int ReadDigitalInputs(ushort startAddress, ushort numInputs, ref BitArray result)
             {
                 MError error = MError.OK;
                 byte[] data = null;
+
                 // Read from modbus
                 error = master.ReadDiscreteInputs(modbusTransactionId++, SLAVE_ID, startAddress, numInputs, ref data);
                 if (error != MError.OK)
@@ -521,17 +542,10 @@ namespace TMModbusIF
                     return (int)error;
                 }
                 // Check data size
-                if (data.Length < 16)
-                {
-                    return (int)MError.InvalidDataLength;
-                }
 
-                // Set data
-                for (int i = 0; i < data.Length; i++)
-                {
-                    if (data[i] > 0) result[i] = true;
-                    else result[i] = false;
-                }
+                if (data.Length == 1 || data.Length == 2) result = new BitArray(data);
+                else return (int)MError.InvalidDataLength;
+                
                 return (int)MError.OK;
             }
 

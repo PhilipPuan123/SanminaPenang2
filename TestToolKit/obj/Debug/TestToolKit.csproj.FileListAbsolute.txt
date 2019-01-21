@@ -41,3 +41,18 @@ C:\Users\wyeso\Desktop\RVISDev\TestToolKit\obj\Debug\TestToolKit.csproj.CoreComp
 C:\Users\wyeso\Desktop\RVISDev\TestToolKit\obj\Debug\TestToolKit.csproj.CopyComplete
 C:\Users\wyeso\Desktop\RVISDev\TestToolKit\obj\Debug\TestToolKit.exe
 C:\Users\wyeso\Desktop\RVISDev\TestToolKit\obj\Debug\TestToolKit.pdb
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\bin\Debug\TestToolKit.exe.config
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\bin\Debug\TestToolKit.exe
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\bin\Debug\TestToolKit.pdb
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\bin\Debug\TcpIF.dll
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\bin\Debug\TMModbusIF.dll
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\bin\Debug\TcpIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\bin\Debug\TMModbusIF.pdb
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.csprojAssemblyReference.cache
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.FrmTestToolKit.resources
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.Properties.Resources.resources
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.csproj.GenerateResource.cache
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.csproj.CoreCompileInputs.cache
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.csproj.CopyComplete
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.exe
+E:\Visual Studio 2017\Projects\Work\RVIS\TestToolKit\obj\Debug\TestToolKit.pdb
