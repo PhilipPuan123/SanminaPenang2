@@ -24,13 +24,13 @@ namespace TMModbusIF
         #endregion Property
 
         #region Connect
-        /// <summary>
-        /// Start Modbus Communication.
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="port"></param>
-        /// <returns></returns>
-        public static int Connect(string ip, string port)
+            /// <summary>
+            /// Start Modbus Communication.
+            /// </summary>
+            /// <param name="ip"></param>
+            /// <param name="port"></param>
+            /// <returns></returns>
+            public static int Connect(string ip, string port)
             {
                 IPAddress _ip;
                 int _port;
@@ -40,36 +40,8 @@ namespace TMModbusIF
                 if (Int32.TryParse(port, out _port) != true) return (int)MError.InvalidPort;
 
                 return Connect(_ip, _port);
-
-                //// Stop
-                //Disconnect();
-
-                //// Start Modbus Connection
-                //if (master == null)
-                //{
-                //    try
-                //    {
-                //        master = new Master(_ip, _port);
-                //    }
-                //    catch (Exception)
-                //    {
-                //        master = null;
-                //        return (int)MError.InitializeFail;
-                //    }
-                //}
-
-                //if (master == null || !master.connected)
-                //{
-                //    return (int)MError.InitializeFail;
-                //}
-
-                //// Store ip address & port
-                //ipAddress = _ip;
-                //portNum = _port;
-
-
-                //return (int)MError.OK;
             }
+
             /// <summary>
             /// Start Modbus Communication.
             /// </summary>
@@ -81,14 +53,16 @@ namespace TMModbusIF
                 // Stop
                 Disconnect();
 
-                Task.Delay(100);
+                //System.Threading.Thread.Sleep(100);
                 
                 // Start Modbus Connection
                 if (master == null)
                 {
                     try
                     {
-                        master = new Master(ip, port);
+                        //master = new Master(ip, port);
+                        master = new Master();          // Debug_20190121
+                        master.Connect(ip, port);       // Debug_20190121
                     }
                     catch (Exception)
                     {
@@ -112,7 +86,7 @@ namespace TMModbusIF
             public static void Disconnect()
             {
                 // Stop Modbus Connection
-                if (master != null || master.connected)
+                if (master != null)
                 {
                     master.Disconnect();
                 }
@@ -132,6 +106,7 @@ namespace TMModbusIF
             DateTime lastErrDateTime = new DateTime();
 
             BitArray bits;
+            byte[] bytes;
 
             switch (command)
             {
@@ -222,11 +197,17 @@ namespace TMModbusIF
                     bits = new BitArray(16);
                     error = GetControlBoxAllDigitalInputs(ref bits);
                     data = BitsToString(bits);
+                    bytes = new byte[2];
+                    error = GetControlBoxAllDigitalInputs(ref bytes);
+                    data += "  " + BitConverter.ToString(bytes);
                     break;
                 case TMModbusCmd.GetEndModuleDIn:
                     bits = new BitArray(3);
                     error = GetEndModuleAllDigitalInputs(ref bits);
                     data = BitsToString(bits);
+                    bytes = new byte[1];
+                    error = GetEndModuleAllDigitalInputs(ref bytes);
+                    data += "  " + BitConverter.ToString(bytes);
                     break;
             }
 
@@ -330,7 +311,17 @@ namespace TMModbusIF
             return ReadDigitalInputs(TMModbusAddress.CTRL_DI0, 16, ref result);
         }
 
+        public static int GetControlBoxAllDigitalInputs(ref byte[] result)
+        {
+            return ReadDigitalInputs(TMModbusAddress.CTRL_DI0, 16, ref result);
+        }
+
         public static int GetEndModuleAllDigitalInputs(ref BitArray result)
+        {
+            return ReadDigitalInputs(TMModbusAddress.EMOD_DI0, 3, ref result);
+        }
+
+        public static int GetEndModuleAllDigitalInputs(ref byte[] result)
         {
             return ReadDigitalInputs(TMModbusAddress.EMOD_DI0, 3, ref result);
         }
@@ -550,12 +541,36 @@ namespace TMModbusIF
             }
 
             /// <summary>
-            /// Read robot status from TM Controller.
+            /// Get all digital inputs on control box.(16-bits) 
             /// </summary>
-            /// <param name="startAddress">Address from where the data read begins.</param>
-            /// <param name="result">Contains the value of status.</param>
+            /// <param name="result"></param>
             /// <returns></returns>
-            private static int ReadRobotStatus(ushort startAddress, ref bool result)
+            private static int ReadDigitalInputs(ushort startAddress, ushort numInputs, ref byte[] result)
+            {
+                MError error = MError.OK;
+                byte[] data = null;
+
+                // Read from modbus
+                error = master.ReadDiscreteInputs(modbusTransactionId++, SLAVE_ID, startAddress, numInputs, ref data);
+                if (error != MError.OK)
+                {
+                    return (int)error;
+                }
+                // Check data size
+
+                if (data.Length == 1 || data.Length == 2) result = data;
+                else return (int)MError.InvalidDataLength;
+
+                return (int)MError.OK;
+            }
+
+        /// <summary>
+        /// Read robot status from TM Controller.
+        /// </summary>
+        /// <param name="startAddress">Address from where the data read begins.</param>
+        /// <param name="result">Contains the value of status.</param>
+        /// <returns></returns>
+        private static int ReadRobotStatus(ushort startAddress, ref bool result)
             {
                 MError error = MError.OK;
                 byte[] data = null;

@@ -30,6 +30,7 @@
         {
             this.grpModbus = new System.Windows.Forms.GroupBox();
             this.grpControl = new System.Windows.Forms.GroupBox();
+            this.btnCtrlBoxDI = new System.Windows.Forms.Button();
             this.btnEndModIO = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -76,7 +77,6 @@
             this.txtServerIP = new System.Windows.Forms.TextBox();
             this.btnConnectServer = new System.Windows.Forms.Button();
             this.rtxTcpClientLog = new System.Windows.Forms.RichTextBox();
-            this.btnCtrlBoxDI = new System.Windows.Forms.Button();
             this.grpModbus.SuspendLayout();
             this.grpControl.SuspendLayout();
             this.grpStatus.SuspendLayout();
@@ -126,6 +126,16 @@
             this.grpControl.TabIndex = 22;
             this.grpControl.TabStop = false;
             this.grpControl.Text = "Control:";
+            // 
+            // btnCtrlBoxDI
+            // 
+            this.btnCtrlBoxDI.Location = new System.Drawing.Point(87, 190);
+            this.btnCtrlBoxDI.Name = "btnCtrlBoxDI";
+            this.btnCtrlBoxDI.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlBoxDI.TabIndex = 20;
+            this.btnCtrlBoxDI.Text = "Ctrl Box DI";
+            this.btnCtrlBoxDI.UseVisualStyleBackColor = true;
+            this.btnCtrlBoxDI.Click += new System.EventHandler(this.btnCtrlBoxDI_Click);
             // 
             // btnEndModIO
             // 
@@ -592,16 +602,6 @@
             this.rtxTcpClientLog.Text = "";
             this.rtxTcpClientLog.TextChanged += new System.EventHandler(this.rtxTcpClientLog_TextChanged);
             // 
-            // btnCtrlBoxDI
-            // 
-            this.btnCtrlBoxDI.Location = new System.Drawing.Point(87, 190);
-            this.btnCtrlBoxDI.Name = "btnCtrlBoxDI";
-            this.btnCtrlBoxDI.Size = new System.Drawing.Size(75, 23);
-            this.btnCtrlBoxDI.TabIndex = 20;
-            this.btnCtrlBoxDI.Text = "Ctrl Box DI";
-            this.btnCtrlBoxDI.UseVisualStyleBackColor = true;
-            this.btnCtrlBoxDI.Click += new System.EventHandler(this.btnCtrlBoxDI_Click);
-            // 
             // FrmTestToolKit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -613,6 +613,7 @@
             this.Controls.Add(this.grpModbus);
             this.Name = "FrmTestToolKit";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmTestToolKit_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.grpModbus.ResumeLayout(false);
             this.grpModbus.PerformLayout();

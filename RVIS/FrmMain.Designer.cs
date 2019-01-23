@@ -41,6 +41,8 @@
             this.tsmiTools = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAddRemoveUser = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiService = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSpecialSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus = new System.Windows.Forms.StatusStrip();
             this.ssModbus = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssTMRobot = new System.Windows.Forms.ToolStripStatusLabel();
@@ -74,7 +76,6 @@
             this.lblOperatorID = new System.Windows.Forms.Label();
             this.lblOperatorIDVal = new System.Windows.Forms.Label();
             this.grpSystemLog = new System.Windows.Forms.GroupBox();
-            this.bgwUIThread = new System.ComponentModel.BackgroundWorker();
             this.sfdUnitData = new System.Windows.Forms.SaveFileDialog();
             this.mns1.SuspendLayout();
             this.ssStatus.SuspendLayout();
@@ -95,7 +96,8 @@
             this.mns1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFile,
             this.tsmiConnection,
-            this.tsmiTools});
+            this.tsmiTools,
+            this.tsmiService});
             this.mns1.Location = new System.Drawing.Point(0, 0);
             this.mns1.Name = "mns1";
             this.mns1.Size = new System.Drawing.Size(1264, 24);
@@ -142,14 +144,14 @@
             // tsmiConnect
             // 
             this.tsmiConnect.Name = "tsmiConnect";
-            this.tsmiConnect.Size = new System.Drawing.Size(180, 22);
+            this.tsmiConnect.Size = new System.Drawing.Size(133, 22);
             this.tsmiConnect.Text = "Connect";
             this.tsmiConnect.Click += new System.EventHandler(this.tsmiConnect_Click);
             // 
             // tsmiDisconnect
             // 
             this.tsmiDisconnect.Name = "tsmiDisconnect";
-            this.tsmiDisconnect.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDisconnect.Size = new System.Drawing.Size(133, 22);
             this.tsmiDisconnect.Text = "Disconnect";
             this.tsmiDisconnect.Click += new System.EventHandler(this.tsmiDisconnect_Click);
             // 
@@ -159,7 +161,7 @@
             this.tsmiAddRemoveUser,
             this.tsmiSettings});
             this.tsmiTools.Name = "tsmiTools";
-            this.tsmiTools.Size = new System.Drawing.Size(47, 20);
+            this.tsmiTools.Size = new System.Drawing.Size(48, 20);
             this.tsmiTools.Text = "Tools";
             // 
             // tsmiAddRemoveUser
@@ -175,6 +177,21 @@
             this.tsmiSettings.Size = new System.Drawing.Size(170, 22);
             this.tsmiSettings.Text = "Settings";
             this.tsmiSettings.Click += new System.EventHandler(this.tsmiSettings_Click);
+            // 
+            // tsmiService
+            // 
+            this.tsmiService.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSpecialSetting});
+            this.tsmiService.Name = "tsmiService";
+            this.tsmiService.Size = new System.Drawing.Size(56, 20);
+            this.tsmiService.Text = "Service";
+            // 
+            // tsmiSpecialSetting
+            // 
+            this.tsmiSpecialSetting.Name = "tsmiSpecialSetting";
+            this.tsmiSpecialSetting.Size = new System.Drawing.Size(151, 22);
+            this.tsmiSpecialSetting.Text = "Special Setting";
+            this.tsmiSpecialSetting.Click += new System.EventHandler(this.tsmiSpecialSetting_Click);
             // 
             // ssStatus
             // 
@@ -557,12 +574,6 @@
             this.grpSystemLog.TabStop = false;
             this.grpSystemLog.Text = "System Log:";
             // 
-            // bgwUIThread
-            // 
-            this.bgwUIThread.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BgwUIThread_DoWork);
-            this.bgwUIThread.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BgwUIThread_ProgressChanged);
-            this.bgwUIThread.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BgwUIThread_RunWorkerCompleted);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -657,9 +668,10 @@
         private System.Windows.Forms.Label lblOperatorIDVal;
         private System.Windows.Forms.ToolStripStatusLabel ssMES;
         private System.Windows.Forms.GroupBox grpSystemLog;
-        private System.ComponentModel.BackgroundWorker bgwUIThread;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddRemoveUser;
         private System.Windows.Forms.SaveFileDialog sfdUnitData;
+        private System.Windows.Forms.ToolStripMenuItem tsmiService;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSpecialSetting;
     }
 }
 

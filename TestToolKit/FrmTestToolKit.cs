@@ -629,6 +629,13 @@ namespace TestToolKit
         //    }
         //}
         #endregion Functions
-        
+
+        private void FrmTestToolKit_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (ModbusControl.IsRunning)
+            {
+                ModbusControl.Disconnect();
+            }
+        }
     }
 }

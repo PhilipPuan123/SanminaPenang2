@@ -16,16 +16,17 @@ namespace RVIS
         /* Service Key */
         public const string SERVICEMAN_USER_ID = "PFSAP";
         public const string SERVICEMAN_PASSWORD = "kr1st1n4f4y3";
-        /* Hash setting - DO NOT CHANGE THIS
-         * Chaning this will affect existing password stored in database */
-        public const int HASH_ITERATION = 100;
-        public const string SALT_STRING = "S4nm1n4";
-        public const int HASH_LENGTH = 16;
-        /* SQL database setting */
-        //public const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\RVIS_DB.mdf;Integrated Security=True;Connect Timeout=30";
-        public const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\db\RVIS_DB.mdf"";Integrated Security=True";
-        //public const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""E:\Visual Studio 2017\Projects\Work\RVISDev\RVISDev\db\RVIS_DB.mdf"";Integrated Security=True";
+   
+    }
 
+    /*  DO NOT CHANGE THIS
+     *  Changing this will affect existing password stored in database */
+    internal class AuthenticationConstant
+    {
+        public const int HASH_ITERATION = 100;                  // Number of iteration of encryption
+        public const int HASH_LENGTH    = 16;                   // Length of Hash
+        public const string SALT_STRING_PREFIX = "S4nm1n4";     // Prefix for salt string
+        
         /* SQL column index */
         public enum DB_COL_INDEX : UInt16
         {
@@ -35,10 +36,11 @@ namespace RVIS
         };
     }
 
-    internal static class UserData
+    public enum AccessLevel
     {
-        public static string ID { get; set; }
-        public static string Password { get; set; }
-        public static bool IsAdmin { get; set; }
+        User    = 0,
+        Admin   = 1,
+        Service = 2,
     }
+
 }

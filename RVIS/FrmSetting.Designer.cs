@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.grpMESConfig = new System.Windows.Forms.GroupBox();
+            this.lblLocalServerPathErr = new System.Windows.Forms.Label();
+            this.txtLocalServerPath = new System.Windows.Forms.TextBox();
+            this.lblLocalServerPath = new System.Windows.Forms.Label();
             this.txtMESDevNum = new System.Windows.Forms.TextBox();
             this.lblMESPortErr = new System.Windows.Forms.Label();
             this.lblMESIPErr = new System.Windows.Forms.Label();
@@ -45,7 +48,7 @@
             this.txtTMIP = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnExit = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pnlDataResetFreq = new System.Windows.Forms.Panel();
@@ -66,6 +69,9 @@
             // 
             // grpMESConfig
             // 
+            this.grpMESConfig.Controls.Add(this.lblLocalServerPathErr);
+            this.grpMESConfig.Controls.Add(this.txtLocalServerPath);
+            this.grpMESConfig.Controls.Add(this.lblLocalServerPath);
             this.grpMESConfig.Controls.Add(this.txtMESDevNum);
             this.grpMESConfig.Controls.Add(this.lblMESPortErr);
             this.grpMESConfig.Controls.Add(this.lblMESIPErr);
@@ -77,10 +83,36 @@
             this.grpMESConfig.Controls.Add(this.label1);
             this.grpMESConfig.Location = new System.Drawing.Point(12, 12);
             this.grpMESConfig.Name = "grpMESConfig";
-            this.grpMESConfig.Size = new System.Drawing.Size(290, 106);
+            this.grpMESConfig.Size = new System.Drawing.Size(290, 192);
             this.grpMESConfig.TabIndex = 4;
             this.grpMESConfig.TabStop = false;
             this.grpMESConfig.Text = "42Q Configuration:";
+            // 
+            // lblLocalServerPathErr
+            // 
+            this.lblLocalServerPathErr.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLocalServerPathErr.ForeColor = System.Drawing.Color.Red;
+            this.lblLocalServerPathErr.Location = new System.Drawing.Point(274, 105);
+            this.lblLocalServerPathErr.Name = "lblLocalServerPathErr";
+            this.lblLocalServerPathErr.Size = new System.Drawing.Size(10, 17);
+            this.lblLocalServerPathErr.TabIndex = 13;
+            this.lblLocalServerPathErr.Text = "*";
+            // 
+            // txtLocalServerPath
+            // 
+            this.txtLocalServerPath.Location = new System.Drawing.Point(115, 104);
+            this.txtLocalServerPath.MaxLength = 5;
+            this.txtLocalServerPath.Name = "txtLocalServerPath";
+            this.txtLocalServerPath.Size = new System.Drawing.Size(153, 20);
+            this.txtLocalServerPath.TabIndex = 11;
+            // 
+            // lblLocalServerPath
+            // 
+            this.lblLocalServerPath.Location = new System.Drawing.Point(6, 107);
+            this.lblLocalServerPath.Name = "lblLocalServerPath";
+            this.lblLocalServerPath.Size = new System.Drawing.Size(103, 17);
+            this.lblLocalServerPath.TabIndex = 12;
+            this.lblLocalServerPath.Text = "Local Server Path:";
             // 
             // txtMESDevNum
             // 
@@ -168,7 +200,7 @@
             this.grpTMConfig.Controls.Add(this.txtTMIP);
             this.grpTMConfig.Controls.Add(this.label3);
             this.grpTMConfig.Controls.Add(this.label4);
-            this.grpTMConfig.Location = new System.Drawing.Point(12, 124);
+            this.grpTMConfig.Location = new System.Drawing.Point(308, 12);
             this.grpTMConfig.Name = "grpTMConfig";
             this.grpTMConfig.Size = new System.Drawing.Size(290, 80);
             this.grpTMConfig.TabIndex = 5;
@@ -221,28 +253,28 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(6, 27);
+            this.label4.Location = new System.Drawing.Point(10, 26);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 17);
+            this.label4.Size = new System.Drawing.Size(100, 17);
             this.label4.TabIndex = 4;
             this.label4.Text = "IP Address:";
             // 
-            // btnExit
+            // btnCancel
             // 
-            this.btnExit.Location = new System.Drawing.Point(436, 210);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 11;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            this.btnCancel.Location = new System.Drawing.Point(423, 210);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 10;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
             this.btnOK.Location = new System.Drawing.Point(113, 210);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 10;
+            this.btnOK.TabIndex = 9;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -257,10 +289,10 @@
             this.groupBox1.Controls.Add(this.txtPCServerIP);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Location = new System.Drawing.Point(308, 12);
+            this.groupBox1.Location = new System.Drawing.Point(308, 98);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(290, 192);
-            this.groupBox1.TabIndex = 12;
+            this.groupBox1.Size = new System.Drawing.Size(290, 106);
+            this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PC Configuration:";
             // 
@@ -270,8 +302,8 @@
             this.pnlDataResetFreq.Controls.Add(this.rdoDaily);
             this.pnlDataResetFreq.Location = new System.Drawing.Point(115, 76);
             this.pnlDataResetFreq.Name = "pnlDataResetFreq";
-            this.pnlDataResetFreq.Size = new System.Drawing.Size(153, 30);
-            this.pnlDataResetFreq.TabIndex = 16;
+            this.pnlDataResetFreq.Size = new System.Drawing.Size(153, 24);
+            this.pnlDataResetFreq.TabIndex = 8;
             // 
             // rdoHourly
             // 
@@ -283,7 +315,6 @@
             this.rdoHourly.TabStop = true;
             this.rdoHourly.Text = "Hourly";
             this.rdoHourly.UseVisualStyleBackColor = true;
-            this.rdoHourly.CheckedChanged += new System.EventHandler(this.rdoHourly_CheckedChanged);
             // 
             // rdoDaily
             // 
@@ -295,7 +326,6 @@
             this.rdoDaily.TabStop = true;
             this.rdoDaily.Text = "Daily";
             this.rdoDaily.UseVisualStyleBackColor = true;
-            this.rdoDaily.CheckedChanged += new System.EventHandler(this.rdoDaily_CheckedChanged);
             // 
             // label6
             // 
@@ -331,7 +361,7 @@
             this.txtPCServerPort.MaxLength = 5;
             this.txtPCServerPort.Name = "txtPCServerPort";
             this.txtPCServerPort.Size = new System.Drawing.Size(153, 20);
-            this.txtPCServerPort.TabIndex = 5;
+            this.txtPCServerPort.TabIndex = 7;
             // 
             // txtPCServerIP
             // 
@@ -339,7 +369,7 @@
             this.txtPCServerIP.MaxLength = 15;
             this.txtPCServerIP.Name = "txtPCServerIP";
             this.txtPCServerIP.Size = new System.Drawing.Size(153, 20);
-            this.txtPCServerIP.TabIndex = 4;
+            this.txtPCServerIP.TabIndex = 6;
             // 
             // label9
             // 
@@ -363,13 +393,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(608, 245);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.grpTMConfig);
             this.Controls.Add(this.grpMESConfig);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FrmSetting";
             this.ShowIcon = false;
             this.Text = "Settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSetting_FormClosing);
             this.Load += new System.EventHandler(this.FrmSetting_Load);
             this.grpMESConfig.ResumeLayout(false);
             this.grpMESConfig.PerformLayout();
@@ -397,7 +429,7 @@
         private System.Windows.Forms.TextBox txtTMIP;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtPCServerPort;
@@ -415,5 +447,8 @@
         private System.Windows.Forms.RadioButton rdoHourly;
         private System.Windows.Forms.RadioButton rdoDaily;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblLocalServerPathErr;
+        private System.Windows.Forms.TextBox txtLocalServerPath;
+        private System.Windows.Forms.Label lblLocalServerPath;
     }
 }

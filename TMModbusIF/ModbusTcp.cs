@@ -98,12 +98,12 @@ namespace TMModbusIF
         /// <summary>Create master instance with parameters.</summary>
         /// <param name="ip">IP adress of modbus slave.</param>
         /// <param name="port">Port number of modbus slave. Usually port 502 is used.</param>
-        public Master(IPAddress ip, int port = MODBUS_SERVER_PORT)
-        {
-            DeviceAddress = ip;
-            DevicePort = port;
-            IsConnected();
-        }
+        //public Master(IPAddress ip, int port = MODBUS_SERVER_PORT)
+        //{
+        //    DeviceAddress = ip;
+        //    DevicePort = port;
+        //    IsConnected();
+        //}
 
         /// <summary>Destroy master instance.</summary>
         ~Master()
@@ -113,6 +113,42 @@ namespace TMModbusIF
         #endregion Constructor/Destructor
 
         #region Connect
+            /// <summary>Connect to modbus slave over tcp.</summary>
+            /// <param name="ip"></param>
+            /// <param name="port"></param>
+            /// <returns></returns>
+            public MError Connect(IPAddress ip, int port)
+            {
+                while (client != null)
+                {
+                    Disconnect();
+                }
+
+                DeviceAddress = ip;
+                DevicePort = port;
+
+                try
+                {
+                    // Connect client
+                    client = new Socket(DeviceAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                    client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, _timeout);
+                    client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, _timeout);
+                    client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, 1);
+                    client.Connect(new IPEndPoint(DeviceAddress, DevicePort));
+                }
+                catch (Exception)
+                {
+                    client = null;
+                }
+
+                if (client == null)
+                {
+                    return MError.NotConnected;
+                }
+
+                return MError.OK;
+            }
+
             private bool IsConnected()
             {
                 if (client != null) return true;
@@ -120,10 +156,10 @@ namespace TMModbusIF
                 {
                     // Connect client
                     client = new Socket(DeviceAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                    client.Connect(new IPEndPoint(DeviceAddress, DevicePort));
                     client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, _timeout);
                     client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, _timeout);
                     client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, 1);
+                    client.Connect(new IPEndPoint(DeviceAddress, DevicePort));
                 }
                 catch (Exception)
                 {
@@ -152,7 +188,10 @@ namespace TMModbusIF
                 {
                     if (client.Connected)
                     {
-                        try { client.Shutdown(SocketShutdown.Both); }
+                        try
+                        {
+                            client.Shutdown(SocketShutdown.Both);
+                        }
                         catch { }
                         client.Close();
                     }

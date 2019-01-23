@@ -1,30 +1,42 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RVISDev.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RVIS.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="mesIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">192.168.10.12</Value>
     </Setting>
     <Setting Name="mesPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">19888</Value>
     </Setting>
     <Setting Name="mesDevNum" Type="System.String" Scope="User">
-      <Value Profile="(Default)">004</Value>
-    </Setting>
-    <Setting Name="pcServerIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">179.217.14.100</Value>
-    </Setting>
-    <Setting Name="pcServerPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">39888</Value>
+      <Value Profile="(Default)">123</Value>
     </Setting>
     <Setting Name="tmIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">179.217.14.101</Value>
+      <Value Profile="(Default)">179.217.14.100</Value>
     </Setting>
     <Setting Name="tmModbusPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">502</Value>
     </Setting>
+    <Setting Name="pcServerIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">179.217.14.101</Value>
+    </Setting>
+    <Setting Name="pcServerPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">39888</Value>
+    </Setting>
+    <Setting Name="localServerPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Images</Value>
+    </Setting>
     <Setting Name="dataResetFreq" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Hourly</Value>
+      <Value Profile="(Default)">Daily</Value>
+    </Setting>
+    <Setting Name="SqlAttachDbFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\RVIS\db\RVIS_DB.mdf</Value>
+    </Setting>
+    <Setting Name="SqlDataSource" Type="System.String" Scope="User">
+      <Value Profile="(Default)">(LocalDB)\MSSQLLocalDB</Value>
+    </Setting>
+    <Setting Name="NeedUpgrade" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

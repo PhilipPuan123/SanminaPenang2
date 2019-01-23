@@ -25,7 +25,7 @@ namespace RVIS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.10.12")]
         public string mesIP {
             get {
                 return ((string)(this["mesIP"]));
@@ -37,7 +37,7 @@ namespace RVIS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("19888")]
         public string mesPort {
             get {
                 return ((string)(this["mesPort"]));
@@ -49,7 +49,7 @@ namespace RVIS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("004")]
+        [global::System.Configuration.DefaultSettingValueAttribute("123")]
         public string mesDevNum {
             get {
                 return ((string)(this["mesDevNum"]));
@@ -62,30 +62,6 @@ namespace RVIS.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("179.217.14.100")]
-        public string pcServerIP {
-            get {
-                return ((string)(this["pcServerIP"]));
-            }
-            set {
-                this["pcServerIP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("39888")]
-        public string pcServerPort {
-            get {
-                return ((string)(this["pcServerPort"]));
-            }
-            set {
-                this["pcServerPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("179.217.14.101")]
         public string tmIP {
             get {
                 return ((string)(this["tmIP"]));
@@ -109,13 +85,86 @@ namespace RVIS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Hourly")]
+        [global::System.Configuration.DefaultSettingValueAttribute("179.217.14.101")]
+        public string pcServerIP {
+            get {
+                return ((string)(this["pcServerIP"]));
+            }
+            set {
+                this["pcServerIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("39888")]
+        public string pcServerPort {
+            get {
+                return ((string)(this["pcServerPort"]));
+            }
+            set {
+                this["pcServerPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Images")]
+        public string localServerPath {
+            get {
+                return ((string)(this["localServerPath"]));
+            }
+            set {
+                this["localServerPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Daily")]
         public string dataResetFreq {
             get {
                 return ((string)(this["dataResetFreq"]));
             }
             set {
                 this["dataResetFreq"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\12127\\Documents\\Visual Studio 2017\\Projects\\Work\\RVIS\\RVIS\\db\\RVIS_DB.md" +
+            "f")]
+        public string SqlAttachDbFilename {
+            get {
+                return ((string)(this["SqlAttachDbFilename"]));
+            }
+            set {
+                this["SqlAttachDbFilename"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("(LocalDB)\\MSSQLLocalDB")]
+        public string SqlDataSource {
+            get {
+                return ((string)(this["SqlDataSource"]));
+            }
+            set {
+                this["SqlDataSource"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NeedUpgrade {
+            get {
+                return ((bool)(this["NeedUpgrade"]));
+            }
+            set {
+                this["NeedUpgrade"] = value;
             }
         }
     }

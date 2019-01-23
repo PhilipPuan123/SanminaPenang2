@@ -11,9 +11,6 @@ using System.IO.Compression;
 using TMModbusIF;
 
 
-//test git
-
-
 namespace RVISMMC
 {
     public class RVISML
@@ -56,7 +53,7 @@ namespace RVISMMC
         
         #region Main Task to subscribe and start function call
         public void Start() //Main execution function
-        {           
+        {
             //subscribing to the TCPIP event for new data input
             tcpServer.OnDataReceived += TcpServer_OnDataReceived;
             //subscribe to OnRecogPub event for process result string

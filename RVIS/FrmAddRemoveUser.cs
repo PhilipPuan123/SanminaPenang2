@@ -16,14 +16,24 @@ namespace RVIS
     public partial class FrmAddRemoveUser : Form
     {
         #region Declaration
-        SqlConnection sqlCon = new SqlConnection(UserDataSetting.CONNECTION_STRING);
-        SqlCommand sqlCmd;
-        SqlDataAdapter sqlAdapter;
-        #endregion Declarationk
+        private SqlConnectionStringBuilder sConnStringBuilder = new SqlConnectionStringBuilder()
+        {
+            DataSource          = Properties.Settings.Default.SqlDataSource,
+            AttachDBFilename    = Properties.Settings.Default.SqlAttachDbFilename,
+            IntegratedSecurity = true
+        };
+
+        private SqlConnection sqlCon;       // SQL connection
+        private SqlCommand sqlCmd;          // SQL command
+        private SqlDataAdapter sqlAdapter;  // SQL adapter
+        #endregion Declaration
 
         public FrmAddRemoveUser()
         {
             InitializeComponent();
+
+            sqlCon = new SqlConnection(sConnStringBuilder.ConnectionString);
+
             dgvUserData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUserData.AllowUserToResizeColumns = false;
             dgvUserData.AllowUserToResizeRows = false;
@@ -50,8 +60,8 @@ namespace RVIS
                 return;
             }
             /* Generate salt based on prefix and userId */
-            byte[] salt = Security.GenerateSalt(UserDataSetting.SALT_STRING, userId);
-            string passwordHash = Security.GenerateHashString(Encoding.ASCII.GetBytes(password), salt, UserDataSetting.HASH_ITERATION, UserDataSetting.HASH_LENGTH);
+            byte[] salt = Security.GenerateSalt(AuthenticationConstant.SALT_STRING_PREFIX, userId);
+            string passwordHash = Security.GenerateHashString(Encoding.ASCII.GetBytes(password), salt, AuthenticationConstant.HASH_ITERATION, AuthenticationConstant.HASH_LENGTH);
 
             if (IsUserIDExists(userId))
             {
@@ -99,8 +109,8 @@ namespace RVIS
 
         private void dgvUserData_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            int colIndexUserId = (int)UserDataSetting.DB_COL_INDEX.USER_ID;
-            int colIndexIsAdmin = (int)UserDataSetting.DB_COL_INDEX.IS_ADMIN;
+            int colIndexUserId = (int)AuthenticationConstant.DB_COL_INDEX.USER_ID;
+            int colIndexIsAdmin = (int)AuthenticationConstant.DB_COL_INDEX.IS_ADMIN;
 
             txtUserID.Text = dgvUserData.Rows[e.RowIndex].Cells[colIndexUserId].Value.ToString();
             chkAdmin.Checked = Convert.ToBoolean(dgvUserData.Rows[e.RowIndex].Cells[colIndexIsAdmin].Value);
@@ -137,6 +147,7 @@ namespace RVIS
                 }
             }
         }
+
         private bool IsUserIDExists(string userId)
         {
             try

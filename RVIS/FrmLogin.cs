@@ -19,12 +19,23 @@ namespace RVIS
 {
     public partial class FrmLogin : Form
     {
+        #region Declaration
+        private SqlConnectionStringBuilder sConnStringBuilder = new SqlConnectionStringBuilder()
+        {
+            DataSource          = Properties.Settings.Default.SqlDataSource,
+            AttachDBFilename    = Properties.Settings.Default.SqlAttachDbFilename,
+            IntegratedSecurity = true
+        };
+        private SqlConnection sqlCon;   //SQL Connection
+        #endregion Declaration
+
         #region Property
         public string UserID { get; private set; }
         public string Password { get; private set; }
-        public bool IsAdmin { get; private set; }
+        public AccessLevel UserAccess { get; private set; }
         #endregion Property
-        
+
+        #region Form Control
         public FrmLogin()
         {
             InitializeComponent();
@@ -32,23 +43,24 @@ namespace RVIS
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            IsAdmin = false;
+            InitializeSetting();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            SqlConnection sqlCon = new SqlConnection(UserDataSetting.CONNECTION_STRING);
             bool isAuthenticationOK = false;
             bool isSQLError = false;
             string userId = txtUserID.Text;
             string password = txtPassword.Text;
 
-            IsAdmin = false;
+            sqlCon = new SqlConnection(sConnStringBuilder.ConnectionString);
+            /* Reset access level to user */
+            UserAccess = AccessLevel.User;
 
-            /* If service key is inserted, skip checking authentication from database */
-            if (IsServiceKeyInserted(userId, password))
-            {   
-                IsAdmin = true;
+            /* If service key is detected, skip checking authentication from database */
+            if (IsServiceKeyDetected(userId, password))
+            {
+                UserAccess = AccessLevel.Service;
                 isAuthenticationOK = true;
             }
             else
@@ -82,20 +94,19 @@ namespace RVIS
                 }
 
                 /* Generate salt based on prefix and userId */
-                byte[] salt = Security.GenerateSalt(UserDataSetting.SALT_STRING, userId);
-                string passwordHash = Security.GenerateHashString(Encoding.ASCII.GetBytes(password), salt, UserDataSetting.HASH_ITERATION, UserDataSetting.HASH_LENGTH);
+                byte[] salt = Security.GenerateSalt(AuthenticationConstant.SALT_STRING_PREFIX, userId);
+                string passwordHash = Security.GenerateHashString(Encoding.ASCII.GetBytes(password), salt, AuthenticationConstant.HASH_ITERATION, AuthenticationConstant.HASH_LENGTH);
 
                 /* Compare user login info with database */
                 try
                 {
                     /* Get user id and password from SQL */
-                    //SqlCommand sqlCmd = new SqlCommand("SELECT user_id, password FROM Users WHERE user_id = @user_id AND password = @password", sqlCon);
                     SqlCommand sqlCmd = new SqlCommand("SELECT * FROM Users WHERE user_id = @user_id AND password = @password", sqlCon);
 
                     /* Define new variables in SQL command text */
                     SqlParameter uID = new SqlParameter("@user_id", SqlDbType.VarChar);
                     SqlParameter uPassword = new SqlParameter("@password", SqlDbType.VarChar);
-                    /* Assign value into variables */
+                    /* Assign values into SQL parameters */
                     uID.Value = userId;
                     uPassword.Value = passwordHash;
                     sqlCmd.Parameters.Add(uID);
@@ -111,7 +122,12 @@ namespace RVIS
                             if (sqlDataReader.Read())
                             {
                                 /* Check from Sql data whether the user is admin access */
-                                IsAdmin = (bool)sqlDataReader["isAdmin"];
+                                bool IsAdmin = (bool)sqlDataReader["isAdmin"];
+                                /* Set access level */
+                                if (IsAdmin)
+                                {
+                                    UserAccess = AccessLevel.Admin;
+                                }
                             }
                             isAuthenticationOK = true;
                         }
@@ -158,10 +174,48 @@ namespace RVIS
             this.Close();
         }
 
-        #region Function
-        private bool IsServiceKeyInserted(string userId, string password)
+        private void txtUserID_Enter(object sender, EventArgs e)
         {
-            if(userId ==UserDataSetting.SERVICEMAN_USER_ID && password == UserDataSetting.SERVICEMAN_PASSWORD)
+            /* Select all text */
+            txtUserID.SelectAll();
+        }
+
+        private void txtUserID_KeyDown(object sender, KeyEventArgs e)
+        {
+            /* Execute Login when enter is pressed */
+            if (e.KeyData == Keys.Enter)
+            {
+                btnLogin_Click(sender, e);
+            }
+        }
+
+        private void txtPassword_Enter(object sender, EventArgs e)
+        {
+            /* Select all text */
+            txtPassword.SelectAll();
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            /* Execute Login when enter is pressed */
+            if (e.KeyData == Keys.Enter)
+            {
+                btnLogin_Click(sender, e);
+            }
+        }
+        #endregion Form Control
+
+        #region Function
+        private void InitializeSetting()
+        {
+            UserAccess = AccessLevel.User;
+        }
+        private bool IsServiceKeyDetected(string userId, string password)
+        {
+            bool isServiceUserID = (userId == UserDataSetting.SERVICEMAN_USER_ID);
+            bool isServicePassword = (password == UserDataSetting.SERVICEMAN_PASSWORD);
+
+            if (isServiceUserID && isServicePassword)
             {
                 return true;
             }
@@ -177,9 +231,6 @@ namespace RVIS
             }
             return true;
         }
-
-
         #endregion Function
-
     }
 }

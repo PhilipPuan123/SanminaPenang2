@@ -1,8 +1,6 @@
 ﻿/* To-do:
  * - Force log-off and reset data based on settings(daily/hourly)
- * - Add local server path in Setting UI
- * - Add database path in Setting UI
- * 
+ * - Close all connections when form close
  * 
  */
 
@@ -51,7 +49,7 @@ namespace RVIS
         private DateTime startTime;
         private DateTime stopTime;
 
-        private bool isInspecting = false;      // flag for inspection in process
+        private bool isInspecting = false;      // flag for inspection in progress
         private bool needLogOff = false;        // flag for log-off required
 
         /* Classes */
@@ -65,27 +63,34 @@ namespace RVIS
         public FrmMain()
         {
             InitializeComponent();
+            if (Properties.Settings.Default.NeedUpgrade)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.NeedUpgrade = false;
+            }
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
             this.Text = MAIN_TITLE;
             InitializeTmrClock();
-            InitializeBackgroundWorker();
             ShowDateTime();
-            EnableAdminAccess(false);
+            EnableAccess(UserData.UserAccess);
             //SampleUI();
-
-            /* Start backgroundWorker */
-            //bgwUIThread.RunWorkerAsync();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            /* Stop UI Thread */
-            if (bgwUIThread.WorkerSupportsCancellation == true)
+            /* Stop TCP Listener */
+            if (rvisMMC.tcpServer.IsRunning)
             {
-                bgwUIThread.CancelAsync();
+                rvisMMC.tcpServer.Stop();
+            }
+            /* Stop Modbus */
+            if (ModbusControl.IsRunning)
+            {
+                ModbusControl.Disconnect();
             }
         }
 
@@ -142,8 +147,8 @@ namespace RVIS
             tmrClock.Interval = 1000;
         }
 
-
         #region MenuStrips
+        #region File
         private void tsmiLogin_Click(object sender, EventArgs e)
         {
             LoadLoginForm(sender, e);
@@ -153,7 +158,9 @@ namespace RVIS
         {
             this.Close();
         }
+        #endregion
 
+        #region Connection
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
             string serverIP = SettingData.PcServerIP;
@@ -192,7 +199,9 @@ namespace RVIS
             tsmiConnect.Enabled = true;
             tsmiDisconnect.Enabled = false;
         }
+        #endregion Connection
 
+        #region Tools
         private void tsmiAddRemoveUser_Click(object sender, EventArgs e)
         {
             FrmAddRemoveUser frmAddRemoveUser = new FrmAddRemoveUser();
@@ -204,6 +213,15 @@ namespace RVIS
             FrmSetting frmSetting = new FrmSetting();
             frmSetting.ShowDialog();
         }
+        #endregion Tools
+
+        #region Service
+        private void tsmiSpecialSetting_Click(object sender, EventArgs e)
+        {
+            FrmSpecialSetting frmSpecialSetting = new FrmSpecialSetting();
+            frmSpecialSetting.ShowDialog();
+        }
+        #endregion Service
         #endregion MenuStrips
 
         #region StatusStrip
@@ -225,69 +243,7 @@ namespace RVIS
         }
         #endregion Form Controls
 
-        #region BackgroundWorker
-        private void InitializeBackgroundWorker()
-        {
-            /* UI Thread */
-            bgwUIThread.DoWork += BgwUIThread_DoWork;
-            bgwUIThread.ProgressChanged += BgwUIThread_ProgressChanged;
-            bgwUIThread.RunWorkerCompleted += BgwUIThread_RunWorkerCompleted;
-            bgwUIThread.WorkerReportsProgress = true;
-            bgwUIThread.WorkerSupportsCancellation = true;
-        }
-
-        private void BgwUIThread_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            while (true)
-            {
-                if (bgwUIThread.CancellationPending)
-                {
-                    e.Cancel = true;
-                    break;
-                }
-                else
-                {
-                    /* Check operator login */
-
-                    /* Check modbus conection */
-
-                    /* Check TM Tcp connection */
-
-                    /* Check MES connection */
-
-                    /* Check project status */
-
-                    /* Check IO status */
-
-                    Task.Delay(UI_REFRESH_RATE_MS);
-                }
-            }
-        }
-
-        private void BgwUIThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            UpdateDisplay();
-        }
-
-        private void BgwUIThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                MessageBox.Show(e.Error.Message);
-            }
-            else if (e.Cancelled)
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-        #endregion BackgroundWorker
-
-        #region Form Function
+         #region Form Function
         private void LoadLoginForm(object sender, EventArgs e)
         {
             using (FrmLogin frmLogin = new FrmLogin())
@@ -296,28 +252,36 @@ namespace RVIS
                 {
                     UserData.ID = frmLogin.UserID;
                     UserData.Password = frmLogin.Password;
-                    UserData.IsAdmin = frmLogin.IsAdmin;
+                    UserData.UserAccess = frmLogin.UserAccess;
                 }
 
                 lblOperatorIDVal.Text = UserData.ID;
-                EnableAdminAccess(UserData.IsAdmin);
+                EnableAccess(UserData.UserAccess);
             }
         }
 
-        private void EnableAdminAccess(bool isAdmin)
+        private void EnableAccess(AccessLevel accessLevel)
         {
             /* If admin access, set background color to Cyan */
-            if (isAdmin)
+            switch (accessLevel)
             {
-                tsmiTools.Enabled = true;
-                lblOperatorIDVal.BackColor = Color.Cyan;
-            }
-            else
-            {
-                tsmiTools.Enabled = false;
-                lblOperatorIDVal.BackColor = SystemColors.Control;
-            }
-
+                case AccessLevel.Service:
+                    tsmiTools.Enabled = true;
+                    tsmiService.Visible = true;
+                    lblOperatorIDVal.BackColor = Color.Yellow;
+                    break;
+                case AccessLevel.Admin:
+                    tsmiTools.Enabled = true;
+                    tsmiService.Visible = false;
+                    lblOperatorIDVal.BackColor = Color.Cyan;
+                    break;
+                case AccessLevel.User:
+                default:
+                    tsmiTools.Enabled = false;
+                    tsmiService.Visible = false;
+                    lblOperatorIDVal.BackColor = SystemColors.Control;
+                    break;
+            }            
             UpdateDisplay();
         }
 

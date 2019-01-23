@@ -1,8 +1,4 @@
-﻿/* To-do:
- * - check setting is in correct format and value
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +15,7 @@ namespace RVIS
     public partial class FrmSetting : Form
     {
         private bool settingErr = false;
-
+        private string errorMessage;
         #region UI Control
         public FrmSetting()
         {
@@ -29,63 +25,41 @@ namespace RVIS
         private void FrmSetting_Load(object sender, EventArgs e)
         {
             LoadSettingFromConfigFile();
-
-            /* Update settngs on UI */
-            txtMESIP.Text           = SettingData.MesIP;
-            txtMESPort.Text         = SettingData.MesPort;
-            txtMESDevNum.Text       = SettingData.MesDevNum;
-            txtTMIP.Text            = SettingData.TmIP;
-            txtTMModbusPort.Text    = SettingData.TmModbusPort;
-            txtPCServerIP.Text      = SettingData.PcServerIP;
-            txtPCServerPort.Text    = SettingData.PcServerPort;
-            switch (SettingData.DataResetFreq)
-            {
-                case "Hourly":
-                    rdoHourly.Checked = true;
-                    break;
-                case "Daily":
-                default:
-                    rdoDaily.Checked = true;
-                    break;
-            }
-
-            /* Remove */
             CheckAllInputs();
         }
 
-        private void rdoHourly_CheckedChanged(object sender, EventArgs e)
+        private void FrmSetting_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (rdoHourly.Checked)
-            {
-                SettingData.DataResetFreq = rdoHourly.Text;
-            }
-        }
-
-        private void rdoDaily_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoDaily.Checked)
-            {
-                SettingData.DataResetFreq = rdoDaily.Text;
-            }
+            SettingData.MesIP           = Properties.Settings.Default.mesIP;
+            SettingData.MesPort         = Properties.Settings.Default.mesPort;
+            SettingData.MesDevNum       = Properties.Settings.Default.mesDevNum;
+            SettingData.LocalServerPath = Properties.Settings.Default.localServerPath;
+            SettingData.TmIP            = Properties.Settings.Default.tmIP;
+            SettingData.TmModbusPort    = Properties.Settings.Default.tmModbusPort;
+            SettingData.PcServerIP      = Properties.Settings.Default.pcServerIP;
+            SettingData.PcServerPort    = Properties.Settings.Default.pcServerPort;
+            SettingData.DataResetFreq   = Properties.Settings.Default.dataResetFreq; ;
+            
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            /* Check the content of each textbox */
+            /* Check the content of each textbox and selections */
             CheckAllInputs();
 
             if (settingErr)
             {
-                MessageBox.Show("There is error in setting. \nPlease check if the settings are correct.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There is error in setting. \nPlease check if the settings are correct.\n"+ errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
                 /* Save settings */
                 SaveSettingToConfigFile();
+                /* Close form */
+                this.Close();
             }
         }
-
-        private void btnExit_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -95,22 +69,48 @@ namespace RVIS
         private void CheckAllInputs()
         {
             settingErr = false;
+            errorMessage = "Details: \n";
 
             /* Check MES Config Settings */
-            CheckDeviceNumInput(txtMESDevNum, lblMESDevNumErr);
-            CheckIPAddressInput(txtMESIP, lblMESIPErr);
-            CheckPortNumInput(txtMESPort, lblMESPortErr);
+            if (CheckDeviceNumInput(txtMESDevNum, lblMESDevNumErr))
+            {
+                errorMessage += "- Invalid MES Device Number\n";
+            }
+            if (CheckIPAddressInput(txtMESIP, lblMESIPErr))
+            {
+                errorMessage += "- Invalid MES IP\n";
+            }
+            if (CheckPortNumInput(txtMESPort, lblMESPortErr))
+            {
+                errorMessage += "- Invalid MES Port\n";
+            }
+            if (CheckPathInput(txtLocalServerPath, lblLocalServerPathErr))
+            {
+                errorMessage += "- Invalid Local Server Path\n";
+            }
 
             /* Check PC Config Settings */
-            CheckIPAddressInput(txtPCServerIP, lblPCServerIPErr);
-            CheckPortNumInput(txtPCServerPort, lblPCServerPortErr);
+            if (CheckIPAddressInput(txtPCServerIP, lblPCServerIPErr))
+            {
+                errorMessage += "- Invalid PC Server IP\n";
+            }
+            if (CheckPortNumInput(txtPCServerPort, lblPCServerPortErr))
+            {
+                errorMessage += "- Invalid PC Server Port\n";
+            }
 
             /* Check TM Config Settings */
-            CheckIPAddressInput(txtTMIP, lblTMIPErr);
-            CheckPortNumInput(txtTMModbusPort, lblTMModbusPortErr);
+            if (CheckIPAddressInput(txtTMIP, lblTMIPErr))
+            {
+                errorMessage += "- Invalid TM IP\n";
+            }
+            if (CheckPortNumInput(txtTMModbusPort, lblTMModbusPortErr))
+            {
+                errorMessage += "- Invalid TM Modbus Port\n";
+            }
         }
 
-        private void CheckDeviceNumInput(TextBox txtDevNum, Label lblErr)
+        private bool CheckDeviceNumInput(TextBox txtDevNum, Label lblErr)
         {
             int deviceNum;
             bool error = false;
@@ -136,6 +136,7 @@ namespace RVIS
             {
                 lblErr.Visible = false;
             }
+            return error;
         }
 
         private bool CheckIPAddressInput(TextBox txtIP,Label lblErr)
@@ -188,45 +189,78 @@ namespace RVIS
             return error;
         }
 
+        private bool CheckPathInput(TextBox txtPath, Label lblErr)
+        {
+            bool error = false;
+            /* Check if directory exist */
+            if (string.IsNullOrEmpty(txtPath.Text))
+            {
+                error = true;
+            }
+            /* Check if directory exist */
+            if (System.IO.Directory.Exists(txtPath.Text) != true)
+            {
+                error = true;
+            }
+
+            /* if error */
+            if (error)
+            {
+                lblErr.Visible = true;
+                settingErr = true;
+            }
+            else
+            {
+                lblErr.Visible = false;
+            }
+            return error;
+        }
+
         private void LoadSettingFromConfigFile()
         {
-            /* Load user settings from config file */
-            SettingData.MesIP           = Properties.Settings.Default.mesIP;
-            SettingData.MesPort         = Properties.Settings.Default.mesPort;
-            SettingData.MesDevNum       = Properties.Settings.Default.mesDevNum;
-            SettingData.TmIP            = Properties.Settings.Default.tmIP;
-            SettingData.TmModbusPort    = Properties.Settings.Default.tmModbusPort;
-            SettingData.PcServerIP      = Properties.Settings.Default.pcServerIP;
-            SettingData.PcServerPort    = Properties.Settings.Default.pcServerPort;
-            SettingData.DataResetFreq   = Properties.Settings.Default.dataResetFreq;
+            /* Update settngs on UI */
+            txtMESIP.Text           = Properties.Settings.Default.mesIP;
+            txtMESPort.Text         = Properties.Settings.Default.mesPort;
+            txtMESDevNum.Text       = Properties.Settings.Default.mesDevNum;
+            txtLocalServerPath.Text = Properties.Settings.Default.localServerPath;
+            txtTMIP.Text            = Properties.Settings.Default.tmIP;
+            txtTMModbusPort.Text    = Properties.Settings.Default.tmModbusPort;
+            txtPCServerIP.Text      = Properties.Settings.Default.pcServerIP;
+            txtPCServerPort.Text    = Properties.Settings.Default.pcServerPort;
+            switch (Properties.Settings.Default.dataResetFreq)
+            {
+                case "Hourly":
+                    rdoHourly.Checked = true;
+                    break;
+                case "Daily":
+                default:
+                    rdoDaily.Checked = true;
+                    break;
+            }
         }
 
         private void SaveSettingToConfigFile()
         {
-            Properties.Settings.Default.mesIP           = SettingData.MesIP;
-            Properties.Settings.Default.mesPort         = SettingData.MesPort;
-            Properties.Settings.Default.mesDevNum       = SettingData.MesDevNum;
-            Properties.Settings.Default.pcServerIP      = SettingData.PcServerIP;
-            Properties.Settings.Default.pcServerPort    = SettingData.PcServerPort;
-            Properties.Settings.Default.tmIP            = SettingData.TmIP;
-            Properties.Settings.Default.tmModbusPort    = SettingData.TmModbusPort;
-
             /* Save settings in config file */
+            Properties.Settings.Default.mesIP           = txtMESIP.Text;
+            Properties.Settings.Default.mesPort         = txtMESPort.Text;
+            Properties.Settings.Default.mesDevNum       = txtMESDevNum.Text;
+            Properties.Settings.Default.localServerPath = txtLocalServerPath.Text;
+            Properties.Settings.Default.tmIP            = txtTMIP.Text;
+            Properties.Settings.Default.tmModbusPort    = txtTMModbusPort.Text;
+            Properties.Settings.Default.pcServerIP      = txtPCServerIP.Text;
+            Properties.Settings.Default.pcServerPort    = txtPCServerPort.Text;
+            if (rdoDaily.Checked)
+            {
+                Properties.Settings.Default.dataResetFreq = rdoDaily.Text;
+            }
+            else if (rdoHourly.Checked)
+            {
+                Properties.Settings.Default.dataResetFreq = rdoHourly.Text;
+            }
+
             Properties.Settings.Default.Save();
-            
         }
         #endregion Functions
-    }
-
-    internal class SettingData
-    {
-        public static string MesIP { get; set; }
-        public static string MesPort { get; set; }
-        public static string MesDevNum { get; set; }
-        public static string TmIP { get; set; }
-        public static string TmModbusPort { get; set; }
-        public static string PcServerIP { get; set; }
-        public static string PcServerPort { get; set; }
-        public static string DataResetFreq { get; set; }
     }
 }
