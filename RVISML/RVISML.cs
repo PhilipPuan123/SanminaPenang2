@@ -19,13 +19,15 @@ namespace RVISMMC
         //member data
         bool completeUnitSts = false; //flag for completion of 1 UUT
         string imgDir = null; // store the image directory
+        const string LOCAL_SERVER_PATH = null; // path the zip file going to store at their local server (user flexibility)
         private CancellationTokenSource _cts; //Background task resource cancel
 
         //robot sts
-        string robotRunSts; //robot running status
-        string robotErrSts; //robot error status 
-        string robotPauseSts;//robot pause status
-
+        bool robotRunSts; //robot running status 
+        bool robotErrSts; //robot error status 
+        bool robotPauseSts;//robot pause status 
+        bool tcpIpSts; //comm sts between robot and PC 
+       
         //auto implemented properties
         public string ProcTestName { get; set; } //payload test name
         public string ProcResult { get; set; } //payload result
@@ -36,34 +38,45 @@ namespace RVISMMC
 
         #region Event Initialization
         //serial number result payload publish
-        public delegate void SerialResultPub(string serial);
+        public delegate void SerialResultPub(string serial, string dir);
         public event SerialResultPub OnSerialResultPub;
         //checkpoint payload result publish
         public delegate void DownstreamResultPub(string checkpt, string result, string dir, string testEnd);
         public event DownstreamResultPub OnResultStringPub;
-        //Background robot status payload publish
-        public delegate void RobotStatusPub(string robotRunSts, string robotErrSts, string robotPauseSts);
+        //background robot status payload publish
+        public delegate void RobotStatusPub(bool robotRunSts, bool robotErrSts, bool robotPauseSts);
         public event RobotStatusPub OnRobotStatusPub;
+        //tcpip error status publish
+        public delegate void ErrStatusPub(bool tcpErr);
+        public event ErrStatusPub OnErrStatusPub;
         #endregion 
 
         #region create related obj required
         //create TcpIF- Server object
         public Server tcpServer = new Server();
-        #endregion        
         
+        #endregion
+   
+        #region system data status lock
+        //Task data lock object
+        private readonly object getRobotRunStsLock = new object();
+        private readonly object getRobotErrStsLock = new object();
+        private readonly object getRobotPauseStsLock = new object();
+        private readonly object getTcpIpStsLock = new object();
+        #endregion
+
         #region Main Task to subscribe and start function call
         public void Start() //Main execution function
         {
-            //subscribing to the TCPIP event for new data input
+            //subscribing to the TCPIP event for new data input            
             tcpServer.OnDataReceived += TcpServer_OnDataReceived;
             //subscribe to OnRecogPub event for process result string
-            OnResultStringPub += RVISML_OnResultStringPub;
+            //OnResultStringPub += RVISML_OnResultStringPub;
             //subscribe to OnSerialResultPub event for processing serial result string
-            OnSerialResultPub += RVISML_OnSerialResultPub;
+            //OnSerialResultPub += RVISML_OnSerialResultPub;
 
-            //1.Start with system preliminary check
-            
-            if ((robotRunSts == "false") && (robotErrSts == "false") && (robotPauseSts == "false"))
+            //Start with system preliminary check
+            if ((robotRunSts == false) && (robotErrSts == false) && (robotPauseSts == false) && (tcpIpSts == true))
             {
                 //2. If OK start activate RUN robot
                 InitiateRunOrPause();
@@ -79,39 +92,32 @@ namespace RVISMMC
             int startSts = 0;
             //start run the robot
             startSts = ModbusControl.StartOrPauseProject();
-     
+
             return startSts;
         }
         #endregion
 
-        #region Check serial number
-        public bool CheckSerial() 
-        {
-            bool serialSts = false;
-            //maybe get status from MES, just for record.
-            //once GUI receive from MES, GUI called modbus to CONTINUE run robot
-
-            return serialSts;
-        }
-        #endregion
-
         #region  Finish checkpoint inspection
-
         //Finish inspection
         public async Task FinishInspection()
         {
-           string imgFolder = null; // folder path of stored image
-           string localServerPath = null; // path the zip file going to store at their local server
-           string pattern = @"^(?<Folder>[a-zA-Z0-9:\\]+)\\([a-zA-Z0-9.]+)$";
+            string imgFolder = null; // folder path of stored image
+            string pattern = @"^(?<Folder>[a-zA-Z0-9:\\]+)\\([a-zA-Z0-9.]+)$";
 
-           //get the dir path 
-           Match imgPath = Regex.Match(imgDir, pattern);
-           if (imgPath.Success)
-           {
+            Match imgPath = Regex.Match(imgDir, pattern);  //get the dir path
+            if (imgPath.Success)
+            {
                 imgFolder = imgPath.Result("${Folder}");
                 //zip the file & transfer to local server 
-                await Task.Factory.StartNew(() => { ZipFile.CreateFromDirectory(imgFolder, localServerPath); },TaskCreationOptions.LongRunning);
-           }
+                try
+                {
+                    await Task.Factory.StartNew(() => { ZipFile.CreateFromDirectory(imgFolder, LOCAL_SERVER_PATH); }, TaskCreationOptions.LongRunning);
+                }
+                catch (DirectoryNotFoundException ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
         }
 
         #endregion
@@ -120,15 +126,11 @@ namespace RVISMMC
         //Event handler for result string publish from robot controller
         private void RVISML_OnResultStringPub(string checkpt, string result, string dir, string testEnd)
         {
-          if (testEnd == "True")
-          {
-                 imgDir = dir;
-                 FinishInspection();
-          }
-          throw new NotImplementedException();
+            //nothing
+            throw new NotImplementedException();
         }
         //Event handler for serial result publish
-        private void RVISML_OnSerialResultPub(string serial)
+        private void RVISML_OnSerialResultPub(string serial, string dir)
         {
             //nothing
             throw new NotImplementedException();
@@ -158,7 +160,7 @@ namespace RVISMMC
 
             //Verify data send from downstream
             string pattern_checkpoint = @"^checkpoint=(?<Testname>[a-zA-Z0-9]+),result=(?<Result>[a-zA-Z0-9]+),dir=(?<Dir>[a-zA-Z0-9:\\.]+),testEnd=(?<End>[a-zA-Z]+)$";
-            string pattern_serial = @"^ser=(?<Serial>[a-zA-Z0-9]+)$"; //might need imge path zip to the folder
+            string pattern_serial = @"^s\n=(?<Serial>[a-zA-Z0-9]+),dir=(?<Dir>[a-zA-Z0-9:\\.]+)$"; //might need imge path zip to the folder
 
             Match match_checkpoint = Regex.Match(parameter, pattern_checkpoint);
             Match match_serial = Regex.Match(parameter, pattern_serial);
@@ -169,19 +171,27 @@ namespace RVISMMC
                 ProcResult = match_checkpoint.Result("${Result}");
                 ProcLiveImgDir = match_checkpoint.Result("${Dir}");
                 ProcTestEnd = match_checkpoint.Result("${End}");
-                
+
                 if (OnResultStringPub != null)
                 {
                     OnResultStringPub(ProcTestName, ProcResult, ProcLiveImgDir, ProcTestEnd);
                 }
 
-            }else if(match_serial.Success)
+                if (ProcTestEnd == "True") //check is UUT completed
+                {
+                    imgDir = ProcLiveImgDir;
+                    FinishInspection();
+                }
+
+            }
+            else if (match_serial.Success)
             {
                 ProcSerial = match_serial.Result("${Serial}");
+                ProcLiveImgDir = match_serial.Result("${Dir}");
 
-                if(OnSerialResultPub != null)
+                if (OnSerialResultPub != null)
                 {
-                    OnSerialResultPub(ProcSerial);
+                    OnSerialResultPub(ProcSerial, ProcLiveImgDir);
                 }
             }
 
@@ -193,40 +203,28 @@ namespace RVISMMC
         public void GetRobotRunSts()
         {
             //get robot run status function - this can be replace to calling function like in FrmTestToolKit.cs
-             MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetRunStatus, out robotRunSts);
-            if(robotRunSts == "false")
+            // MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetRunStatus, out robotRunSts);
+            lock (getRobotRunStsLock)
             {
-                robotRunSts = "false";
-            }else
-            {
-                robotRunSts = "true";
+                ModbusControl.GetProjectRunningStatus(ref robotRunSts);
             }
-           
         }
 
         public void GetRobotErrSts()
-        { 
-            MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetErrorStatus, out robotErrSts);
-            if (robotErrSts == "false")
+        {
+            //MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetErrorStatus, out robotErrSts);
+            lock (getRobotErrStsLock)
             {
-                robotErrSts = "false";
-            }
-            else
-            {
-                robotErrSts = "true";
+                ModbusControl.GetProjectErrorStatus(ref robotErrSts);
             }
         }
 
         public void GetRobotPauseSts()
         {
-            MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetPauseStatus, out robotPauseSts);
-            if (robotPauseSts == "false")
+            //MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetPauseStatus, out robotPauseSts);
+            lock (getRobotPauseStsLock)
             {
-                robotPauseSts = "false";
-            }
-            else
-            {
-                robotPauseSts = "true";
+                ModbusControl.GetProjectPauseStatus(ref robotPauseSts);
             }
         }
 
@@ -235,9 +233,29 @@ namespace RVISMMC
             ;
         }
 
-        public void EndAllServices()
+        public bool GetTcpIPSts()
         {
-            if(_cts != null)
+            lock (getTcpIpStsLock)
+            {
+                if (tcpServer.IsRunning == true)
+                {
+                    tcpIpSts = tcpServer.IsRunning;
+                }
+                else
+                {
+                    if (OnErrStatusPub != null)
+                    {
+                        OnErrStatusPub(tcpServer.IsRunning);
+                    }
+                    tcpServer.Restart();
+                }
+            }
+            return tcpIpSts;
+        }
+
+        public void EndAllServices() //Dispose and unsubscribe event
+        {
+            if (_cts != null)
             {
                 //cancel and dispose SysPrelimCheck()
                 _cts.Cancel();
@@ -270,8 +288,12 @@ namespace RVISMMC
                         GetRobotRunSts();
                         GetRobotErrSts();
                         GetRobotPauseSts();
-                        OnRobotStatusPub(robotRunSts, robotErrSts, robotPauseSts); //publish the robot status
-                        Thread.Sleep(500);
+                        GetTcpIPSts();
+                        if (OnRobotStatusPub != null)
+                        {
+                            OnRobotStatusPub(robotRunSts, robotErrSts, robotPauseSts); //publish the robot status
+                        }
+                        Thread.Sleep(300);
 
                     }
                     catch (OperationCanceledException)
@@ -280,9 +302,9 @@ namespace RVISMMC
                     }
                 }
             }, TaskCreationOptions.LongRunning);
-
+            #endregion
         }
-        #endregion
+
     }
 
 
