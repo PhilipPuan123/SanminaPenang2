@@ -1,7 +1,7 @@
 ﻿/* To-do:
  * - Force log-off and reset data based on settings(daily/hourly)
- * - Close all connections when form close
- * 
+ * - Load Image when receive SN event
+ * - Status strip update
  */
 
 using System;
@@ -20,6 +20,7 @@ using MesIF;
 using TcpIF;
 using TMModbusIF;
 using RVISMMC;
+using RVISData;
 
 namespace RVIS
 {
@@ -55,8 +56,6 @@ namespace RVIS
         /* Classes */
         private RVISML rvisMMC = new RVISML();
         //private Server server;
-
-
         #endregion Declaration
 
         #region Form Controls
@@ -69,6 +68,9 @@ namespace RVIS
                 Properties.Settings.Default.Save();
                 Properties.Settings.Default.NeedUpgrade = false;
             }
+
+            DataUtility.UpdateSettingDataFromConfig();
+            DataUtility.UpdateSpecialSettingDataFromConfig();
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -82,16 +84,7 @@ namespace RVIS
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            /* Stop TCP Listener */
-            if (rvisMMC.tcpServer.IsRunning)
-            {
-                rvisMMC.tcpServer.Stop();
-            }
-            /* Stop Modbus */
-            if (ModbusControl.IsRunning)
-            {
-                ModbusControl.Disconnect();
-            }
+            StopAllConnectionAndBackgroundTask();
         }
 
         #region Buttons
@@ -130,10 +123,10 @@ namespace RVIS
                 /* Save test data to selected file format */
                 switch (sfdUnitData.FilterIndex)
                 {
-                    case 1:     //*.txt
+                    case 1:     // *.txt
                         rtxUnitResult.SaveFile(sfdUnitData.FileName, RichTextBoxStreamType.PlainText);
                         break;
-                    case 2:     //*.rtf
+                    case 2:     // *.rtf
                         rtxUnitResult.SaveFile(sfdUnitData.FileName);
                         break;
                 }
@@ -141,11 +134,13 @@ namespace RVIS
         }
         #endregion Buttons
 
+        #region Timer
         private void InitializeTmrClock()
         {
             tmrClock.Enabled = true;
             tmrClock.Interval = 1000;
         }
+        #endregion Timer
 
         #region MenuStrips
         #region File
@@ -163,9 +158,9 @@ namespace RVIS
         #region Connection
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
-            string serverIP = SettingData.PcServerIP;
-            string serverPort = SettingData.PcServerPort;
-            string tmIP = SettingData.TmIP;
+            string serverIP     = SettingData.PcServerIP;
+            string serverPort   = SettingData.PcServerPort;
+            string tmIP         = SettingData.TmIP;
             string tmModbusPort = SettingData.TmModbusPort;
             int error;
 
@@ -183,18 +178,25 @@ namespace RVIS
                 MessageBox.Show("ErrorCode: " + error);
             }
 
-            tsmiConnect.Enabled = false;
-            tsmiDisconnect.Enabled = true;
+            /* If error */
+            if (error != 0)
+            {
+                StopAllConnectionAndBackgroundTask();
+            }
+            else
+            {
+                /* Start background task for status checking */
+                Task.Factory.StartNew(async () => { await rvisMMC.BackgroundSysCheck(); }, TaskCreationOptions.LongRunning);
+
+                tsmiConnect.Enabled = false;
+                tsmiDisconnect.Enabled = true;
+            }
         }
 
         private void tsmiDisconnect_Click(object sender, EventArgs e)
         {
-            /* Disconnect TCP Server */
-            StopListener();
+            StopAllConnectionAndBackgroundTask();
 
-            /* Disconnect TM Modbus */
-            ModbusControl.Disconnect();
-            
             /* Disable button */
             tsmiConnect.Enabled = true;
             tsmiDisconnect.Enabled = false;
@@ -237,13 +239,15 @@ namespace RVIS
         }
         #endregion StatusStrip
 
+        #region Textbox
         private void rtxUnitResult_TextChanged(object sender, EventArgs e)
         {
             SetCursorToEnd(sender, EventArgs.Empty);
         }
+        #endregion Textbox
         #endregion Form Controls
 
-         #region Form Function
+        #region Form Function
         private void LoadLoginForm(object sender, EventArgs e)
         {
             using (FrmLogin frmLogin = new FrmLogin())
@@ -398,6 +402,22 @@ namespace RVIS
             return cycleTime;
         }
 
+        private void StopAllConnectionAndBackgroundTask()
+        {
+            /* End background task for status checking */
+            rvisMMC.EndAllServices();
+
+            /* Disconnect TCP Server */
+            StopListener();
+
+            /* Disconnect TM Modbus */
+            /* Stop Modbus */
+            if (ModbusControl.IsRunning)
+            {
+                ModbusControl.Disconnect();
+            }
+        }
+
         private int StartListener(string serverIP, string serverPort)
         {
             TCPError error = TCPError.OK;
@@ -466,22 +486,25 @@ namespace RVIS
         #endregion Functions
 
         #region Event Handler
-        private void RvisMMC_OnSerialResultPub(string serial)
+        private void RvisMMC_OnSerialResultPub(string serial, string dir)
         {
             /* Add SN to unit result */
             AddLineToUnitResult("Serial Number\t: " + serial);
             /* Add line separator to unit result */
             AddLineToUnitResult(LINE_SEPARATOR);
+
+            /* To-do: Load Image */
+            
         }
 
-        private void RvisMMC_OnRobotStatusPub(string robotRunSts, string robotErrSts, string robotPauseSts)
+        private void RvisMMC_OnRobotStatusPub(bool robotRunSts, bool robotErrSts, bool robotPauseSts)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void RvisMMC_OnResultStringPub(string checkpt, string result, string dir, string testEnd)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         #endregion Event Handler
 
@@ -493,7 +516,7 @@ namespace RVIS
                 SampleResult();
                 SampleImage();
                 SampleTestYield();
-                SampleStatus(true, true, false);
+                SampleStatus(true, false);
             }
 
             private void SampleOperatorID()
@@ -604,20 +627,9 @@ namespace RVIS
                 lblRateVal.Text = rate.ToString("P");
             }
 
-            private void SampleStatus(bool modbusOnline, bool tmTcpOnline, bool mesOnline)
+            private void SampleStatus(bool tmOnline, bool mesOnline)
             {
-                if (modbusOnline)
-                {
-                    ssModbus.Text = "Modbus: Online";
-                    ssModbus.BackColor = Color.Lime;
-                }
-                else
-                {
-                    ssModbus.Text = "Modbus: Offline";
-                    ssModbus.BackColor = Color.Red;
-                }
-
-                if (tmTcpOnline)
+                if (tmOnline)
                 {
                     ssTMRobot.Text = "TM-Robot: Online";
                     ssTMRobot.BackColor = Color.Lime;

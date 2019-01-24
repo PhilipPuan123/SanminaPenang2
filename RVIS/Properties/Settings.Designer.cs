@@ -167,5 +167,29 @@ namespace RVIS.Properties {
                 this["NeedUpgrade"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\RVIS\\Img\\UI\\")]
+        public string UIImageLoadPath {
+            get {
+                return ((string)(this["UIImageLoadPath"]));
+            }
+            set {
+                this["UIImageLoadPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\RVIS\\Img\\TM\\")]
+        public string TMImageSavePath {
+            get {
+                return ((string)(this["TMImageSavePath"]));
+            }
+            set {
+                this["TMImageSavePath"] = value;
+            }
+        }
     }
 }

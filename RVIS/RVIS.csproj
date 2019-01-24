@@ -99,7 +99,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security.cs" />
-    <Compile Include="UIProperties.cs" />
+    <Compile Include="DataUtility.cs" />
     <EmbeddedResource Include="FrmAddRemoveUser.resx">
       <DependentUpon>FrmAddRemoveUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,6 +165,10 @@
     <ProjectReference Include="..\MesIF\MesIF.csproj">
       <Project>{437bfa0c-0b3a-4fec-b572-2d02e36a1069}</Project>
       <Name>MesIF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RVISData\RVISData.csproj">
+      <Project>{edabc090-af3a-44b5-8f98-8e116c6bdf11}</Project>
+      <Name>RVISData</Name>
     </ProjectReference>
     <ProjectReference Include="..\RVISML\RVISMMC.csproj">
       <Project>{250283b7-0911-4f46-a8f8-dd2a53c78aa9}</Project>

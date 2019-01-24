@@ -35,12 +35,4 @@ namespace RVIS
             IS_ADMIN = 2
         };
     }
-
-    public enum AccessLevel
-    {
-        User    = 0,
-        Admin   = 1,
-        Service = 2,
-    }
-
 }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* To-do:
+ * - Automatically create folder if it is not exist.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,25 +32,12 @@ namespace RVIS
             CheckAllInputs();
         }
 
-        private void FrmSetting_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            SettingData.MesIP           = Properties.Settings.Default.mesIP;
-            SettingData.MesPort         = Properties.Settings.Default.mesPort;
-            SettingData.MesDevNum       = Properties.Settings.Default.mesDevNum;
-            SettingData.LocalServerPath = Properties.Settings.Default.localServerPath;
-            SettingData.TmIP            = Properties.Settings.Default.tmIP;
-            SettingData.TmModbusPort    = Properties.Settings.Default.tmModbusPort;
-            SettingData.PcServerIP      = Properties.Settings.Default.pcServerIP;
-            SettingData.PcServerPort    = Properties.Settings.Default.pcServerPort;
-            SettingData.DataResetFreq   = Properties.Settings.Default.dataResetFreq; ;
-            
-        }
-
         private void btnOK_Click(object sender, EventArgs e)
         {
             /* Check the content of each textbox and selections */
             CheckAllInputs();
 
+            /* If there is error in setting */
             if (settingErr)
             {
                 MessageBox.Show("There is error in setting. \nPlease check if the settings are correct.\n"+ errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -55,6 +46,8 @@ namespace RVIS
             {
                 /* Save settings */
                 SaveSettingToConfigFile();
+                /* Update common setting data */
+                DataUtility.UpdateSettingDataFromConfig();
                 /* Close form */
                 this.Close();
             }
@@ -72,45 +65,45 @@ namespace RVIS
             errorMessage = "Details: \n";
 
             /* Check MES Config Settings */
-            if (CheckDeviceNumInput(txtMESDevNum, lblMESDevNumErr))
+            if (ErrorCheckDeviceNumInput(txtMESDevNum, lblMESDevNumErr))
             {
                 errorMessage += "- Invalid MES Device Number\n";
             }
-            if (CheckIPAddressInput(txtMESIP, lblMESIPErr))
+            if (ErrorCheckIPAddressInput(txtMESIP, lblMESIPErr))
             {
                 errorMessage += "- Invalid MES IP\n";
             }
-            if (CheckPortNumInput(txtMESPort, lblMESPortErr))
+            if (ErrorCheckPortNumInput(txtMESPort, lblMESPortErr))
             {
                 errorMessage += "- Invalid MES Port\n";
             }
-            if (CheckPathInput(txtLocalServerPath, lblLocalServerPathErr))
+            if (ErrorCheckPathInput(txtLocalServerPath, lblLocalServerPathErr))
             {
                 errorMessage += "- Invalid Local Server Path\n";
             }
 
             /* Check PC Config Settings */
-            if (CheckIPAddressInput(txtPCServerIP, lblPCServerIPErr))
+            if (ErrorCheckIPAddressInput(txtPCServerIP, lblPCServerIPErr))
             {
                 errorMessage += "- Invalid PC Server IP\n";
             }
-            if (CheckPortNumInput(txtPCServerPort, lblPCServerPortErr))
+            if (ErrorCheckPortNumInput(txtPCServerPort, lblPCServerPortErr))
             {
                 errorMessage += "- Invalid PC Server Port\n";
             }
 
             /* Check TM Config Settings */
-            if (CheckIPAddressInput(txtTMIP, lblTMIPErr))
+            if (ErrorCheckIPAddressInput(txtTMIP, lblTMIPErr))
             {
                 errorMessage += "- Invalid TM IP\n";
             }
-            if (CheckPortNumInput(txtTMModbusPort, lblTMModbusPortErr))
+            if (ErrorCheckPortNumInput(txtTMModbusPort, lblTMModbusPortErr))
             {
                 errorMessage += "- Invalid TM Modbus Port\n";
             }
         }
 
-        private bool CheckDeviceNumInput(TextBox txtDevNum, Label lblErr)
+        private bool ErrorCheckDeviceNumInput(TextBox txtDevNum, Label lblErr)
         {
             int deviceNum;
             bool error = false;
@@ -139,7 +132,7 @@ namespace RVIS
             return error;
         }
 
-        private bool CheckIPAddressInput(TextBox txtIP,Label lblErr)
+        private bool ErrorCheckIPAddressInput(TextBox txtIP,Label lblErr)
         {
             bool error = false;
             if (IsValidIPAddress(txtIP.Text) != true)
@@ -166,11 +159,11 @@ namespace RVIS
             return IPAddress.TryParse(ip, out ipAddress);
         }
 
-        private bool CheckPortNumInput(TextBox txtPort, Label lblErr)
+        private bool ErrorCheckPortNumInput(TextBox txtPort, Label lblErr)
         {
             bool error = false;
             int port;
-
+            /* If port number is not numeric value only */
             if (Int32.TryParse(txtPort.Text, out port) != true)
             {
                 error = true;
@@ -189,7 +182,7 @@ namespace RVIS
             return error;
         }
 
-        private bool CheckPathInput(TextBox txtPath, Label lblErr)
+        private bool ErrorCheckPathInput(TextBox txtPath, Label lblErr)
         {
             bool error = false;
             /* Check if directory exist */

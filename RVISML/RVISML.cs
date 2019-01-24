@@ -10,7 +10,6 @@ using System.IO;
 using System.IO.Compression;
 using TMModbusIF;
 
-
 namespace RVISMMC
 {
     public class RVISML
@@ -123,19 +122,6 @@ namespace RVISMMC
         #endregion
 
         #region Event Handler
-        //Event handler for result string publish from robot controller
-        private void RVISML_OnResultStringPub(string checkpt, string result, string dir, string testEnd)
-        {
-            //nothing
-            throw new NotImplementedException();
-        }
-        //Event handler for serial result publish
-        private void RVISML_OnSerialResultPub(string serial, string dir)
-        {
-            //nothing
-            throw new NotImplementedException();
-        }
-
         //Event handler  from the event data received from TCP/IP
         private void TcpServer_OnDataReceived(object sender, string parameter)
         {
@@ -143,8 +129,6 @@ namespace RVISMMC
             {
                 ResultDataProcces(parameter);
             }
-
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -180,7 +164,7 @@ namespace RVISMMC
                 if (ProcTestEnd == "True") //check is UUT completed
                 {
                     imgDir = ProcLiveImgDir;
-                    FinishInspection();
+                    Task.Factory.StartNew(async()=> { await FinishInspection();});
                 }
 
             }
@@ -263,12 +247,7 @@ namespace RVISMMC
 
                 //unsubscribe to OnRecogPub event for process result string
                 tcpServer.OnDataReceived -= TcpServer_OnDataReceived;
-                //unsubscribe to OnRecogPub event for process result string
-                OnResultStringPub -= RVISML_OnResultStringPub;
-                //unsubscribe to OnSerialResultPub event for processing serial result string
-                OnSerialResultPub -= RVISML_OnSerialResultPub;
             }
-
         }
 
         #endregion

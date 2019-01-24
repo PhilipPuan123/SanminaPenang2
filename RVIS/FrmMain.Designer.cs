@@ -44,7 +44,6 @@
             this.tsmiService = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSpecialSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.ssStatus = new System.Windows.Forms.StatusStrip();
-            this.ssModbus = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssTMRobot = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssMES = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssDateTime = new System.Windows.Forms.ToolStripStatusLabel();
@@ -196,7 +195,6 @@
             // ssStatus
             // 
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ssModbus,
             this.ssTMRobot,
             this.ssMES,
             this.ssDateTime});
@@ -204,17 +202,6 @@
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Size = new System.Drawing.Size(1264, 24);
             this.ssStatus.TabIndex = 1;
-            // 
-            // ssModbus
-            // 
-            this.ssModbus.BackColor = System.Drawing.Color.Red;
-            this.ssModbus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.ssModbus.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.ssModbus.Name = "ssModbus";
-            this.ssModbus.Size = new System.Drawing.Size(97, 19);
-            this.ssModbus.Text = "Modbus: Offline";
             // 
             // ssTMRobot
             // 
@@ -241,7 +228,7 @@
             // ssDateTime
             // 
             this.ssDateTime.Name = "ssDateTime";
-            this.ssDateTime.Size = new System.Drawing.Size(968, 19);
+            this.ssDateTime.Size = new System.Drawing.Size(1065, 19);
             this.ssDateTime.Spring = true;
             this.ssDateTime.Text = "Date Time";
             this.ssDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -599,6 +586,7 @@
             this.MainMenuStrip = this.mns1;
             this.Name = "FrmMain";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Robotic Vision Inspection System";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
@@ -637,7 +625,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiDisconnect;
         private System.Windows.Forms.StatusStrip ssStatus;
         private System.Windows.Forms.Timer tmrClock;
-        private System.Windows.Forms.ToolStripStatusLabel ssModbus;
         private System.Windows.Forms.ToolStripStatusLabel ssTMRobot;
         private System.Windows.Forms.ToolStripStatusLabel ssDateTime;
         private System.Windows.Forms.PictureBox picMasterImg;
