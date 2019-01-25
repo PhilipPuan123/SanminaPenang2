@@ -10,22 +10,22 @@ using System.Threading;
 using System.IO;
 using System.IO.Compression;
 using TMModbusIF;
+using RVISData;
 
-//**add available status for machine
+//**add modbus combination robot status for overall status
 namespace RVISMMC
 {
     public class RVISML
     {
         #region member data initialization
         //member data
-        string LOCAL_SERVER_PATH = null; // path the zip file going to store at their local server (user flexibility)
-        string MASTER_IMAGE_PATH = @"C:\RVIS\IMG\MASTER\"; //this path will be eg C:\RVIS\IMG\<ownself add Master>\<img.png>
-        string LIVE_IMAGE_PATH = @"C:\RVIS\IMG\LIVE\current.png"; //this path will be eg C:\RVIS\IMG\<ownself add Live>\<img.png>
-        string ROBOT_SAVE_PATH = @"\\PN175\Shared\"; //this path is where robot save the image after inspection
+        string LOCAL_SERVER_PATH = RVISData.SettingData.LocalServerPath; // path the zip file going to store at their local server (user flexibility)
+        string MASTER_IMAGE_PATH = RVISData.SpecialSettingData.UIImageLoadPath + @"MASTER\"; //this path will be eg C:\RVIS\IMG\<ownself add Master>\<img.png>
+        string LIVE_IMAGE_PATH = RVISData.SpecialSettingData.UIImageLoadPath + @"LIVE\current.png"; //this path will be eg C:\RVIS\IMG\<ownself add Live>\<img.png>
+        string ROBOT_SAVE_PATH = RVISData.SpecialSettingData.TMImageSavePath; //this path is where robot save the image after inspection
         string TEMP_IMG_ZIP_PATH = @"C:\RVIS\ZIP\"; //this path directory is used when finish inspection and prepared to zip
 
         bool completeUnitSts = false; //flag for completion of 1 UUT
-        //string imgDir = null; // store the image directory
         private CancellationTokenSource _cts; //Background task resource cancel
 
         //robot sts
@@ -81,10 +81,6 @@ namespace RVISMMC
         {
             //subscribing to the TCPIP event for new data input            
             tcpServer.OnDataReceived += TcpServer_OnDataReceived;
-            //subscribe to OnRecogPub event for process result string
-            //OnResultStringPub += RVISML_OnResultStringPub;
-            //subscribe to OnSerialResultPub event for processing serial result string
-            //OnSerialResultPub += RVISML_OnSerialResultPub;
 
             //Start with system preliminary check (READY Condition)
             if ((robotRunSts == false) && (robotErrSts == false) && (robotPauseSts == false) && (tcpIpSts == true))
@@ -112,23 +108,14 @@ namespace RVISMMC
         //Finish inspection
         public async Task FinishInspection()
         {
-           // string imgFolder = null; // folder path of stored image
-            //string pattern = @"^(?<Folder>[a-zA-Z0-9:\\]+)\\([a-zA-Z0-9.]+)$";
-
-           // Match imgPath = Regex.Match(imgDir, pattern);  //get the dir path
-           // if (imgPath.Success)
-           // {
-              //  imgFolder = imgPath.Result("${Folder}");
-                //zip the file & transfer to local server 
-                try
-                {
-                    await Task.Factory.StartNew(() => { ZipFile.CreateFromDirectory(TEMP_IMG_ZIP_PATH, LOCAL_SERVER_PATH); }, TaskCreationOptions.LongRunning);
-                }
-                catch (DirectoryNotFoundException ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            //}
+            try
+            {
+                await Task.Factory.StartNew(() => { ZipFile.CreateFromDirectory(TEMP_IMG_ZIP_PATH, LOCAL_SERVER_PATH); }, TaskCreationOptions.LongRunning);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         #endregion
@@ -154,7 +141,6 @@ namespace RVISMMC
             //process data ready for JSON converter
             //payload data during inspection might look like this: "testGroup=DeviceControllerPCBA,testName=BoardAssembly_x7screws,result=PASS,img=10-43-16_067.png,end=true"
             //payload data during checking serial : "s\n=12314ACVBbe,img=10-51-49_737.png"
-            //payload data series 
 
             string robot_save_full_path = null; //to obtain the exact image path produced by TM
             string rename_img_path = null;
@@ -185,33 +171,26 @@ namespace RVISMMC
                 }
 
                 robot_save_full_path = ROBOT_SAVE_PATH + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
-                //rename & save image file
-                rename_image = ProcTestGroup + "_" + ProcTestName + ".png";
+                rename_image = ProcTestGroup + "_" + ProcTestName + ".png"; //rename image name to eg DeviceControllerPCBA_BoardAssembly_x7screws.png
                 rename_img_path = TEMP_IMG_ZIP_PATH + rename_image; //eg -> C:\RVIS\ZIP\DeviceControllerPCBA_BoardAssembly_x7screws.png
                 //publish the rename image to GUI
                 if (OnCurrentMasterImgPub != null)
                 {
                     OnCurrentMasterImgPub(MASTER_IMAGE_PATH + rename_image); //publish the image path of current master image required
                 }
-                try
+                if (File.Exists(robot_save_full_path))
                 {
-
-                    System.IO.File.Copy(robot_save_full_path,rename_img_path,false); //copy from robot shared folder to to-be-Zipped folder w/o overwrite 
-                    System.IO.File.Copy(rename_img_path, LIVE_IMAGE_PATH,true); //copy from to-be-Zipped folder to Live image directory file with overwrite
-
-          
+                    System.IO.File.Copy(robot_save_full_path, rename_img_path, false); //copy from robot shared folder to to-be-Zipped folder w/o overwrite 
+                    System.IO.File.Copy(rename_img_path, LIVE_IMAGE_PATH, true); //copy from to-be-Zipped folder to Live image directory file with overwrite
                 }
-                catch(DirectoryNotFoundException)
+                else
                 {
-                   
+                    Console.WriteLine("TM failed to saved image");
                 }
                 if (ProcTestEnd == "True") //check is UUT completed
                 {
-                    //imgDir = ProcLiveImgDir;
                     Task.Factory.StartNew(async () => { await FinishInspection(); }, TaskCreationOptions.LongRunning);
                 }
-
-
             }
             else if (match_serial.Success)
             {
@@ -235,7 +214,6 @@ namespace RVISMMC
         public void GetRobotRunSts()
         {
             //get robot run status function - this can be replace to calling function like in FrmTestToolKit.cs
-            // MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetRunStatus, out robotRunSts);
             lock (getRobotRunStsLock)
             {
                 ModbusControl.GetProjectRunningStatus(ref robotRunSts);
@@ -244,7 +222,6 @@ namespace RVISMMC
 
         public void GetRobotErrSts()
         {
-            //MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetErrorStatus, out robotErrSts);
             lock (getRobotErrStsLock)
             {
                 ModbusControl.GetProjectErrorStatus(ref robotErrSts);
@@ -253,7 +230,6 @@ namespace RVISMMC
 
         public void GetRobotPauseSts()
         {
-            //MError Merr = (MError)ModbusControl.ProcCommand(TMModbusCmd.GetPauseStatus, out robotPauseSts);
             lock (getRobotPauseStsLock)
             {
                 ModbusControl.GetProjectPauseStatus(ref robotPauseSts);

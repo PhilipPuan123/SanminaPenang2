@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RVISData\RVISData.csproj">
+      <Project>{edabc090-af3a-44b5-8f98-8e116c6bdf11}</Project>
+      <Name>RVISData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TcpIF\TcpIF.csproj">
       <Project>{1daa1e3f-10ff-4059-b400-f754d93f410e}</Project>
       <Name>TcpIF</Name>
