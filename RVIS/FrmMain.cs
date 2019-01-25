@@ -243,6 +243,7 @@ namespace RVIS
 
             /* Connect TM Modbus */
             error = ModbusControl.Connect(tmIP,tmModbusPort);
+            if (error != 0)
             {
                 MessageBox.Show("ErrorCode: " + error);
             }
@@ -430,6 +431,18 @@ namespace RVIS
             Image currentImg = Image.FromFile(currentImgDir);
 
             ShowImages(masterImg, currentImg);
+
+            //Image masterImg = Image.FromFile(masterImgDir);
+            //picMasterImg.Image = masterImg;
+            //picMasterImg.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            //using (var fs =new FileStream(currentImgDir, FileMode.Open))
+            //{
+            //    var bmp = new Bitmap(fs);
+            //    picTestImg.Image = (Bitmap)bmp.Clone();
+            //    picTestImg.SizeMode = PictureBoxSizeMode.StretchImage;
+            //}
+
         }
 
         /// <summary>Show master and current test unit image on UI.</summary>

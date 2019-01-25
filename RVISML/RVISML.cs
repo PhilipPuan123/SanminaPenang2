@@ -20,9 +20,7 @@ namespace RVISMMC
         #region member data initialization
         //member data
         string LOCAL_SERVER_PATH = RVISData.SettingData.LocalServerPath; // path the zip file going to store at their local server (user flexibility)
-        string MASTER_IMAGE_PATH = RVISData.SpecialSettingData.UIImageLoadPath + @"MASTER\"; //this path will be eg C:\RVIS\IMG\<ownself add Master>\<img.png>
-        string LIVE_IMAGE_PATH = RVISData.SpecialSettingData.UIImageLoadPath + @"LIVE\current.png"; //this path will be eg C:\RVIS\IMG\<ownself add Live>\<img.png>
-        string ROBOT_SAVE_PATH = RVISData.SpecialSettingData.TMImageSavePath; //this path is where robot save the image after inspection
+        
         string TEMP_IMG_ZIP_PATH = @"C:\RVIS\ZIP\"; //this path directory is used when finish inspection and prepared to zip
 
         bool completeUnitSts = false; //flag for completion of 1 UUT
@@ -140,13 +138,17 @@ namespace RVISMMC
             //payload data during inspection might look like this: "testGroup=DeviceControllerPCBA,testName=BoardAssembly_x7screws,result=PASS,img=10-43-16_067.png,end=true"
             //payload data during checking serial : "s\n=12314ACVBbe,img=10-51-49_737.png"
 
+            string MASTER_IMAGE_PATH = RVISData.SpecialSettingData.UIImageLoadPath + @"MASTER\"; //this path will be eg C:\RVIS\IMG\<ownself add Master>\<img.png>
+            string LIVE_IMAGE_PATH = RVISData.SpecialSettingData.UIImageLoadPath + @"LIVE\current.png"; //this path will be eg C:\RVIS\IMG\<ownself add Live>\<img.png>
+            string ROBOT_SAVE_PATH = RVISData.SpecialSettingData.TMImageSavePath; //this path is where robot save the image after inspection
+
             string robot_save_full_path = null; //to obtain the exact image path produced by TM
             string rename_img_path = null;
             string rename_image = null;
             
 
             //Verify data send from downstream
-            string pattern_checkpoint = @"^testGroup=(?<Testgroup>[a-zA-Z0-9_]+),testName=(?<Testname>[a-zA-Z0-9_]+),result=(?<Result>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9:._-]+),testEnd=(?<End>[a-zA-Z]+)$";
+            string pattern_checkpoint = @"^testGroup=(?<Testgroup>[a-zA-Z0-9_]+),testName=(?<Testname>[a-zA-Z0-9_]+),result=(?<Result>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9._-]+),testEnd=(?<End>[a-zA-Z]+)$";
             string pattern_serial = @"^s\n=(?<Serial>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9:._-]+)$"; //might need imge path zip to the folder
 
 
@@ -165,7 +167,8 @@ namespace RVISMMC
                 ProcTestEnd = match_checkpoint.Result("${End}");
 
 
-                robot_save_full_path = ROBOT_SAVE_PATH + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
+                //robot_save_full_path = ROBOT_SAVE_PATH + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
+                robot_save_full_path = RVISData.SpecialSettingData.TMImageSavePath + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
                 rename_image = ProcTestGroup + "_" + ProcTestName + ".png"; //rename image name to eg DeviceControllerPCBA_BoardAssembly_x7screws.png
                 rename_img_path = TEMP_IMG_ZIP_PATH + rename_image; //eg -> C:\RVIS\ZIP\DeviceControllerPCBA_BoardAssembly_x7screws.png
                 ProcMasterImgDir = MASTER_IMAGE_PATH + rename_image;
