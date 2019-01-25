@@ -41,6 +41,7 @@ namespace RVISMMC
         public string ProcLiveImgDir { get; set; } //payload live image dir
         public string ProcTestEnd { get; set; } //payload 1 UUT completion flag
         public string ProcSerial { get; set; } //payload serial number
+        public string ProcMasterImgDir { get; set; } //payload master image dir
   
         #endregion
 
@@ -49,7 +50,7 @@ namespace RVISMMC
         public delegate void SerialResultPub(string serial, string dir);
         public event SerialResultPub OnSerialResultPub;
         //checkpoint payload result publish
-        public delegate void DownstreamResultPub(string checkpt, string result, string dir, string testEnd);
+        public delegate void DownstreamResultPub(string testgroup,string testname, string result, string masterpath, string testEnd);
         public event DownstreamResultPub OnResultStringPub;
         //background robot status payload publish
         public delegate void RobotStatusPub(bool robotRunSts, bool robotErrSts, bool robotPauseSts);
@@ -57,9 +58,6 @@ namespace RVISMMC
         //tcpip error status publish
         public delegate void ErrStatusPub(bool tcpErr);
         public event ErrStatusPub OnErrStatusPub;
-        //inspection current master image path pub
-        public delegate void CurrentMasterImgPub(string dir);
-        public event CurrentMasterImgPub OnCurrentMasterImgPub;
         #endregion 
 
         #region create related obj required
@@ -145,6 +143,7 @@ namespace RVISMMC
             string robot_save_full_path = null; //to obtain the exact image path produced by TM
             string rename_img_path = null;
             string rename_image = null;
+            
 
             //Verify data send from downstream
             string pattern_checkpoint = @"^testGroup=(?<Testgroup>[a-zA-Z0-9_]+),testName=(?<Testname>[a-zA-Z0-9_]+),result=(?<Result>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9:._-]+),testEnd=(?<End>[a-zA-Z]+)$";
@@ -165,19 +164,13 @@ namespace RVISMMC
                 ProcLiveImgDir = match_checkpoint.Result("${Img}");
                 ProcTestEnd = match_checkpoint.Result("${End}");
 
-                if (OnResultStringPub != null)
-                {
-                    OnResultStringPub(ProcTestName, ProcResult, ProcLiveImgDir, ProcTestEnd);
-                }
 
                 robot_save_full_path = ROBOT_SAVE_PATH + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
                 rename_image = ProcTestGroup + "_" + ProcTestName + ".png"; //rename image name to eg DeviceControllerPCBA_BoardAssembly_x7screws.png
                 rename_img_path = TEMP_IMG_ZIP_PATH + rename_image; //eg -> C:\RVIS\ZIP\DeviceControllerPCBA_BoardAssembly_x7screws.png
+                ProcMasterImgDir = MASTER_IMAGE_PATH + rename_image;
                 //publish the rename image to GUI
-                if (OnCurrentMasterImgPub != null)
-                {
-                    OnCurrentMasterImgPub(MASTER_IMAGE_PATH + rename_image); //publish the image path of current master image required
-                }
+
                 if (File.Exists(robot_save_full_path))
                 {
                     System.IO.File.Copy(robot_save_full_path, rename_img_path, false); //copy from robot shared folder to to-be-Zipped folder w/o overwrite 
@@ -186,6 +179,11 @@ namespace RVISMMC
                 else
                 {
                     Console.WriteLine("TM failed to saved image");
+                }
+                //publish to UI
+                if (OnResultStringPub != null)
+                {
+                    OnResultStringPub(ProcTestGroup, ProcTestName, ProcResult, ProcMasterImgDir, ProcTestEnd);
                 }
                 if (ProcTestEnd == "True") //check is UUT completed
                 {
