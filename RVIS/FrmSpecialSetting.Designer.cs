@@ -66,7 +66,6 @@
             // txtDataSource
             // 
             this.txtDataSource.Location = new System.Drawing.Point(163, 25);
-            this.txtDataSource.MaxLength = 3;
             this.txtDataSource.Name = "txtDataSource";
             this.txtDataSource.Size = new System.Drawing.Size(510, 20);
             this.txtDataSource.TabIndex = 1;
@@ -102,7 +101,6 @@
             // txtAttachDBFilename
             // 
             this.txtAttachDBFilename.Location = new System.Drawing.Point(163, 51);
-            this.txtAttachDBFilename.MaxLength = 15;
             this.txtAttachDBFilename.Name = "txtAttachDBFilename";
             this.txtAttachDBFilename.Size = new System.Drawing.Size(510, 20);
             this.txtAttachDBFilename.TabIndex = 2;
@@ -153,7 +151,6 @@
             // txtTMImageSavePath
             // 
             this.txtTMImageSavePath.Location = new System.Drawing.Point(163, 53);
-            this.txtTMImageSavePath.MaxLength = 3;
             this.txtTMImageSavePath.Name = "txtTMImageSavePath";
             this.txtTMImageSavePath.Size = new System.Drawing.Size(510, 20);
             this.txtTMImageSavePath.TabIndex = 11;
@@ -179,7 +176,6 @@
             // txtUIImageLoadPath
             // 
             this.txtUIImageLoadPath.Location = new System.Drawing.Point(164, 26);
-            this.txtUIImageLoadPath.MaxLength = 3;
             this.txtUIImageLoadPath.Name = "txtUIImageLoadPath";
             this.txtUIImageLoadPath.Size = new System.Drawing.Size(510, 20);
             this.txtUIImageLoadPath.TabIndex = 1;

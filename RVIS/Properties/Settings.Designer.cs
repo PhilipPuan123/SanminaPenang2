@@ -109,7 +109,7 @@ namespace RVIS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Images")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Images\\")]
         public string localServerPath {
             get {
                 return ((string)(this["localServerPath"]));

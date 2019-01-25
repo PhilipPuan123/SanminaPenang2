@@ -101,7 +101,6 @@
             // txtLocalServerPath
             // 
             this.txtLocalServerPath.Location = new System.Drawing.Point(115, 104);
-            this.txtLocalServerPath.MaxLength = 5;
             this.txtLocalServerPath.Name = "txtLocalServerPath";
             this.txtLocalServerPath.Size = new System.Drawing.Size(153, 20);
             this.txtLocalServerPath.TabIndex = 11;

@@ -24,7 +24,7 @@
       <Value Profile="(Default)">39888</Value>
     </Setting>
     <Setting Name="localServerPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Images</Value>
+      <Value Profile="(Default)">C:\Images\</Value>
     </Setting>
     <Setting Name="dataResetFreq" Type="System.String" Scope="User">
       <Value Profile="(Default)">Daily</Value>

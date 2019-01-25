@@ -200,7 +200,6 @@ namespace RVIS
         //}
         #endregion BackgroundWorker
 
-
         #region Timer
         private void InitializeTmrClock()
         {
@@ -425,6 +424,14 @@ namespace RVIS
             richTextBox.AppendText(line + "\r\n");
         }
 
+        private void ShowImages(string masterImgDir, string currentImgDir)
+        {
+            Image masterImg = Image.FromFile(masterImgDir);
+            Image currentImg = Image.FromFile(currentImgDir);
+
+            ShowImages(masterImg, currentImg);
+        }
+
         /// <summary>Show master and current test unit image on UI.</summary>
         private void ShowImages(Image masterImg, Image currentImg)
         {
@@ -584,7 +591,6 @@ namespace RVIS
             AddLineToUnitResult(LINE_SEPARATOR);
 
             /* To-do: Load Image */
-            
         }
 
         private void RvisMMC_OnRobotStatusPub(bool robotRunSts, bool robotErrSts, bool robotPauseSts)
@@ -592,10 +598,15 @@ namespace RVIS
             //throw new NotImplementedException();
         }
 
-        private void RvisMMC_OnResultStringPub(string checkpt, string result, string dir, string testEnd)
+        private void RvisMMC_OnResultStringPub(string testgroup, string testname, string result, string masterpath, string testEnd)
         {
-            string data = checkpt + "\t\t\t" + result;
+            string data = testname + "\t\t\t" + result;
+            string currentImgDir = SpecialSettingData.UIImageLoadPath + @"LIVE\current.png";
+
+            /* Show data */
             AddLineToUnitResult(data);
+            /* Show Images */
+            ShowImages(masterpath, currentImgDir);
         }
         #endregion Event Handler
 
