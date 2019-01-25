@@ -76,6 +76,7 @@
             this.lblOperatorIDVal = new System.Windows.Forms.Label();
             this.grpSystemLog = new System.Windows.Forms.GroupBox();
             this.sfdUnitData = new System.Windows.Forms.SaveFileDialog();
+            this.bgwUIThread = new System.ComponentModel.BackgroundWorker();
             this.mns1.SuspendLayout();
             this.ssStatus.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -143,14 +144,15 @@
             // tsmiConnect
             // 
             this.tsmiConnect.Name = "tsmiConnect";
-            this.tsmiConnect.Size = new System.Drawing.Size(133, 22);
+            this.tsmiConnect.Size = new System.Drawing.Size(180, 22);
             this.tsmiConnect.Text = "Connect";
             this.tsmiConnect.Click += new System.EventHandler(this.tsmiConnect_Click);
             // 
             // tsmiDisconnect
             // 
+            this.tsmiDisconnect.Enabled = false;
             this.tsmiDisconnect.Name = "tsmiDisconnect";
-            this.tsmiDisconnect.Size = new System.Drawing.Size(133, 22);
+            this.tsmiDisconnect.Size = new System.Drawing.Size(180, 22);
             this.tsmiDisconnect.Text = "Disconnect";
             this.tsmiDisconnect.Click += new System.EventHandler(this.tsmiDisconnect_Click);
             // 
@@ -166,14 +168,14 @@
             // tsmiAddRemoveUser
             // 
             this.tsmiAddRemoveUser.Name = "tsmiAddRemoveUser";
-            this.tsmiAddRemoveUser.Size = new System.Drawing.Size(170, 22);
+            this.tsmiAddRemoveUser.Size = new System.Drawing.Size(180, 22);
             this.tsmiAddRemoveUser.Text = "Add/Remove User";
             this.tsmiAddRemoveUser.Click += new System.EventHandler(this.tsmiAddRemoveUser_Click);
             // 
             // tsmiSettings
             // 
             this.tsmiSettings.Name = "tsmiSettings";
-            this.tsmiSettings.Size = new System.Drawing.Size(170, 22);
+            this.tsmiSettings.Size = new System.Drawing.Size(180, 22);
             this.tsmiSettings.Text = "Settings";
             this.tsmiSettings.Click += new System.EventHandler(this.tsmiSettings_Click);
             // 
@@ -561,6 +563,10 @@
             this.grpSystemLog.TabStop = false;
             this.grpSystemLog.Text = "System Log:";
             // 
+            // bgwUIThread
+            // 
+            this.bgwUIThread.WorkerReportsProgress = true;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -659,6 +665,7 @@
         private System.Windows.Forms.SaveFileDialog sfdUnitData;
         private System.Windows.Forms.ToolStripMenuItem tsmiService;
         private System.Windows.Forms.ToolStripMenuItem tsmiSpecialSetting;
+        private System.ComponentModel.BackgroundWorker bgwUIThread;
     }
 }
 

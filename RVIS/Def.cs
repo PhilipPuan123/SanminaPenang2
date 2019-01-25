@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace RVIS
 {
+    internal enum CONNECTION_STS
+    {
+        Disconnected = 0,
+        Connecting,
+        Connected
+    };
+
     internal class UserDataSetting
     {
         /* User id and password length */

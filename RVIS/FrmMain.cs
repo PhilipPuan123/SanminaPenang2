@@ -29,7 +29,6 @@ namespace RVIS
         #region Declaration
         #region Constant
         private const int MESLOG_MAX_LINES = 100;
-        private const int UI_REFRESH_RATE_MS = 500;
         private const string LINE_SEPARATOR = "**************************************************";
         #endregion Constant
 
@@ -52,10 +51,11 @@ namespace RVIS
 
         private bool isInspecting = false;      // flag for inspection in progress
         private bool needLogOff = false;        // flag for log-off required
-
+        
         /* Classes */
         private RVISML rvisMMC = new RVISML();
-        //private Server server;
+        /* Delegate */
+        delegate void AddLineToUnitResultCallback(string line);
         #endregion Declaration
 
         #region Form Controls
@@ -77,9 +77,13 @@ namespace RVIS
         {
             this.Text = MAIN_TITLE;
             InitializeTmrClock();
+            //InitializeBackgroundWorker();
             ShowDateTime();
             EnableAccess(UserData.UserAccess);
             //SampleUI();
+
+            /* Start backgroundWorker */
+            //bgwUIThread.RunWorkerAsync();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -134,6 +138,69 @@ namespace RVIS
         }
         #endregion Buttons
 
+        #region BackgroundWorker
+        //private void InitializeBackgroundWorker()
+        //{
+        //    /* UI Thread */
+        //    bgwUIThread.DoWork += BgwUIThread_DoWork;
+        //    bgwUIThread.ProgressChanged += BgwUIThread_ProgressChanged;
+        //    bgwUIThread.RunWorkerCompleted += BgwUIThread_RunWorkerCompleted;
+        //    bgwUIThread.WorkerReportsProgress = true;
+        //    bgwUIThread.WorkerSupportsCancellation = false;
+        //}
+
+        //private void BgwUIThread_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    BackgroundWorker worker = sender as BackgroundWorker;
+        //    bool updateUI = false;
+        //    while (true)
+        //    {
+        //        if (bgwUIThread.CancellationPending)
+        //        {
+        //            e.Cancel = true;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            if (isConnecting)
+        //            {
+        //                updateUI = true;
+        //            }
+
+        //            if (updateUI)
+        //            {
+        //                bgwUIThread.ReportProgress(0);
+        //                updateUI = false;
+        //            }
+        //        }
+
+        //        Task.Delay(100);
+        //    }
+        //}
+
+        //private void BgwUIThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    UpdateTMConnectionStatus(tmConnSts);
+        //}
+
+        //private void BgwUIThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    if (e.Error != null)
+        //    {
+        //        MessageBox.Show(e.Error.Message);
+        //    }
+        //    else if (e.Cancelled)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //    else
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+        #endregion BackgroundWorker
+
+
         #region Timer
         private void InitializeTmrClock()
         {
@@ -158,11 +225,15 @@ namespace RVIS
         #region Connection
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
+            var statusStrip     = ssTMRobot;
             string serverIP     = SettingData.PcServerIP;
             string serverPort   = SettingData.PcServerPort;
             string tmIP         = SettingData.TmIP;
             string tmModbusPort = SettingData.TmModbusPort;
             int error;
+
+            /* Set status strip to Connecting */
+            UpdateTMConnectionStatus(CONNECTION_STS.Connecting);
 
             /* Start Listerner */
             error = StartListener(serverIP, serverPort);
@@ -173,7 +244,6 @@ namespace RVIS
 
             /* Connect TM Modbus */
             error = ModbusControl.Connect(tmIP,tmModbusPort);
-            if (error != 0)
             {
                 MessageBox.Show("ErrorCode: " + error);
             }
@@ -182,11 +252,15 @@ namespace RVIS
             if (error != 0)
             {
                 StopAllConnectionAndBackgroundTask();
+                /* Set status strip to Disconnected */
+                UpdateTMConnectionStatus(CONNECTION_STS.Disconnected);
             }
             else
             {
                 /* Start background task for status checking */
                 Task.Factory.StartNew(async () => { await rvisMMC.BackgroundSysCheck(); }, TaskCreationOptions.LongRunning);
+                /* Set status strip to Connected */
+                UpdateTMConnectionStatus(CONNECTION_STS.Connected);
 
                 tsmiConnect.Enabled = false;
                 tsmiDisconnect.Enabled = true;
@@ -248,6 +322,8 @@ namespace RVIS
         #endregion Form Controls
 
         #region Form Function
+
+
         private void LoadLoginForm(object sender, EventArgs e)
         {
             using (FrmLogin frmLogin = new FrmLogin())
@@ -324,7 +400,15 @@ namespace RVIS
 
         private void AddLineToUnitResult(string line)
         {
-            AddLine(rtxUnitResult, line);
+            if (InvokeRequired)
+            {
+                AddLineToUnitResultCallback d = new AddLineToUnitResultCallback(AddLineToUnitResult);
+                Invoke(d, new object[] { line });
+            }
+            else
+            {
+                AddLine(rtxUnitResult, line);
+            }
         }
 
         private void AddLine(RichTextBox richTextBox, string line)
@@ -368,9 +452,45 @@ namespace RVIS
             line = "Operator ID\t: " + UserData.ID;
             AddLineToUnitResult(line);
         }
+
+        private void UpdateTMConnectionStatus(CONNECTION_STS status)
+        {
+            string stsText = "";
+            Color backColor = Color.Red;
+
+            switch (status)
+            {
+                case CONNECTION_STS.Connected:
+                    stsText += "Connected";
+                    backColor = Color.Lime;
+                    break;
+                case CONNECTION_STS.Connecting:
+                    stsText += "Connecting";
+                    backColor = Color.Yellow;
+                    break;
+                case CONNECTION_STS.Disconnected:
+                default:
+                    stsText += "Disconnected";
+                    backColor = Color.Red;
+                    break;
+            }
+
+            ssTMRobot.Text = "TM-Robot: " + stsText;
+            ssTMRobot.BackColor = backColor;
+        }
+
         #endregion Form Function
 
         #region Functions
+        //private void RequestUpdateTMConnectionSts( CONNECTION_STS status )
+        //{
+        //    lock (updateTMConnStsLock)
+        //    {
+        //        updateTMConnStatusNeeded = true;
+        //        tmConnSts = status;
+        //    }
+        //}
+
         private void SetCursorToEnd(object sender, EventArgs e)
         {
             RichTextBox rtx = sender as RichTextBox;
@@ -421,30 +541,6 @@ namespace RVIS
         private int StartListener(string serverIP, string serverPort)
         {
             TCPError error = TCPError.OK;
-            ///* Create instance */
-            //if (server == null)
-            //{
-            //    server = new Server();
-            //}
-
-            ///* Set IP and Port number */
-            //error = server.SetConfig(serverIP, serverPort);
-            //if (error != TCPError.OK)
-            //{
-            //    return (int)error;
-            //}
-
-            ///* Start listener */
-            //error = server.Start();
-            //if (error != TCPError.OK)
-            //{
-            //    return (int)error;
-            //}
-
-            ///* return OK */
-            //return (int)error;
-
-
             /* Create instance */
             if (rvisMMC.tcpServer == null)
             {
@@ -471,12 +567,6 @@ namespace RVIS
 
         private void StopListener()
         {
-            ///* Create instance */
-            //if (server != null && server.IsRunning)
-            //{
-            //    server.Stop();
-            //}
-
             /* Create instance */
             if (rvisMMC.tcpServer != null && rvisMMC.tcpServer.IsRunning)
             {
@@ -504,7 +594,8 @@ namespace RVIS
 
         private void RvisMMC_OnResultStringPub(string checkpt, string result, string dir, string testEnd)
         {
-            //throw new NotImplementedException();
+            string data = checkpt + "\t\t\t" + result;
+            AddLineToUnitResult(data);
         }
         #endregion Event Handler
 
@@ -652,8 +743,6 @@ namespace RVIS
                 }
             
             }
-
-
         #endregion Demo
     }
 }
