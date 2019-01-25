@@ -401,7 +401,6 @@
             this.Name = "FrmSetting";
             this.ShowIcon = false;
             this.Text = "Settings";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSetting_FormClosing);
             this.Load += new System.EventHandler(this.FrmSetting_Load);
             this.grpMESConfig.ResumeLayout(false);
             this.grpMESConfig.PerformLayout();

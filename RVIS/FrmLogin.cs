@@ -1,9 +1,4 @@
-﻿/* Todo:
- * - SQL database path
- * - Factorize GenerateSalt and GenerateHashString
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.Data.SqlClient;
+using RVISData;
 
 namespace RVIS
 {
@@ -22,9 +18,9 @@ namespace RVIS
         #region Declaration
         private SqlConnectionStringBuilder sConnStringBuilder = new SqlConnectionStringBuilder()
         {
-            DataSource          = Properties.Settings.Default.SqlDataSource,
-            AttachDBFilename    = Properties.Settings.Default.SqlAttachDbFilename,
-            IntegratedSecurity = true
+            DataSource          = SpecialSettingData.SqlDataSource,
+            AttachDBFilename    = SpecialSettingData.SqlAttachDbFilename,
+            IntegratedSecurity  = true
         };
         private SqlConnection sqlCon;   //SQL Connection
         #endregion Declaration
@@ -32,7 +28,7 @@ namespace RVIS
         #region Property
         public string UserID { get; private set; }
         public string Password { get; private set; }
-        public AccessLevel UserAccess { get; private set; }
+        public  AccessLevel UserAccess { get; private set; }
         #endregion Property
 
         #region Form Control
@@ -43,6 +39,9 @@ namespace RVIS
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
+            /* Enable key preview to track Alt+F4 to prevent form closing */
+            this.KeyPreview = true;
+
             InitializeSetting();
         }
 
@@ -201,6 +200,15 @@ namespace RVIS
             if (e.KeyData == Keys.Enter)
             {
                 btnLogin_Click(sender, e);
+            }
+        }
+
+        private void FrmLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            /* Disable Alt+F4 to close form */
+            if (e.Alt && e.KeyCode == Keys.F4)
+            {
+                e.Handled = true;
             }
         }
         #endregion Form Control

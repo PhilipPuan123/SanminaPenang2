@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using System.Security.Cryptography;
 using System.Data.SqlClient;
+using RVISData;
 
 namespace RVIS
 {
@@ -18,9 +19,9 @@ namespace RVIS
         #region Declaration
         private SqlConnectionStringBuilder sConnStringBuilder = new SqlConnectionStringBuilder()
         {
-            DataSource          = Properties.Settings.Default.SqlDataSource,
-            AttachDBFilename    = Properties.Settings.Default.SqlAttachDbFilename,
-            IntegratedSecurity = true
+            DataSource          = SpecialSettingData.SqlDataSource,
+            AttachDBFilename    = SpecialSettingData.SqlAttachDbFilename,
+            IntegratedSecurity  = true
         };
 
         private SqlConnection sqlCon;       // SQL connection

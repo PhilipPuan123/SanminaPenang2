@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* To-do:
+ * - When send response fail, how to disconnect
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -210,8 +214,9 @@ namespace TcpIF
 
                 while (isRunning)
                 {
-                    SpinWait.SpinUntil(() => { return client.Poll(0, SelectMode.SelectRead) || !isRunning; }, -1);
-                    if (!isRunning) break;
+                    /* Wait unit data received from client or listener is stopped */
+                    SpinWait.SpinUntil(() => { return client.Poll(0, SelectMode.SelectRead) || !isRunning || !client.Connected; }, -1);
+                    if (!isRunning || !client.Connected) break;
                     int length = client.Available;
                     if (length == 0)
                     {
@@ -266,7 +271,7 @@ namespace TcpIF
                     client.Send(responseBytes);
                 }
             }
-            catch
+            catch (Exception e)
             {
                 return TCPError.SendResponseDataFail;
             }
