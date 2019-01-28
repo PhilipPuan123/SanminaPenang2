@@ -354,9 +354,19 @@ namespace TestToolKit
                 execModbusCommand(TMModbusCmd.GetControlBoxDIn);
             }
 
-            private void btnEndModIO_Click(object sender, EventArgs e)
+            private void btnEndModDI_Click(object sender, EventArgs e)
             {
                 execModbusCommand(TMModbusCmd.GetEndModuleDIn);
+            }
+
+            private void btnCtrlBoxDO_Click(object sender, EventArgs e)
+            {
+                execModbusCommand(TMModbusCmd.GetControlBoxDOut);
+            }
+
+            private void btnEndModDO_Click(object sender, EventArgs e)
+            {
+                execModbusCommand(TMModbusCmd.GetEndModuleDOut);
             }
         #endregion TM Modbus Buttons
 

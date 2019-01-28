@@ -31,7 +31,7 @@
             this.grpModbus = new System.Windows.Forms.GroupBox();
             this.grpControl = new System.Windows.Forms.GroupBox();
             this.btnCtrlBoxDI = new System.Windows.Forms.Button();
-            this.btnEndModIO = new System.Windows.Forms.Button();
+            this.btnEndModDI = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
@@ -77,6 +77,8 @@
             this.txtServerIP = new System.Windows.Forms.TextBox();
             this.btnConnectServer = new System.Windows.Forms.Button();
             this.rtxTcpClientLog = new System.Windows.Forms.RichTextBox();
+            this.btnCtrlBoxDO = new System.Windows.Forms.Button();
+            this.btnEndModDO = new System.Windows.Forms.Button();
             this.grpModbus.SuspendLayout();
             this.grpControl.SuspendLayout();
             this.grpStatus.SuspendLayout();
@@ -96,15 +98,17 @@
             this.grpModbus.Controls.Add(this.btnConnect);
             this.grpModbus.Location = new System.Drawing.Point(12, 12);
             this.grpModbus.Name = "grpModbus";
-            this.grpModbus.Size = new System.Drawing.Size(360, 420);
+            this.grpModbus.Size = new System.Drawing.Size(360, 545);
             this.grpModbus.TabIndex = 0;
             this.grpModbus.TabStop = false;
             this.grpModbus.Text = "Modbus";
             // 
             // grpControl
             // 
+            this.grpControl.Controls.Add(this.btnCtrlBoxDO);
+            this.grpControl.Controls.Add(this.btnEndModDO);
             this.grpControl.Controls.Add(this.btnCtrlBoxDI);
-            this.grpControl.Controls.Add(this.btnEndModIO);
+            this.grpControl.Controls.Add(this.btnEndModDI);
             this.grpControl.Controls.Add(this.btnStart);
             this.grpControl.Controls.Add(this.btnStop);
             this.grpControl.Controls.Add(this.btnPause);
@@ -122,7 +126,7 @@
             this.grpControl.Controls.Add(this.btnToolX);
             this.grpControl.Location = new System.Drawing.Point(6, 64);
             this.grpControl.Name = "grpControl";
-            this.grpControl.Size = new System.Drawing.Size(251, 235);
+            this.grpControl.Size = new System.Drawing.Size(251, 363);
             this.grpControl.TabIndex = 22;
             this.grpControl.TabStop = false;
             this.grpControl.Text = "Control:";
@@ -133,19 +137,19 @@
             this.btnCtrlBoxDI.Name = "btnCtrlBoxDI";
             this.btnCtrlBoxDI.Size = new System.Drawing.Size(75, 23);
             this.btnCtrlBoxDI.TabIndex = 20;
-            this.btnCtrlBoxDI.Text = "Ctrl Box DI";
+            this.btnCtrlBoxDI.Text = "CtrlBox DI";
             this.btnCtrlBoxDI.UseVisualStyleBackColor = true;
             this.btnCtrlBoxDI.Click += new System.EventHandler(this.btnCtrlBoxDI_Click);
             // 
-            // btnEndModIO
+            // btnEndModDI
             // 
-            this.btnEndModIO.Location = new System.Drawing.Point(6, 190);
-            this.btnEndModIO.Name = "btnEndModIO";
-            this.btnEndModIO.Size = new System.Drawing.Size(75, 23);
-            this.btnEndModIO.TabIndex = 19;
-            this.btnEndModIO.Text = "End Mod DI";
-            this.btnEndModIO.UseVisualStyleBackColor = true;
-            this.btnEndModIO.Click += new System.EventHandler(this.btnEndModIO_Click);
+            this.btnEndModDI.Location = new System.Drawing.Point(6, 190);
+            this.btnEndModDI.Name = "btnEndModDI";
+            this.btnEndModDI.Size = new System.Drawing.Size(75, 23);
+            this.btnEndModDI.TabIndex = 19;
+            this.btnEndModDI.Text = "EndMod DI";
+            this.btnEndModDI.UseVisualStyleBackColor = true;
+            this.btnEndModDI.Click += new System.EventHandler(this.btnEndModDI_Click);
             // 
             // btnStart
             // 
@@ -376,7 +380,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 302);
+            this.label3.Location = new System.Drawing.Point(9, 430);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 20;
@@ -385,7 +389,7 @@
             // lblOutput
             // 
             this.lblOutput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblOutput.Location = new System.Drawing.Point(6, 315);
+            this.lblOutput.Location = new System.Drawing.Point(9, 443);
             this.lblOutput.Name = "lblOutput";
             this.lblOutput.Size = new System.Drawing.Size(345, 96);
             this.lblOutput.TabIndex = 19;
@@ -602,6 +606,26 @@
             this.rtxTcpClientLog.Text = "";
             this.rtxTcpClientLog.TextChanged += new System.EventHandler(this.rtxTcpClientLog_TextChanged);
             // 
+            // btnCtrlBoxDO
+            // 
+            this.btnCtrlBoxDO.Location = new System.Drawing.Point(87, 219);
+            this.btnCtrlBoxDO.Name = "btnCtrlBoxDO";
+            this.btnCtrlBoxDO.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlBoxDO.TabIndex = 22;
+            this.btnCtrlBoxDO.Text = "CtrlBox DO";
+            this.btnCtrlBoxDO.UseVisualStyleBackColor = true;
+            this.btnCtrlBoxDO.Click += new System.EventHandler(this.btnCtrlBoxDO_Click);
+            // 
+            // btnEndModDO
+            // 
+            this.btnEndModDO.Location = new System.Drawing.Point(6, 219);
+            this.btnEndModDO.Name = "btnEndModDO";
+            this.btnEndModDO.Size = new System.Drawing.Size(75, 23);
+            this.btnEndModDO.TabIndex = 21;
+            this.btnEndModDO.Text = "EndMod DO";
+            this.btnEndModDO.UseVisualStyleBackColor = true;
+            this.btnEndModDO.Click += new System.EventHandler(this.btnEndModDO_Click);
+            // 
             // FrmTestToolKit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -678,8 +702,10 @@
         private System.Windows.Forms.Button btnSendToServer;
         private System.Windows.Forms.TextBox txtClientMsg;
         private System.Windows.Forms.Button btnGetLastError;
-        private System.Windows.Forms.Button btnEndModIO;
+        private System.Windows.Forms.Button btnEndModDI;
         private System.Windows.Forms.Button btnCtrlBoxDI;
+        private System.Windows.Forms.Button btnCtrlBoxDO;
+        private System.Windows.Forms.Button btnEndModDO;
     }
 }
 

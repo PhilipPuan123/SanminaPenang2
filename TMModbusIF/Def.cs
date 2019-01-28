@@ -71,9 +71,9 @@ namespace TMModbusIF
         GetToolCoorRZ,
         GetLastError,
         GetControlBoxDIn,
-        //GetControlBoxDOut,
+        GetControlBoxDOut,
         GetEndModuleDIn,
-        //GetEndModuleDOut
+        GetEndModuleDOut
     }
 
     internal class TMModbusAddress

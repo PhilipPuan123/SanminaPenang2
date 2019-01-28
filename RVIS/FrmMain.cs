@@ -57,8 +57,6 @@ namespace RVIS
 
         /* Classes */
         private RVISML rvisMMC = new RVISML();
-        /* Delegate */
-        delegate void AddLineToUnitResultCallback(string line, bool isTestData);
         #endregion Declaration
 
         #region Form Controls
@@ -89,7 +87,7 @@ namespace RVIS
             StopAllConnectionAndBackgroundTask();
         }
 
-        #region Buttons
+        #region Form Controls-Buttons
         private void btnStart_Click(object sender, EventArgs e)
         {
             /* Start new unit test result */
@@ -133,9 +131,9 @@ namespace RVIS
                 }
             }
         }
-        #endregion Buttons
+        #endregion Form Controls-Buttons
 
-        #region BackgroundWorker
+        #region Form Controls-BackgroundWorker
         //private void InitializeBackgroundWorker()
         //{
         //    /* UI Thread */
@@ -195,9 +193,9 @@ namespace RVIS
         //        throw new NotImplementedException();
         //    }
         //}
-        #endregion BackgroundWorker
+        #endregion Form Controls-BackgroundWorker
 
-        #region Timer
+        #region Form Controls-Timer
         private void InitializeTmrClock()
         {
             tmrClock.Enabled = true;
@@ -240,10 +238,10 @@ namespace RVIS
                     break;
             }
         }
-        #endregion Timer
+        #endregion Form Controls-Timer
 
-        #region MenuStrips
-        #region File
+        #region Form Controls-MenuStrips
+        #region MenuStrips-File
         private void tsmiLogin_Click(object sender, EventArgs e)
         {
             LoadLoginForm(sender, e);
@@ -253,9 +251,9 @@ namespace RVIS
         {
             this.Close();
         }
-        #endregion
+        #endregion MenuStrips-File
 
-        #region Connection
+        #region MenuStrips-Connection
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
             var statusStrip     = ssTMRobot;
@@ -309,9 +307,9 @@ namespace RVIS
             tsmiConnect.Enabled = true;
             tsmiDisconnect.Enabled = false;
         }
-        #endregion Connection
+        #endregion MenuStrips-Connection
 
-        #region Tools
+        #region MenuStrips-Tools
         private void tsmiAddRemoveUser_Click(object sender, EventArgs e)
         {
             FrmAddRemoveUser frmAddRemoveUser = new FrmAddRemoveUser();
@@ -323,16 +321,16 @@ namespace RVIS
             FrmSetting frmSetting = new FrmSetting();
             frmSetting.ShowDialog();
         }
-        #endregion Tools
+        #endregion MenuStrips-Tools
 
-        #region Service
+        #region MenuStrips-Service
         private void tsmiSpecialSetting_Click(object sender, EventArgs e)
         {
             FrmSpecialSetting frmSpecialSetting = new FrmSpecialSetting();
             frmSpecialSetting.ShowDialog();
         }
-        #endregion Service
-        #endregion MenuStrips
+        #endregion MenuStrips-Service
+        #endregion Form Controls-MenuStrips
 
         #region StatusStrip
         /// <summary>Update date and time on UI.</summary>
@@ -396,37 +394,6 @@ namespace RVIS
         #region Update Display
         private void UpdateDisplay()
         {
-            //btnStart.Enabled = false;
-            //btnStop.Enabled = false;
-            //btnSave.Enabled = false;
-            //tsmiLogin.Enabled = false;
-            //tsmiConnection.Enabled = false;
-
-            ///* If user not logged in */
-            //if (!IsLoggedIn())
-            //{
-            //    /* Enable login button only */
-            //    tsmiLogin.Enabled = true;
-            //}
-            ///* If inspection is running */
-            //else if (isInspecting)
-            //{
-            //    /* Enable stop button only */
-            //    btnStop.Enabled = true;
-            //}
-            //else
-            //{
-            //    btnStart.Enabled = true;
-            //    tsmiLogin.Enabled = true;
-            //    tsmiConnection.Enabled = true;
-
-            //    if (rtxUnitResult.TextLength > 0)
-            //    {
-            //        btnSave.Enabled = true;
-            //    }
-            //}
-            //UpdateTestYieldData();
-
             /* File */
             UpdateLoginButton();
             UpdateExitButton();
@@ -438,10 +405,11 @@ namespace RVIS
             UpdateStartButton();
             UpdateStopButton();
             UpdateSaveButton();
+            /* Test Yield */
             UpdateTestYieldData();
         }
 
-        #region File
+        #region Update Display-File
         private void UpdateLoginButton()
         {
             /* Conditions to enable button */
@@ -467,9 +435,9 @@ namespace RVIS
                 tsmiExit.Enabled = false;
             }
         }
-        #endregion File
+        #endregion Update Display-File
 
-        #region Connection
+        #region Update Display-Connection
         private void UpdateToolsMenu()
         {
             /* Conditions to enable button */
@@ -531,8 +499,9 @@ namespace RVIS
                 tsmiDisconnect.Enabled = false;
             }
         }
-        #endregion Connection
+        #endregion Update Display-Connection
 
+        #region Update Display-Buttons
         private void UpdateStartButton()
         {
             /* Conditions to enable button */
@@ -575,6 +544,7 @@ namespace RVIS
                 btnSave.Enabled = false;
             }
         }
+        #endregion Update Display-Buttons
 
         private bool IsLoggedIn()
         {
@@ -615,16 +585,15 @@ namespace RVIS
 
         private void AddLineToUnitResult(string line, bool isTestData = false)
         {
-            if (InvokeRequired)
+            if (rtxUnitResult.InvokeRequired)
             {
-                AddLineToUnitResultCallback d = new AddLineToUnitResultCallback(AddLineToUnitResult);
-                Invoke(d, new object[] { line });
+                rtxUnitResult.Invoke(new Action<string, bool>(AddLineToUnitResult), new object[] { line, isTestData });
             }
             else
             {
                 if (isTestData) rtxUnitResult.SelectionTabs = new int[] { 250, 500, 750, 1000 };
                 else rtxUnitResult.SelectionTabs = new int[] { 50, 100, 150, 200 };
-                
+
                 AddLine(rtxUnitResult, line);
             }
         }

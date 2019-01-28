@@ -195,6 +195,8 @@ namespace RVIS
             Properties.Settings.Default.SqlAttachDbFilename = txtAttachDBFilename.Text;
             Properties.Settings.Default.UIImageLoadPath     = txtUIImageLoadPath.Text;
             Properties.Settings.Default.TMImageSavePath     = txtTMImageSavePath.Text;
+
+            Properties.Settings.Default.Save();
         }
     }
 }

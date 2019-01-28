@@ -209,6 +209,22 @@ namespace TMModbusIF
                     error = GetEndModuleAllDigitalInputs(ref bytes);
                     data += "  " + BitConverter.ToString(bytes);
                     break;
+                case TMModbusCmd.GetControlBoxDOut:
+                    bits = new BitArray(16);
+                    error = GetControlBoxAllDigitalOutputs(ref bits);
+                    data = BitsToString(bits);
+                    bytes = new byte[2];
+                    error = GetControlBoxAllDigitalOutputs(ref bytes);
+                    data += "  " + BitConverter.ToString(bytes);
+                    break;
+                case TMModbusCmd.GetEndModuleDOut:
+                    bits = new BitArray(3);
+                    error = GetEndModuleAllDigitalOutputs(ref bits);
+                    data = BitsToString(bits);
+                    bytes = new byte[1];
+                    error = GetEndModuleAllDigitalOutputs(ref bytes);
+                    data += "  " + BitConverter.ToString(bytes);
+                    break;
             }
 
             /* Set return parameter to empty if error */
@@ -324,6 +340,26 @@ namespace TMModbusIF
         public static int GetEndModuleAllDigitalInputs(ref byte[] result)
         {
             return ReadDigitalInputs(TMModbusAddress.EMOD_DI0, 3, ref result);
+        }
+
+        public static int GetControlBoxAllDigitalOutputs(ref BitArray result)
+        {
+            return ReadDigitalOutputs(TMModbusAddress.CTRL_DO0, 16, ref result);
+        }
+
+        public static int GetControlBoxAllDigitalOutputs(ref byte[] result)
+        {
+            return ReadDigitalOutputs(TMModbusAddress.CTRL_DO0, 16, ref result);
+        }
+
+        public static int GetEndModuleAllDigitalOutputs(ref BitArray result)
+        {
+            return ReadDigitalOutputs(TMModbusAddress.EMOD_DO0, 3, ref result);
+        }
+
+        public static int GetEndModuleAllDigitalOutputs(ref byte[] result)
+        {
+            return ReadDigitalOutputs(TMModbusAddress.EMOD_DO0, 3, ref result);
         }
         #endregion Read IO
 
@@ -519,7 +555,7 @@ namespace TMModbusIF
             /// <summary>
             /// Get all digital inputs on control box.(16-bits) 
             /// </summary>
-            /// <param name="result"></param>
+            /// <param name="result">Return result as bit array.</param>
             /// <returns></returns>
             private static int ReadDigitalInputs(ushort startAddress, ushort numInputs, ref BitArray result)
             {
@@ -533,7 +569,6 @@ namespace TMModbusIF
                     return (int)error;
                 }
                 // Check data size
-
                 if (data.Length == 1 || data.Length == 2) result = new BitArray(data);
                 else return (int)MError.InvalidDataLength;
                 
@@ -543,7 +578,7 @@ namespace TMModbusIF
             /// <summary>
             /// Get all digital inputs on control box.(16-bits) 
             /// </summary>
-            /// <param name="result"></param>
+            /// <param name="result">Return result as bytes.</param>
             /// <returns></returns>
             private static int ReadDigitalInputs(ushort startAddress, ushort numInputs, ref byte[] result)
             {
@@ -557,20 +592,65 @@ namespace TMModbusIF
                     return (int)error;
                 }
                 // Check data size
-
                 if (data.Length == 1 || data.Length == 2) result = data;
                 else return (int)MError.InvalidDataLength;
 
                 return (int)MError.OK;
             }
 
-        /// <summary>
-        /// Read robot status from TM Controller.
-        /// </summary>
-        /// <param name="startAddress">Address from where the data read begins.</param>
-        /// <param name="result">Contains the value of status.</param>
-        /// <returns></returns>
-        private static int ReadRobotStatus(ushort startAddress, ref bool result)
+            /// <summary>
+            /// Get all digital outputs on control box.(16-bits) 
+            /// </summary>
+            /// <param name="result">Return result as bit array.</param>
+            /// <returns></returns>
+            private static int ReadDigitalOutputs(ushort startAddress, ushort numInputs, ref BitArray result)
+            {
+                MError error = MError.OK;
+                byte[] data = null;
+
+                // Read from modbus
+                error = master.ReadCoils(modbusTransactionId++, SLAVE_ID, startAddress, numInputs, ref data);
+                if (error != MError.OK)
+                {
+                    return (int)error;
+                }
+                // Check data size
+                if (data.Length == 1 || data.Length == 2) result = new BitArray(data);
+                else return (int)MError.InvalidDataLength;
+
+                return (int)MError.OK;
+            }
+
+            /// <summary>
+            /// Get all digital inputs on control box.(16-bits) 
+            /// </summary>
+            /// <param name="result">Return result as bytes.</param>
+            /// <returns></returns>
+            private static int ReadDigitalOutputs(ushort startAddress, ushort numInputs, ref byte[] result)
+            {
+                MError error = MError.OK;
+                byte[] data = null;
+
+                // Read from modbus
+                error = master.ReadCoils(modbusTransactionId++, SLAVE_ID, startAddress, numInputs, ref data);
+                if (error != MError.OK)
+                {
+                    return (int)error;
+                }
+                // Check data size
+                if (data.Length == 1 || data.Length == 2) result = data;
+                else return (int)MError.InvalidDataLength;
+
+                return (int)MError.OK;
+            }
+
+            /// <summary>
+            /// Read robot status from TM Controller.
+            /// </summary>
+            /// <param name="startAddress">Address from where the data read begins.</param>
+            /// <param name="result">Contains the value of status.</param>
+            /// <returns></returns>
+            private static int ReadRobotStatus(ushort startAddress, ref bool result)
             {
                 MError error = MError.OK;
                 byte[] data = null;
