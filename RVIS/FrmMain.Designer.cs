@@ -144,7 +144,7 @@
             // tsmiConnect
             // 
             this.tsmiConnect.Name = "tsmiConnect";
-            this.tsmiConnect.Size = new System.Drawing.Size(180, 22);
+            this.tsmiConnect.Size = new System.Drawing.Size(133, 22);
             this.tsmiConnect.Text = "Connect";
             this.tsmiConnect.Click += new System.EventHandler(this.tsmiConnect_Click);
             // 
@@ -152,7 +152,7 @@
             // 
             this.tsmiDisconnect.Enabled = false;
             this.tsmiDisconnect.Name = "tsmiDisconnect";
-            this.tsmiDisconnect.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDisconnect.Size = new System.Drawing.Size(133, 22);
             this.tsmiDisconnect.Text = "Disconnect";
             this.tsmiDisconnect.Click += new System.EventHandler(this.tsmiDisconnect_Click);
             // 
@@ -162,20 +162,20 @@
             this.tsmiAddRemoveUser,
             this.tsmiSettings});
             this.tsmiTools.Name = "tsmiTools";
-            this.tsmiTools.Size = new System.Drawing.Size(48, 20);
+            this.tsmiTools.Size = new System.Drawing.Size(47, 20);
             this.tsmiTools.Text = "Tools";
             // 
             // tsmiAddRemoveUser
             // 
             this.tsmiAddRemoveUser.Name = "tsmiAddRemoveUser";
-            this.tsmiAddRemoveUser.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAddRemoveUser.Size = new System.Drawing.Size(170, 22);
             this.tsmiAddRemoveUser.Text = "Add/Remove User";
             this.tsmiAddRemoveUser.Click += new System.EventHandler(this.tsmiAddRemoveUser_Click);
             // 
             // tsmiSettings
             // 
             this.tsmiSettings.Name = "tsmiSettings";
-            this.tsmiSettings.Size = new System.Drawing.Size(180, 22);
+            this.tsmiSettings.Size = new System.Drawing.Size(170, 22);
             this.tsmiSettings.Text = "Settings";
             this.tsmiSettings.Click += new System.EventHandler(this.tsmiSettings_Click);
             // 

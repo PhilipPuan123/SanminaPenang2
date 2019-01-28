@@ -1,7 +1,8 @@
 ﻿/* To-do:
  * - Force log-off and reset data based on settings(daily/hourly)
- * - Load Image when receive SN event
  * - Status strip update
+ * - Start/Stop button Enable/Disable
+ * - Update Test yield
  */
 
 using System;
@@ -29,7 +30,7 @@ namespace RVIS
         #region Declaration
         #region Constant
         private const int MESLOG_MAX_LINES = 100;
-        private const string LINE_SEPARATOR = "**************************************************";
+        private const string LINE_SEPARATOR = "***********************************************************";
         #endregion Constant
 
         private enum OverallStatus
@@ -49,25 +50,22 @@ namespace RVIS
         private DateTime startTime;
         private DateTime stopTime;
 
-        private bool isInspecting = false;      // flag for inspection in progress
-        private bool needLogOff = false;        // flag for log-off required
-        
+        private static DateTime resetTime;
+        private bool isInspecting           = false;    // flag for inspection in progress
+        private bool isLogOffNeeded         = false;    // flag for required to log-off 
+        private bool isResetTestYieldNeeded = false;    // flag for required to reset test yield
+
         /* Classes */
         private RVISML rvisMMC = new RVISML();
         /* Delegate */
-        delegate void AddLineToUnitResultCallback(string line);
+        delegate void AddLineToUnitResultCallback(string line, bool isTestData);
         #endregion Declaration
 
         #region Form Controls
         public FrmMain()
         {
             InitializeComponent();
-            if (Properties.Settings.Default.NeedUpgrade)
-            {
-                Properties.Settings.Default.Upgrade();
-                Properties.Settings.Default.Save();
-                Properties.Settings.Default.NeedUpgrade = false;
-            }
+            UpgradeConfigFile();
 
             DataUtility.UpdateSettingDataFromConfig();
             DataUtility.UpdateSpecialSettingDataFromConfig();
@@ -77,12 +75,12 @@ namespace RVIS
         {
             this.Text = MAIN_TITLE;
             InitializeTmrClock();
-            //InitializeBackgroundWorker();
             ShowDateTime();
             EnableAccess(UserData.UserAccess);
             //SampleUI();
 
             /* Start backgroundWorker */
+            //InitializeBackgroundWorker();
             //bgwUIThread.RunWorkerAsync();
         }
 
@@ -100,7 +98,6 @@ namespace RVIS
             /* Subscribe to MMC event */
             rvisMMC.OnSerialResultPub += RvisMMC_OnSerialResultPub;
             rvisMMC.OnResultStringPub += RvisMMC_OnResultStringPub;
-            rvisMMC.OnRobotStatusPub += RvisMMC_OnRobotStatusPub;
             
             /* Start MMC */
             rvisMMC.Start();
@@ -206,6 +203,43 @@ namespace RVIS
             tmrClock.Enabled = true;
             tmrClock.Interval = 1000;
         }
+        private void tmrClock_Tick(object sender, EventArgs e)
+        {
+            /* Check if need to logoff and reset test yield */
+            if (ShouldResetNow())
+            {
+                isLogOffNeeded = true;
+                isResetTestYieldNeeded = true;
+            }
+            /* Update current time on status strip */
+            ShowDateTime();
+        }
+
+        private bool ShouldResetNow()
+        {
+            DateTime now = DateTime.Now;
+            if(now > resetTime)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void SetResetTime()
+        {
+            resetTime = DateTime.Now;
+
+            switch (SettingData.DataResetFreq)
+            {
+                case "Hourly":
+                    resetTime.AddHours(1);
+                    break;
+                case "Daily":
+                default:
+                    resetTime.AddDays(1);
+                    break;
+            }
+        }
         #endregion Timer
 
         #region MenuStrips
@@ -301,11 +335,6 @@ namespace RVIS
         #endregion MenuStrips
 
         #region StatusStrip
-        private void tmrClock_Tick(object sender, EventArgs e)
-        {
-            ShowDateTime();
-        }
-
         /// <summary>Update date and time on UI.</summary>
         private void ShowDateTime()
         {
@@ -313,17 +342,15 @@ namespace RVIS
         }
         #endregion StatusStrip
 
-        #region Textbox
+        #region RichTextBox
         private void rtxUnitResult_TextChanged(object sender, EventArgs e)
         {
             SetCursorToEnd(sender, EventArgs.Empty);
         }
-        #endregion Textbox
+        #endregion RichTextBox
         #endregion Form Controls
 
         #region Form Function
-
-
         private void LoadLoginForm(object sender, EventArgs e)
         {
             using (FrmLogin frmLogin = new FrmLogin())
@@ -337,12 +364,13 @@ namespace RVIS
 
                 lblOperatorIDVal.Text = UserData.ID;
                 EnableAccess(UserData.UserAccess);
+
+                SetResetTime();
             }
         }
 
         private void EnableAccess(AccessLevel accessLevel)
         {
-            /* If admin access, set background color to Cyan */
             switch (accessLevel)
             {
                 case AccessLevel.Service:
@@ -365,40 +393,227 @@ namespace RVIS
             UpdateDisplay();
         }
 
+        #region Update Display
         private void UpdateDisplay()
         {
-            btnStart.Enabled = false;
-            btnStop.Enabled = false;
-            btnSave.Enabled = false;
-            tsmiLogin.Enabled = false;
-            tsmiConnection.Enabled = false;
+            //btnStart.Enabled = false;
+            //btnStop.Enabled = false;
+            //btnSave.Enabled = false;
+            //tsmiLogin.Enabled = false;
+            //tsmiConnection.Enabled = false;
 
-            /* If user not logged in */
-            if (String.IsNullOrEmpty(lblOperatorIDVal.Text))
+            ///* If user not logged in */
+            //if (!IsLoggedIn())
+            //{
+            //    /* Enable login button only */
+            //    tsmiLogin.Enabled = true;
+            //}
+            ///* If inspection is running */
+            //else if (isInspecting)
+            //{
+            //    /* Enable stop button only */
+            //    btnStop.Enabled = true;
+            //}
+            //else
+            //{
+            //    btnStart.Enabled = true;
+            //    tsmiLogin.Enabled = true;
+            //    tsmiConnection.Enabled = true;
+
+            //    if (rtxUnitResult.TextLength > 0)
+            //    {
+            //        btnSave.Enabled = true;
+            //    }
+            //}
+            //UpdateTestYieldData();
+
+            /* File */
+            UpdateLoginButton();
+            UpdateExitButton();
+            /* Connection */
+            UpdateConnectionMenu();
+            /* Tools */
+            UpdateToolsMenu();
+            /* Buttons */
+            UpdateStartButton();
+            UpdateStopButton();
+            UpdateSaveButton();
+            UpdateTestYieldData();
+        }
+
+        #region File
+        private void UpdateLoginButton()
+        {
+            /* Conditions to enable button */
+            if (isInspecting == false)
             {
-                /* Enable login button only */
                 tsmiLogin.Enabled = true;
             }
-            /* If inspection is running */
-            else if (isInspecting)
+            else
             {
-                /* Enable stop button only */
+                tsmiLogin.Enabled = false;
+            }
+        }
+
+        private void UpdateExitButton()
+        {
+            /* Conditions to enable button */
+            if (isInspecting == false)
+            {
+                tsmiExit.Enabled = true;
+            }
+            else
+            {
+                tsmiExit.Enabled = false;
+            }
+        }
+        #endregion File
+
+        #region Connection
+        private void UpdateToolsMenu()
+        {
+            /* Conditions to enable button */
+            if (IsLoggedIn() == true    &&
+                isInspecting == false)
+            {
+                tsmiTools.Enabled = true;
+            }
+            else
+            {
+                tsmiTools.Enabled = false;
+            }
+                
+        }
+
+        private void UpdateConnectionMenu()
+        {
+            /* Conditions to enable button */
+            if (IsLoggedIn() == true    &&
+                isInspecting == false)
+            {
+                tsmiConnection.Enabled = true;
+
+                UpdateConnectButton();
+                UpdateDisconnectButton();
+            }
+            else
+            {
+                tsmiConnection.Enabled = false;
+            }
+        }
+
+        private void UpdateConnectButton()
+        {
+            /* Conditions to enable button */
+            if (IsLoggedIn()    == true     &&
+                IsTMConnected() == false    &&
+                isInspecting    == false)
+            {
+                tsmiConnect.Enabled = true;
+            }
+            else
+            {
+                tsmiConnect.Enabled = false;
+            }
+        }
+
+        private void UpdateDisconnectButton()
+        {
+            /* Conditions to enable button */
+            if(IsLoggedIn()     == true &&
+                IsTMConnected() == true &&
+                isInspecting    == false)
+            {
+                tsmiDisconnect.Enabled = true;
+            }
+            else
+            {
+                tsmiDisconnect.Enabled = false;
+            }
+        }
+        #endregion Connection
+
+        private void UpdateStartButton()
+        {
+            /* Conditions to enable button */
+            if (IsLoggedIn()    == true     &&
+                IsTMConnected() == true     &&
+                isInspecting    == false)
+            {
+                btnStart.Enabled = true;
+            }
+            else
+            {
+                btnStart.Enabled = false;
+            }
+        }
+
+        private void UpdateStopButton()
+        {
+            /* Conditions to enable button */
+            if (isInspecting == true)
+            {
                 btnStop.Enabled = true;
             }
             else
             {
-                btnStart.Enabled = true;
-                tsmiLogin.Enabled = true;
-                tsmiConnection.Enabled = true;
-
-                if (rtxUnitResult.TextLength > 0)
-                {
-                    btnSave.Enabled = true;
-                }
+                btnStop.Enabled = false;
             }
         }
 
-        private void AddLineToUnitResult(string line)
+        private void UpdateSaveButton()
+        {
+            /* Conditions to enable button */
+            if (IsLoggedIn()    == true     &&
+                isInspecting    == false    &&
+                rtxUnitResult.TextLength > 0)
+            {
+                btnSave.Enabled = true;
+            }
+            else
+            {
+                btnSave.Enabled = false;
+            }
+        }
+
+        private bool IsLoggedIn()
+        {
+            if (String.IsNullOrEmpty(UserData.ID))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsTMConnected()
+        {
+            if (!rvisMMC.tcpServer.IsRunning || !ModbusControl.IsRunning)
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion Update Display
+
+        #region Form Function-RichTextBox
+        private void StartNewUnitResult()
+        {
+            string line;
+
+            /* Clear unit result */
+            rtxUnitResult.Clear();
+            /* Add line separator to unit result */
+            AddLineToUnitResult(LINE_SEPARATOR);
+            /* Add Start Timestamp to unit result */
+            startTime = DateTime.Now;
+            line = "Start Timestamp\t: " + startTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            AddLineToUnitResult(line);
+            /* Add Operator ID to unit result */
+            line = "Operator ID\t: " + UserData.ID;
+            AddLineToUnitResult(line);
+        }
+
+        private void AddLineToUnitResult(string line, bool isTestData = false)
         {
             if (InvokeRequired)
             {
@@ -407,6 +622,9 @@ namespace RVIS
             }
             else
             {
+                if (isTestData) rtxUnitResult.SelectionTabs = new int[] { 250, 500, 750, 1000 };
+                else rtxUnitResult.SelectionTabs = new int[] { 50, 100, 150, 200 };
+                
                 AddLine(rtxUnitResult, line);
             }
         }
@@ -424,30 +642,14 @@ namespace RVIS
 
             richTextBox.AppendText(line + "\r\n");
         }
+        #endregion Form Function-RichTextBox
 
+        #region Form Function-Image Load
         private void ShowImages(string masterImgDir, string currentImgDir)
         {
-            Image masterImg = Image.FromFile(masterImgDir);
-            Image currentImg = Image.FromFile(currentImgDir);
+            Image masterImg = GetImage(masterImgDir);
+            Image currentImg = GetImage(currentImgDir);
 
-            ShowImages(masterImg, currentImg);
-
-            //Image masterImg = Image.FromFile(masterImgDir);
-            //picMasterImg.Image = masterImg;
-            //picMasterImg.SizeMode = PictureBoxSizeMode.StretchImage;
-
-            //using (var fs =new FileStream(currentImgDir, FileMode.Open))
-            //{
-            //    var bmp = new Bitmap(fs);
-            //    picTestImg.Image = (Bitmap)bmp.Clone();
-            //    picTestImg.SizeMode = PictureBoxSizeMode.StretchImage;
-            //}
-
-        }
-
-        /// <summary>Show master and current test unit image on UI.</summary>
-        private void ShowImages(Image masterImg, Image currentImg)
-        {
             /* Show master image */
             picMasterImg.Image = masterImg;
             picMasterImg.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -456,22 +658,18 @@ namespace RVIS
             picTestImg.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
-        private void StartNewUnitResult()
+        /// <summary>Get image from directory and release the resource.</summary>
+        /// <param name="imgDir">Image directory including filename</param>
+        /// <returns></returns>
+        private Image GetImage(string imgDir)
         {
-            string line;
-
-            /* Clear unit result */
-            rtxUnitResult.Clear();
-            /* Add line separator to unit result */
-            AddLineToUnitResult(LINE_SEPARATOR);
-            /* Add Start Timestamp to unit result */
-            startTime = DateTime.Now;
-            line = "Start Timestamp\t: " + startTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            AddLineToUnitResult(line);
-            /* Add Operator ID to unit result */
-            line = "Operator ID\t: " + UserData.ID;
-            AddLineToUnitResult(line);
+            using(Image img = Image.FromFile(imgDir))
+            {
+                Bitmap bmp = new Bitmap(img);
+                return bmp;
+            }
         }
+        #endregion Form Function-Image Load
 
         private void UpdateTMConnectionStatus(CONNECTION_STS status)
         {
@@ -502,14 +700,16 @@ namespace RVIS
         #endregion Form Function
 
         #region Functions
-        //private void RequestUpdateTMConnectionSts( CONNECTION_STS status )
-        //{
-        //    lock (updateTMConnStsLock)
-        //    {
-        //        updateTMConnStatusNeeded = true;
-        //        tmConnSts = status;
-        //    }
-        //}
+        /// <summary>Upgrade config file if necessary.</summary>
+        private void UpgradeConfigFile()
+        {
+            if (Properties.Settings.Default.NeedUpgrade)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.NeedUpgrade = false;
+            }
+        }
 
         private void SetCursorToEnd(object sender, EventArgs e)
         {
@@ -557,7 +757,24 @@ namespace RVIS
                 ModbusControl.Disconnect();
             }
         }
+        #endregion Functions
 
+        #region Test Yield
+        private void ResetTestYieldData()
+        {
+            TestYieldData.TotalTestedUnits = 0;
+            TestYieldData.TotalPassedUnits = 0;
+        }
+
+        private void UpdateTestYieldData()
+        {
+            lblTotalVal.Text = TestYieldData.TotalTestedUnits.ToString();
+            lblPassVal.Text = TestYieldData.TotalPassedUnits.ToString();
+            lblRateVal.Text = TestYieldData.PassingRate.ToString("P");
+        }
+        #endregion Test Yield
+
+        #region Start/Stop Listener
         private int StartListener(string serverIP, string serverPort)
         {
             TCPError error = TCPError.OK;
@@ -593,33 +810,30 @@ namespace RVIS
                 rvisMMC.tcpServer.Stop();
             }
         }
-        #endregion Functions
+        #endregion Start/Stop Listener
 
         #region Event Handler
-        private void RvisMMC_OnSerialResultPub(string serial, string dir)
+        private void RvisMMC_OnSerialResultPub(string serial, string masterImgDir)
         {
+            string currentImgDir = SpecialSettingData.UIImageLoadPath + @"LIVE\current.png";
+
             /* Add SN to unit result */
             AddLineToUnitResult("Serial Number\t: " + serial);
             /* Add line separator to unit result */
             AddLineToUnitResult(LINE_SEPARATOR);
-
-            /* To-do: Load Image */
+            /* Show Images */
+            ShowImages(masterImgDir, currentImgDir);
         }
 
-        private void RvisMMC_OnRobotStatusPub(bool robotRunSts, bool robotErrSts, bool robotPauseSts)
+        private void RvisMMC_OnResultStringPub(string testgroup, string testname, string result, string masterImgDir, string testEnd)
         {
-            //throw new NotImplementedException();
-        }
-
-        private void RvisMMC_OnResultStringPub(string testgroup, string testname, string result, string masterpath, string testEnd)
-        {
-            string data = testname + "\t\t\t" + result;
+            string data = testname + "\t" + result;
             string currentImgDir = SpecialSettingData.UIImageLoadPath + @"LIVE\current.png";
 
             /* Show data */
-            AddLineToUnitResult(data);
+            AddLineToUnitResult(data, true);
             /* Show Images */
-            ShowImages(masterpath, currentImgDir);
+            ShowImages(masterImgDir, currentImgDir);
         }
         #endregion Event Handler
 
@@ -680,6 +894,7 @@ namespace RVIS
                 DateTime startTime = DateTime.Now;
                 DateTime stopTime;
                 string cycleTime = "";
+                rtxUnitResult.SelectionTabs = new int[] { 8, 16, 24, 32 };
 
                 rtxUnitResult.Clear();
                 AddLine(rtxUnitResult, "**************************************************");
@@ -725,9 +940,9 @@ namespace RVIS
 
             private void SampleImage()
             {
-                Image okSample = Image.FromFile("..\\..\\img\\OKSample.png");
-                Image ngSample = Image.FromFile("..\\..\\img\\NGSample.png");
-                ShowImages(okSample, ngSample);
+                string okSampleDir = @"..\..\img\OKSample.png";
+                string ngSampleDir = @"..\..\img\NGSample.png";
+                ShowImages(okSampleDir, ngSampleDir);
             }
 
             private void SampleTestYield()

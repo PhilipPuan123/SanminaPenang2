@@ -20,7 +20,6 @@ namespace RVISMMC
         #region member data initialization
         //member data
         string LOCAL_SERVER_PATH = RVISData.SettingData.LocalServerPath; // path the zip file going to store at their local server (user flexibility)
-        
         string TEMP_IMG_ZIP_PATH = @"C:\RVIS\ZIP\"; //this path directory is used when finish inspection and prepared to zip
 
         bool completeUnitSts = false; //flag for completion of 1 UUT
@@ -135,7 +134,7 @@ namespace RVISMMC
         public void ResultDataProcces(object sender,string parameter)
         {
             //process data ready for JSON converter
-            //payload data during inspection might look like this: "testGroup=DeviceControllerPCBA,testName=BoardAssembly_x7screws,result=PASS,img=10-43-16_067.png,end=true"
+            //payload data during inspection might look like this: "testGroup=DeviceControllerPCBA,testName=BoardAssembly_x7screws,result=PASS,img=10-43-16_067.png,testEnd=TRUE"
             //payload data during checking serial : "s\n=12314ACVBbe,img=10-51-49_737.png"
 
             string MASTER_IMAGE_PATH = RVISData.SpecialSettingData.UIImageLoadPath + @"MASTER\"; //this path will be eg C:\RVIS\IMG\<ownself add Master>\<img.png>
@@ -158,7 +157,7 @@ namespace RVISMMC
             if (match_checkpoint.Success)
             {
                 //reply to robot once received data
-                tcpServer.ResponseToClient(sender, "Ok");
+                tcpServer.ResponseToClient(sender, "OK");
 
                 ProcTestGroup = match_checkpoint.Result("${Testgroup}");
                 ProcTestName = match_checkpoint.Result("${Testname}");
@@ -188,7 +187,7 @@ namespace RVISMMC
                 {
                     OnResultStringPub(ProcTestGroup, ProcTestName, ProcResult, ProcMasterImgDir, ProcTestEnd);
                 }
-                if (ProcTestEnd == "True") //check is UUT completed
+                if (ProcTestEnd.ToUpper() == "TRUE") //check is UUT completed
                 {
                     Task.Factory.StartNew(async () => { await FinishInspection(); }, TaskCreationOptions.LongRunning);
                 }
@@ -196,7 +195,7 @@ namespace RVISMMC
             else if (match_serial.Success)
             {
                 //reply to robot once received data
-                tcpServer.ResponseToClient(sender, "Ok");
+                tcpServer.ResponseToClient(sender, "OK");
 
                 ProcSerial = match_serial.Result("${Serial}");
                 ProcLiveImgDir = match_serial.Result("${Img}");
