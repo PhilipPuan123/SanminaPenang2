@@ -201,7 +201,7 @@ namespace RVISMMC
 
                 if (File.Exists(robot_save_full_path))
                 {
-                    System.IO.File.Copy(robot_save_full_path, rename_img_path, false); //copy from robot shared folder to to-be-Zipped folder w/o overwrite 
+                    System.IO.File.Move(robot_save_full_path, rename_img_path); //move from robot shared folder to to-be-Zipped folder w/o overwrite 
                     System.IO.File.Copy(rename_img_path, LIVE_IMAGE_PATH, true); //copy from to-be-Zipped folder to Live image directory file with overwrite
                 }
                 else
@@ -226,6 +226,21 @@ namespace RVISMMC
                 ProcSerial = match_serial.Result("${Serial}");
                 ProcLiveImgDir = match_serial.Result("${Img}");
 
+                //robot_save_full_path = ROBOT_SAVE_PATH + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
+                robot_save_full_path = RVISData.SpecialSettingData.TMImageSavePath + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
+                rename_image = ProcSerial + ".png"; //rename image name to eg 18KLBN456.png
+                rename_img_path = TEMP_IMG_ZIP_PATH + @"\" + rename_image; //eg -> C:\RVIS\ZIP\18KLBN456.png /**addition "\" 28/1-1649
+                ProcMasterImgDir = MASTER_IMAGE_PATH + rename_image;
+
+                if (File.Exists(robot_save_full_path))
+                {
+                    System.IO.File.Move(robot_save_full_path, rename_img_path); //move from robot shared folder to to-be-Zipped folder w/o overwrite 
+                    System.IO.File.Copy(rename_img_path, LIVE_IMAGE_PATH, true); //copy from to-be-Zipped folder to Live image directory file with overwrite
+                }
+                else
+                {
+                    Console.WriteLine("TM failed to saved image");
+                }
                 if (OnSerialResultPub != null)
                 {
                     OnSerialResultPub(ProcSerial, ProcLiveImgDir);
