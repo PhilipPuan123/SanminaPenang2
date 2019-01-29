@@ -75,12 +75,12 @@
             this.txtServerIP = new System.Windows.Forms.TextBox();
             this.btnConnectServer = new System.Windows.Forms.Button();
             this.rtxTcpClientLog = new System.Windows.Forms.RichTextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.grpDIORead = new System.Windows.Forms.GroupBox();
             this.btnCtrlBoxDO = new System.Windows.Forms.Button();
             this.btnEndModDO = new System.Windows.Forms.Button();
             this.btnCtrlBoxDI = new System.Windows.Forms.Button();
             this.btnEndModDI = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.grpCtrlBoxDIWrite = new System.Windows.Forms.GroupBox();
             this.btnCtrlDO0 = new System.Windows.Forms.Button();
             this.btnCtrlDO1 = new System.Windows.Forms.Button();
             this.btnCtrlDO2 = new System.Windows.Forms.Button();
@@ -97,7 +97,7 @@
             this.btnCtrlDO11 = new System.Windows.Forms.Button();
             this.btnCtrlDO10 = new System.Windows.Forms.Button();
             this.btnCtrlDO9 = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.grpEndModDIWrite = new System.Windows.Forms.GroupBox();
             this.btnEndModDO2 = new System.Windows.Forms.Button();
             this.btnEndModDO1 = new System.Windows.Forms.Button();
             this.btnEndModDO0 = new System.Windows.Forms.Button();
@@ -107,16 +107,16 @@
             this.groupBox1.SuspendLayout();
             this.grpTcpServer.SuspendLayout();
             this.grpTcpClient.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.grpDIORead.SuspendLayout();
+            this.grpCtrlBoxDIWrite.SuspendLayout();
+            this.grpEndModDIWrite.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpModbus
             // 
-            this.grpModbus.Controls.Add(this.groupBox4);
-            this.grpModbus.Controls.Add(this.groupBox3);
-            this.grpModbus.Controls.Add(this.groupBox2);
+            this.grpModbus.Controls.Add(this.grpEndModDIWrite);
+            this.grpModbus.Controls.Add(this.grpCtrlBoxDIWrite);
+            this.grpModbus.Controls.Add(this.grpDIORead);
             this.grpModbus.Controls.Add(this.grpControl);
             this.grpModbus.Controls.Add(this.grpStatus);
             this.grpModbus.Controls.Add(this.label3);
@@ -610,18 +610,18 @@
             this.rtxTcpClientLog.Text = "";
             this.rtxTcpClientLog.TextChanged += new System.EventHandler(this.rtxTcpClientLog_TextChanged);
             // 
-            // groupBox2
+            // grpDIORead
             // 
-            this.groupBox2.Controls.Add(this.btnCtrlBoxDO);
-            this.groupBox2.Controls.Add(this.btnEndModDO);
-            this.groupBox2.Controls.Add(this.btnCtrlBoxDI);
-            this.groupBox2.Controls.Add(this.btnEndModDI);
-            this.groupBox2.Location = new System.Drawing.Point(257, 267);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(97, 142);
-            this.groupBox2.TabIndex = 23;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Digital IO Read:";
+            this.grpDIORead.Controls.Add(this.btnCtrlBoxDO);
+            this.grpDIORead.Controls.Add(this.btnEndModDO);
+            this.grpDIORead.Controls.Add(this.btnCtrlBoxDI);
+            this.grpDIORead.Controls.Add(this.btnEndModDI);
+            this.grpDIORead.Location = new System.Drawing.Point(257, 267);
+            this.grpDIORead.Name = "grpDIORead";
+            this.grpDIORead.Size = new System.Drawing.Size(97, 142);
+            this.grpDIORead.TabIndex = 23;
+            this.grpDIORead.TabStop = false;
+            this.grpDIORead.Text = "Digital IO Read:";
             // 
             // btnCtrlBoxDO
             // 
@@ -631,6 +631,7 @@
             this.btnCtrlBoxDO.TabIndex = 26;
             this.btnCtrlBoxDO.Text = "CtrlBox DO";
             this.btnCtrlBoxDO.UseVisualStyleBackColor = true;
+            this.btnCtrlBoxDO.Click += new System.EventHandler(this.btnCtrlBoxDO_Click);
             // 
             // btnEndModDO
             // 
@@ -640,6 +641,7 @@
             this.btnEndModDO.TabIndex = 25;
             this.btnEndModDO.Text = "EndMod DO";
             this.btnEndModDO.UseVisualStyleBackColor = true;
+            this.btnEndModDO.Click += new System.EventHandler(this.btnEndModDO_Click);
             // 
             // btnCtrlBoxDI
             // 
@@ -649,6 +651,7 @@
             this.btnCtrlBoxDI.TabIndex = 24;
             this.btnCtrlBoxDI.Text = "CtrlBox DI";
             this.btnCtrlBoxDI.UseVisualStyleBackColor = true;
+            this.btnCtrlBoxDI.Click += new System.EventHandler(this.btnCtrlBoxDI_Click);
             // 
             // btnEndModDI
             // 
@@ -658,31 +661,32 @@
             this.btnEndModDI.TabIndex = 23;
             this.btnEndModDI.Text = "EndMod DI";
             this.btnEndModDI.UseVisualStyleBackColor = true;
+            this.btnEndModDI.Click += new System.EventHandler(this.btnEndModDI_Click);
             // 
-            // groupBox3
+            // grpCtrlBoxDIWrite
             // 
-            this.groupBox3.Controls.Add(this.btnCtrlDO15);
-            this.groupBox3.Controls.Add(this.btnCtrlDO14);
-            this.groupBox3.Controls.Add(this.btnCtrlDO13);
-            this.groupBox3.Controls.Add(this.btnCtrlDO12);
-            this.groupBox3.Controls.Add(this.btnCtrlDO11);
-            this.groupBox3.Controls.Add(this.btnCtrlDO10);
-            this.groupBox3.Controls.Add(this.btnCtrlDO9);
-            this.groupBox3.Controls.Add(this.btnCtrlDO8);
-            this.groupBox3.Controls.Add(this.btnCtrlDO7);
-            this.groupBox3.Controls.Add(this.btnCtrlDO6);
-            this.groupBox3.Controls.Add(this.btnCtrlDO5);
-            this.groupBox3.Controls.Add(this.btnCtrlDO4);
-            this.groupBox3.Controls.Add(this.btnCtrlDO3);
-            this.groupBox3.Controls.Add(this.btnCtrlDO2);
-            this.groupBox3.Controls.Add(this.btnCtrlDO1);
-            this.groupBox3.Controls.Add(this.btnCtrlDO0);
-            this.groupBox3.Location = new System.Drawing.Point(360, 148);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(177, 261);
-            this.groupBox3.TabIndex = 24;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Digital IO Write:";
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO15);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO14);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO13);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO12);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO11);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO10);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO9);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO8);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO7);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO6);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO5);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO4);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO3);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO2);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO1);
+            this.grpCtrlBoxDIWrite.Controls.Add(this.btnCtrlDO0);
+            this.grpCtrlBoxDIWrite.Location = new System.Drawing.Point(360, 148);
+            this.grpCtrlBoxDIWrite.Name = "grpCtrlBoxDIWrite";
+            this.grpCtrlBoxDIWrite.Size = new System.Drawing.Size(177, 261);
+            this.grpCtrlBoxDIWrite.TabIndex = 24;
+            this.grpCtrlBoxDIWrite.TabStop = false;
+            this.grpCtrlBoxDIWrite.Text = "Digital IO Write:";
             // 
             // btnCtrlDO0
             // 
@@ -844,17 +848,17 @@
             this.btnCtrlDO9.UseVisualStyleBackColor = true;
             this.btnCtrlDO9.Click += new System.EventHandler(this.btnCtrlDO9_Click);
             // 
-            // groupBox4
+            // grpEndModDIWrite
             // 
-            this.groupBox4.Controls.Add(this.btnEndModDO2);
-            this.groupBox4.Controls.Add(this.btnEndModDO1);
-            this.groupBox4.Controls.Add(this.btnEndModDO0);
-            this.groupBox4.Location = new System.Drawing.Point(366, 64);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(177, 78);
-            this.groupBox4.TabIndex = 25;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Digital IO Write:";
+            this.grpEndModDIWrite.Controls.Add(this.btnEndModDO2);
+            this.grpEndModDIWrite.Controls.Add(this.btnEndModDO1);
+            this.grpEndModDIWrite.Controls.Add(this.btnEndModDO0);
+            this.grpEndModDIWrite.Location = new System.Drawing.Point(366, 64);
+            this.grpEndModDIWrite.Name = "grpEndModDIWrite";
+            this.grpEndModDIWrite.Size = new System.Drawing.Size(177, 78);
+            this.grpEndModDIWrite.TabIndex = 25;
+            this.grpEndModDIWrite.TabStop = false;
+            this.grpEndModDIWrite.Text = "Digital IO Write:";
             // 
             // btnEndModDO2
             // 
@@ -909,9 +913,9 @@
             this.grpTcpServer.PerformLayout();
             this.grpTcpClient.ResumeLayout(false);
             this.grpTcpClient.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
+            this.grpDIORead.ResumeLayout(false);
+            this.grpCtrlBoxDIWrite.ResumeLayout(false);
+            this.grpEndModDIWrite.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -965,7 +969,7 @@
         private System.Windows.Forms.Button btnSendToServer;
         private System.Windows.Forms.TextBox txtClientMsg;
         private System.Windows.Forms.Button btnGetLastError;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox grpCtrlBoxDIWrite;
         private System.Windows.Forms.Button btnCtrlDO15;
         private System.Windows.Forms.Button btnCtrlDO14;
         private System.Windows.Forms.Button btnCtrlDO13;
@@ -982,12 +986,12 @@
         private System.Windows.Forms.Button btnCtrlDO2;
         private System.Windows.Forms.Button btnCtrlDO1;
         private System.Windows.Forms.Button btnCtrlDO0;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox grpDIORead;
         private System.Windows.Forms.Button btnCtrlBoxDO;
         private System.Windows.Forms.Button btnEndModDO;
         private System.Windows.Forms.Button btnCtrlBoxDI;
         private System.Windows.Forms.Button btnEndModDI;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox grpEndModDIWrite;
         private System.Windows.Forms.Button btnEndModDO2;
         private System.Windows.Forms.Button btnEndModDO1;
         private System.Windows.Forms.Button btnEndModDO0;

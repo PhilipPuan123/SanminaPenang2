@@ -457,7 +457,7 @@ namespace TMModbusIF
         }
         public static int SetControlBox_DO5(bool onOff)
         {
-            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO2, onOff);
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO5, onOff);
         }
         public static int SetControlBox_DO6(bool onOff)
         {

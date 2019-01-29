@@ -43,7 +43,9 @@ namespace TestToolKit
         {
             grpControl.Enabled = false;
             grpStatus.Enabled = false;
-
+            grpCtrlBoxDIWrite.Enabled = false;
+            grpDIORead.Enabled = false;
+            grpEndModDIWrite.Enabled = false;
             btnSendToServer.Enabled = false;
 
             bgwUIThread.DoWork += BgwUIThread_DoWork;
@@ -496,6 +498,9 @@ namespace TestToolKit
 
             grpControl.Enabled = true;
             grpStatus.Enabled = true;
+            grpCtrlBoxDIWrite.Enabled = true;
+            grpDIORead.Enabled = true;
+            grpEndModDIWrite.Enabled = true;
         }
 
         private void ModbusDisconnectedUI()
@@ -505,6 +510,9 @@ namespace TestToolKit
 
             grpControl.Enabled = false;
             grpStatus.Enabled = false;
+            grpCtrlBoxDIWrite.Enabled = false;
+            grpDIORead.Enabled = false;
+            grpEndModDIWrite.Enabled = false;
         }
 
         /// <summary>
