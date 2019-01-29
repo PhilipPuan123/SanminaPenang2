@@ -133,8 +133,7 @@ namespace RVIS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\12127\\Documents\\Visual Studio 2017\\Projects\\Work\\RVIS\\RVIS\\db\\RVIS_DB.md" +
-            "f")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\RVIS\\db\\RVIS_DB.mdf")]
         public string SqlAttachDbFilename {
             get {
                 return ((string)(this["SqlAttachDbFilename"]));

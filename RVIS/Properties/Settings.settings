@@ -30,7 +30,7 @@
       <Value Profile="(Default)">Daily</Value>
     </Setting>
     <Setting Name="SqlAttachDbFilename" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\12127\Documents\Visual Studio 2017\Projects\Work\RVIS\RVIS\db\RVIS_DB.mdf</Value>
+      <Value Profile="(Default)">C:\RVIS\db\RVIS_DB.mdf</Value>
     </Setting>
     <Setting Name="SqlDataSource" Type="System.String" Scope="User">
       <Value Profile="(Default)">(LocalDB)\MSSQLLocalDB</Value>
