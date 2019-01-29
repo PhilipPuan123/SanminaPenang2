@@ -1,8 +1,6 @@
 ﻿/* To-do:
  * - Force log-off and reset data based on settings(daily/hourly)
- * - Status strip update
- * - Start/Stop button Enable/Disable
- * - Update Test yield
+ * - Update Test yield on test end
  */
 
 using System;
@@ -54,7 +52,7 @@ namespace RVIS
         private bool isInspecting           = false;    // flag for inspection in progress
         private bool isLogOffNeeded         = false;    // flag for required to log-off 
         private bool isResetTestYieldNeeded = false;    // flag for required to reset test yield
-
+        private CONNECTION_STS tmConnectionSts = CONNECTION_STS.Disconnected;
         /* Classes */
         private RVISML rvisMMC = new RVISML();
         #endregion Declaration
@@ -78,8 +76,8 @@ namespace RVIS
             //SampleUI();
 
             /* Start backgroundWorker */
-            //InitializeBackgroundWorker();
-            //bgwUIThread.RunWorkerAsync();
+            InitializeBackgroundWorker();
+            bgwUIThread.RunWorkerAsync();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -134,65 +132,61 @@ namespace RVIS
         #endregion Form Controls-Buttons
 
         #region Form Controls-BackgroundWorker
-        //private void InitializeBackgroundWorker()
-        //{
-        //    /* UI Thread */
-        //    bgwUIThread.DoWork += BgwUIThread_DoWork;
-        //    bgwUIThread.ProgressChanged += BgwUIThread_ProgressChanged;
-        //    bgwUIThread.RunWorkerCompleted += BgwUIThread_RunWorkerCompleted;
-        //    bgwUIThread.WorkerReportsProgress = true;
-        //    bgwUIThread.WorkerSupportsCancellation = false;
-        //}
+        private void InitializeBackgroundWorker()
+        {
+            /* UI Thread */
+            bgwUIThread.DoWork += BgwUIThread_DoWork;
+            bgwUIThread.ProgressChanged += BgwUIThread_ProgressChanged;
+            bgwUIThread.RunWorkerCompleted += BgwUIThread_RunWorkerCompleted;
+            bgwUIThread.WorkerReportsProgress = true;
+            bgwUIThread.WorkerSupportsCancellation = false;
+        }
 
-        //private void BgwUIThread_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    BackgroundWorker worker = sender as BackgroundWorker;
-        //    bool updateUI = false;
-        //    while (true)
-        //    {
-        //        if (bgwUIThread.CancellationPending)
-        //        {
-        //            e.Cancel = true;
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            if (isConnecting)
-        //            {
-        //                updateUI = true;
-        //            }
+        private void BgwUIThread_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            while (true)
+            {
+                if (bgwUIThread.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    /* Check TM Connection status */
+                    if (tmConnectionSts == CONNECTION_STS.Connected &&
+                        IsTMConnected() != true)
+                    {
+                        tmConnectionSts = CONNECTION_STS.Disconnected;
+                    }
 
-        //            if (updateUI)
-        //            {
-        //                bgwUIThread.ReportProgress(0);
-        //                updateUI = false;
-        //            }
-        //        }
+                    worker.ReportProgress(0);
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
+        }
 
-        //        Task.Delay(100);
-        //    }
-        //}
+        private void BgwUIThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            UpdateDisplay();
+        }
 
-        //private void BgwUIThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    UpdateTMConnectionStatus(tmConnSts);
-        //}
-
-        //private void BgwUIThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    if (e.Error != null)
-        //    {
-        //        MessageBox.Show(e.Error.Message);
-        //    }
-        //    else if (e.Cancelled)
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //    else
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
+        private void BgwUIThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+            else if (e.Cancelled)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
         #endregion Form Controls-BackgroundWorker
 
         #region Form Controls-Timer
@@ -256,48 +250,93 @@ namespace RVIS
         #region MenuStrips-Connection
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
-            var statusStrip     = ssTMRobot;
+            ////var statusStrip     = ssTMRobot;
+            //string serverIP     = SettingData.PcServerIP;
+            //string serverPort   = SettingData.PcServerPort;
+            //string tmIP         = SettingData.TmIP;
+            //string tmModbusPort = SettingData.TmModbusPort;
+            //int error;
+
+            ///* Set status strip to Connecting */
+            //tmConnectionSts = CONNECTION_STS.Connecting;
+
+            ///* Start Listerner */
+            //error = StartListener(serverIP, serverPort);
+            //if(error != 0)
+            //{
+            //    MessageBox.Show("ErrorCode: "+ error);
+            //}
+
+            ///* Connect TM Modbus */
+            //error = ModbusControl.Connect(tmIP,tmModbusPort);
+            //if (error != 0)
+            //{
+            //    MessageBox.Show("ErrorCode: " + error);
+            //}
+
+            ///* If error */
+            //if (error != 0)
+            //{
+            //    StopAllConnectionAndBackgroundTask();
+            //    /* Set status strip to Disconnected */
+            //    tmConnectionSts = CONNECTION_STS.Disconnected;
+            //}
+            //else
+            //{
+            //    /* Start background task for status checking */
+            //    Task.Factory.StartNew(async () => { await rvisMMC.BackgroundSysCheck(); }, TaskCreationOptions.LongRunning);
+            //    /* Set status strip to Connected */
+            //    tmConnectionSts = CONNECTION_STS.Connected;
+
+            //    tsmiConnect.Enabled = false;
+            //    tsmiDisconnect.Enabled = true;
+            //}
+
+
+            /* Set status strip to Connecting */
+            tmConnectionSts = CONNECTION_STS.Connecting;
+            Task.Run(() => { StartConnectionTask(); });
+        }
+
+        private void StartConnectionTask()
+        {
+
             string serverIP     = SettingData.PcServerIP;
             string serverPort   = SettingData.PcServerPort;
             string tmIP         = SettingData.TmIP;
             string tmModbusPort = SettingData.TmModbusPort;
-            int error;
-
-            /* Set status strip to Connecting */
-            UpdateTMConnectionStatus(CONNECTION_STS.Connecting);
-
+            int listenerError, modbusError;
             /* Start Listerner */
-            error = StartListener(serverIP, serverPort);
-            if(error != 0)
+            listenerError = StartListener(serverIP, serverPort);
+            if (listenerError != 0)
             {
-                MessageBox.Show("ErrorCode: "+ error);
+                MessageBox.Show("ErrorCode: " + listenerError);
             }
 
+
             /* Connect TM Modbus */
-            error = ModbusControl.Connect(tmIP,tmModbusPort);
-            if (error != 0)
+            modbusError = ModbusControl.Connect(tmIP, tmModbusPort);
+            if (modbusError != 0)
             {
-                MessageBox.Show("ErrorCode: " + error);
+                MessageBox.Show("ErrorCode: " + modbusError);
             }
 
             /* If error */
-            if (error != 0)
+            if (listenerError != 0 || modbusError != 0)
             {
                 StopAllConnectionAndBackgroundTask();
                 /* Set status strip to Disconnected */
-                UpdateTMConnectionStatus(CONNECTION_STS.Disconnected);
+                tmConnectionSts = CONNECTION_STS.Disconnected;
             }
             else
             {
                 /* Start background task for status checking */
                 Task.Factory.StartNew(async () => { await rvisMMC.BackgroundSysCheck(); }, TaskCreationOptions.LongRunning);
                 /* Set status strip to Connected */
-                UpdateTMConnectionStatus(CONNECTION_STS.Connected);
-
-                tsmiConnect.Enabled = false;
-                tsmiDisconnect.Enabled = true;
+                tmConnectionSts = CONNECTION_STS.Connected;
             }
         }
+
 
         private void tsmiDisconnect_Click(object sender, EventArgs e)
         {
@@ -372,44 +411,60 @@ namespace RVIS
             switch (accessLevel)
             {
                 case AccessLevel.Service:
-                    tsmiTools.Enabled = true;
+                    tsmiTools.Visible = true;
                     tsmiService.Visible = true;
                     lblOperatorIDVal.BackColor = Color.Yellow;
                     break;
                 case AccessLevel.Admin:
-                    tsmiTools.Enabled = true;
+                    tsmiTools.Visible = true;
                     tsmiService.Visible = false;
                     lblOperatorIDVal.BackColor = Color.Cyan;
                     break;
                 case AccessLevel.User:
                 default:
-                    tsmiTools.Enabled = false;
+                    tsmiTools.Visible = false;
                     tsmiService.Visible = false;
                     lblOperatorIDVal.BackColor = SystemColors.Control;
                     break;
-            }            
-            UpdateDisplay();
+            }
         }
 
         #region Update Display
         private void UpdateDisplay()
         {
             /* File */
-            UpdateLoginButton();
-            UpdateExitButton();
+            UpdateFileMenu();
             /* Connection */
             UpdateConnectionMenu();
             /* Tools */
             UpdateToolsMenu();
+            /* Service */
+            UpdateServiceMenu();
             /* Buttons */
             UpdateStartButton();
             UpdateStopButton();
             UpdateSaveButton();
             /* Test Yield */
             UpdateTestYieldData();
+            /* Status strip */
+            UpdateStatusStrip();
         }
 
         #region Update Display-File
+        private void UpdateFileMenu()
+        {
+            if (tmConnectionSts != CONNECTION_STS.Connecting)
+            {
+                tsmiFile.Enabled = true;
+                UpdateLoginButton();
+                UpdateExitButton();
+            }
+            else
+            {
+                tsmiFile.Enabled = false;
+            }
+        }
+
         private void UpdateLoginButton()
         {
             /* Conditions to enable button */
@@ -438,21 +493,6 @@ namespace RVIS
         #endregion Update Display-File
 
         #region Update Display-Connection
-        private void UpdateToolsMenu()
-        {
-            /* Conditions to enable button */
-            if (IsLoggedIn() == true    &&
-                isInspecting == false)
-            {
-                tsmiTools.Enabled = true;
-            }
-            else
-            {
-                tsmiTools.Enabled = false;
-            }
-                
-        }
-
         private void UpdateConnectionMenu()
         {
             /* Conditions to enable button */
@@ -473,8 +513,9 @@ namespace RVIS
         private void UpdateConnectButton()
         {
             /* Conditions to enable button */
-            if (IsLoggedIn()    == true     &&
-                IsTMConnected() == false    &&
+            if (tmConnectionSts == CONNECTION_STS.Disconnected  &&
+                IsLoggedIn()    == true                         &&
+                IsTMConnected() == false                        &&
                 isInspecting    == false)
             {
                 tsmiConnect.Enabled = true;
@@ -500,6 +541,40 @@ namespace RVIS
             }
         }
         #endregion Update Display-Connection
+
+        #region Update Display-Tools
+        private void UpdateToolsMenu()
+        {
+            /* Conditions to enable button */
+            if (tmConnectionSts != CONNECTION_STS.Connecting    &&
+                IsLoggedIn()    == true                         &&
+                IsTMConnected() == false                        && 
+                isInspecting    == false)
+            {
+                tsmiTools.Enabled = true;
+            }
+            else
+            {
+                tsmiTools.Enabled = false;
+            }
+        }
+        #endregion UpdateDisplay-Tools
+
+        #region Update Display-Service
+        private void UpdateServiceMenu()
+        {
+            if (tmConnectionSts != CONNECTION_STS.Connecting    &&
+                IsTMConnected() == false                        &&
+                isInspecting == false)
+            {
+                tsmiService.Enabled = true;
+            }
+            else
+            {
+                tsmiService.Enabled = false;
+            }
+        }
+        #endregion Update Display-Service
 
         #region Update Display-Buttons
         private void UpdateStartButton()
@@ -546,6 +621,12 @@ namespace RVIS
         }
         #endregion Update Display-Buttons
 
+        #region Update Display-Status Strips
+        private void UpdateStatusStrip()
+        {
+            UpdateTMConnectionStatus(tmConnectionSts);
+        }
+        #endregion Update Display-Status Strips
         private bool IsLoggedIn()
         {
             if (String.IsNullOrEmpty(UserData.ID))
@@ -665,7 +746,6 @@ namespace RVIS
             ssTMRobot.Text = "TM-Robot: " + stsText;
             ssTMRobot.BackColor = backColor;
         }
-
         #endregion Form Function
 
         #region Functions

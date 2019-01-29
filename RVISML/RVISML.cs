@@ -19,8 +19,8 @@ namespace RVISMMC
     {
         #region member data initialization
         //member data
-        string LOCAL_SERVER_PATH = RVISData.SettingData.LocalServerPath; // path the zip file going to store at their local server (user flexibility)
-        string TEMP_IMG_ZIP_PATH = @"C:\RVIS\ZIP\"; //this path directory is used when finish inspection and prepared to zip
+        string LOCAL_SERVER_PATH = RVISData.SettingData.LocalServerPath; // path the zip file going to store at their local server (user flexibility) //e.g. C:\Images\
+        string TEMP_IMG_ZIP_PATH = @"C:\RVIS\Zip"; //this path directory is used when finish inspection and prepared to zip //** eliminate "\" 28/1-1649
 
         bool completeUnitSts = false; //flag for completion of 1 UUT
         private CancellationTokenSource _cts; //Background task resource cancel
@@ -39,7 +39,7 @@ namespace RVISMMC
         public string ProcTestEnd { get; set; } //payload 1 UUT completion flag
         public string ProcSerial { get; set; } //payload serial number
         public string ProcMasterImgDir { get; set; } //payload master image dir
-  
+
         #endregion
 
         #region Event Initialization
@@ -47,7 +47,7 @@ namespace RVISMMC
         public delegate void SerialResultPub(string serial, string dir);
         public event SerialResultPub OnSerialResultPub;
         //checkpoint payload result publish
-        public delegate void DownstreamResultPub(string testgroup,string testname, string result, string masterpath, string testEnd);
+        public delegate void DownstreamResultPub(string testgroup, string testname, string result, string masterpath, string testEnd);
         public event DownstreamResultPub OnResultStringPub;
         //background robot status payload publish
         public delegate void RobotStatusPub(bool robotRunSts, bool robotErrSts, bool robotPauseSts);
@@ -55,14 +55,17 @@ namespace RVISMMC
         //tcpip error status publish
         public delegate void ErrStatusPub(bool tcpErr);
         public event ErrStatusPub OnErrStatusPub;
+        //finish UUT inspection publish
+        public delegate void FinishInspecPub(bool sts);
+        public event FinishInspecPub OnFinishInspecPub;
         #endregion 
 
         #region create related obj required
         //create TcpIF- Server object
         public Server tcpServer = new Server();
-        
+
         #endregion
-   
+
         #region system data status lock
         //Task data lock object
         private readonly object getRobotRunStsLock = new object();
@@ -77,12 +80,20 @@ namespace RVISMMC
             //subscribing to the TCPIP event for new data input            
             tcpServer.OnDataReceived += TcpServer_OnDataReceived;
 
+            //Refresh Temporary Zip directory
+            if (Directory.Exists(TEMP_IMG_ZIP_PATH))
+            {
+                Directory.Delete(TEMP_IMG_ZIP_PATH);
+                Directory.CreateDirectory(TEMP_IMG_ZIP_PATH);
+            }
+
             //Start with system preliminary check (READY Condition)
             if ((robotRunSts == false) && (robotErrSts == false) && (robotPauseSts == false) && (tcpIpSts == true))
             {
                 //2. If OK start activate RUN robot
                 InitiateRunOrPause();
             }
+  
 
         }
         #endregion
@@ -103,13 +114,24 @@ namespace RVISMMC
         //Finish inspection
         public async Task FinishInspection()
         {
+            string dateTime = null; //** addition naming for zip file 2801-1652
+            dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");//** addition naming for zip file 2801-1652
+
             try
             {
-                await Task.Factory.StartNew(() => { ZipFile.CreateFromDirectory(TEMP_IMG_ZIP_PATH, LOCAL_SERVER_PATH); }, TaskCreationOptions.LongRunning);
+                await Task.Factory.StartNew(() => { ZipFile.CreateFromDirectory(TEMP_IMG_ZIP_PATH, LOCAL_SERVER_PATH + dateTime + "_" + ProcSerial + ".zip"); }, TaskCreationOptions.LongRunning); //** addition naming for zip file 2801-1652
+                if (OnFinishInspecPub != null)//** addition finish testing publisher  2801-1652
+                {
+                    OnFinishInspecPub(true);
+                }
             }
             catch (DirectoryNotFoundException ex)
             {
                 Console.WriteLine(ex);
+                if (OnFinishInspecPub != null)//** addition finish testing publisher  2801-1652
+                {
+                    OnFinishInspecPub(false);
+                }
             }
         }
 
@@ -121,7 +143,7 @@ namespace RVISMMC
         {
             if (string.IsNullOrEmpty(parameter) != true) //use is 
             {
-                ResultDataProcces(sender,parameter);
+                ResultDataProcces(sender, parameter);
 
             }
         }
@@ -131,7 +153,7 @@ namespace RVISMMC
         #region Result data processing and publishing
 
         //Data processing after received from TCP/IP
-        public void ResultDataProcces(object sender,string parameter)
+        public void ResultDataProcces(object sender, string parameter)
         {
             //process data ready for JSON converter
             //payload data during inspection might look like this: "testGroup=DeviceControllerPCBA,testName=BoardAssembly_x7screws,result=PASS,img=10-43-16_067.png,testEnd=TRUE"
@@ -144,7 +166,7 @@ namespace RVISMMC
             string robot_save_full_path = null; //to obtain the exact image path produced by TM
             string rename_img_path = null;
             string rename_image = null;
-            
+
 
             //Verify data send from downstream
             string pattern_checkpoint = @"^testGroup=(?<Testgroup>[a-zA-Z0-9_]+),testName=(?<Testname>[a-zA-Z0-9_]+),result=(?<Result>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9._-]+),testEnd=(?<End>[a-zA-Z]+)$";
@@ -169,7 +191,7 @@ namespace RVISMMC
                 //robot_save_full_path = ROBOT_SAVE_PATH + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
                 robot_save_full_path = RVISData.SpecialSettingData.TMImageSavePath + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
                 rename_image = ProcTestGroup + "_" + ProcTestName + ".png"; //rename image name to eg DeviceControllerPCBA_BoardAssembly_x7screws.png
-                rename_img_path = TEMP_IMG_ZIP_PATH + rename_image; //eg -> C:\RVIS\ZIP\DeviceControllerPCBA_BoardAssembly_x7screws.png
+                rename_img_path = TEMP_IMG_ZIP_PATH + @"\" + rename_image; //eg -> C:\RVIS\ZIP\DeviceControllerPCBA_BoardAssembly_x7screws.png /**addition "\" 28/1-1649
                 ProcMasterImgDir = MASTER_IMAGE_PATH + rename_image;
                 //publish the rename image to GUI
 
