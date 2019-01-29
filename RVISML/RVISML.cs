@@ -174,8 +174,8 @@ namespace RVISMMC
 
             //Verify data send from downstream
             string pattern_checkpoint = @"^testGroup=(?<Testgroup>[a-zA-Z0-9_]+),testName=(?<Testname>[a-zA-Z0-9_]+),result=(?<Result>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9._-]+),testEnd=(?<End>[a-zA-Z]+)$";
-            string pattern_serial = @"^s\n=(?<Serial>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9:._-]+)$"; //might need imge path zip to the folder
-
+            //string pattern_serial = @"^sn=(?<Serial>[a-zA-Z0-9]+),img=(?<Img>[a-zA-Z0-9._-]+)$"; //might need imge path zip to the folder
+            string pattern_serial = @"^sn=(?<Serial>[A-Z0-9]+),img=(?<Img>[a-zA-Z0-9._-]+)$"; //might need imge path zip to the folder
 
             Match match_checkpoint = Regex.Match(parameter, pattern_checkpoint);
             Match match_serial = Regex.Match(parameter, pattern_serial);

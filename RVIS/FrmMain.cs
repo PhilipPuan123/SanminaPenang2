@@ -105,38 +105,45 @@ namespace RVIS
         #region Form Controls-Overall Status
         private void SetOverallStatus(OverallStatus status)
         {
-            string dispTxt = "";
-            Color backColor = Color.Orange;
-            Color fontColor = Color.Black;
-            switch (status)
+            if (InvokeRequired)
             {
-                case OverallStatus.READY:
-                    dispTxt = "READY";
-                    backColor = Color.Orange;
-                    break;
-                case OverallStatus.PASS:
-                    dispTxt = "PASS";
-                    backColor = Color.Lime;
-                    break;
-                case OverallStatus.FAIL:
-                    dispTxt = "FAIL";
-                    backColor = Color.Red;
-                    break;
-                case OverallStatus.TESTING:
-                    dispTxt = "TESTING";
-                    backColor = Color.Yellow;
-                    break;
-                case OverallStatus.ERROR:
-                default:
-                    dispTxt = "ERROR";
-                    backColor = Color.Red;
-                    fontColor = Color.White;
-                    break;
+                Invoke(new Action<OverallStatus>(SetOverallStatus), new object[] { status });
             }
+            else
+            {
+                string dispTxt = "";
+                Color backColor = Color.Orange;
+                Color fontColor = Color.Black;
+                switch (status)
+                {
+                    case OverallStatus.READY:
+                        dispTxt = "READY";
+                        backColor = Color.Orange;
+                        break;
+                    case OverallStatus.PASS:
+                        dispTxt = "PASS";
+                        backColor = Color.Lime;
+                        break;
+                    case OverallStatus.FAIL:
+                        dispTxt = "FAIL";
+                        backColor = Color.Red;
+                        break;
+                    case OverallStatus.TESTING:
+                        dispTxt = "TESTING";
+                        backColor = Color.Yellow;
+                        break;
+                    case OverallStatus.ERROR:
+                    default:
+                        dispTxt = "ERROR";
+                        backColor = Color.Red;
+                        fontColor = Color.White;
+                        break;
+                }
 
-            lblResult.Text = dispTxt;
-            lblResult.BackColor = backColor;
-            lblResult.ForeColor = fontColor;
+                lblResult.Text = dispTxt;
+                lblResult.BackColor = backColor;
+                lblResult.ForeColor = fontColor;
+            }
         }
         #endregion
 
@@ -701,7 +708,7 @@ namespace RVIS
             /* Add Stop Timestamp to unit result */
             stopTime = DateTime.Now;
             line = "Stop Timestamp\t: " + stopTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            line += "\n" + CalculateCycleTimeInString(startTime, stopTime);
+            line += "\n" + "Cycle Time\t: " + CalculateCycleTimeInString(startTime, stopTime);
             AddLineToUnitResult(line);
             /* Add line separator to unit result */
             AddLineToUnitResult(LINE_SEPARATOR);
@@ -860,9 +867,16 @@ namespace RVIS
 
         private void UpdateTestYieldData()
         {
-            lblTotalVal.Text = TestYieldData.TotalTestedUnits.ToString();
-            lblPassVal.Text = TestYieldData.TotalPassedUnits.ToString();
-            lblRateVal.Text = TestYieldData.PassingRate.ToString("P");
+            if (InvokeRequired)
+            {
+                Invoke(new Action(UpdateTestYieldData), new object[] { });
+            }
+            else
+            {
+                lblTotalVal.Text = TestYieldData.TotalTestedUnits.ToString();
+                lblPassVal.Text = TestYieldData.TotalPassedUnits.ToString();
+                lblRateVal.Text = TestYieldData.PassingRate.ToString("P");
+            }
         }
         #endregion Test Yield
 
