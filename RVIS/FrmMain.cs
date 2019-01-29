@@ -63,6 +63,9 @@ namespace RVIS
             InitializeComponent();
             UpgradeConfigFile();
 
+            /* Enable key preview to track Alt+F4 to prevent form closing */
+            this.KeyPreview = true;
+
             DataUtility.UpdateSettingDataFromConfig();
             DataUtility.UpdateSpecialSettingDataFromConfig();
         }
@@ -83,22 +86,91 @@ namespace RVIS
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             StopAllConnectionAndBackgroundTask();
+
+            if (bgwUIThread.WorkerSupportsCancellation)
+            {
+                this.bgwUIThread.CancelAsync();
+            }
         }
+
+        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            /* Disable Alt+F4 to close form */
+            if (e.Alt && e.KeyCode == Keys.F4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        #region Form Controls-Overall Status
+        private void SetOverallStatus(OverallStatus status)
+        {
+            string dispTxt = "";
+            Color backColor = Color.Orange;
+            Color fontColor = Color.Black;
+            switch (status)
+            {
+                case OverallStatus.READY:
+                    dispTxt = "READY";
+                    backColor = Color.Orange;
+                    break;
+                case OverallStatus.PASS:
+                    dispTxt = "PASS";
+                    backColor = Color.Lime;
+                    break;
+                case OverallStatus.FAIL:
+                    dispTxt = "FAIL";
+                    backColor = Color.Red;
+                    break;
+                case OverallStatus.TESTING:
+                    dispTxt = "TESTING";
+                    backColor = Color.Yellow;
+                    break;
+                case OverallStatus.ERROR:
+                default:
+                    dispTxt = "ERROR";
+                    backColor = Color.Red;
+                    fontColor = Color.White;
+                    break;
+            }
+
+            lblResult.Text = dispTxt;
+            lblResult.BackColor = backColor;
+            lblResult.ForeColor = fontColor;
+        }
+        #endregion
 
         #region Form Controls-Buttons
         private void btnStart_Click(object sender, EventArgs e)
         {
+            /* Set overall status */
+            SetOverallStatus(OverallStatus.TESTING);
+
             /* Start new unit test result */
             StartNewUnitResult();
 
             /* Subscribe to MMC event */
             rvisMMC.OnSerialResultPub += RvisMMC_OnSerialResultPub;
             rvisMMC.OnResultStringPub += RvisMMC_OnResultStringPub;
-            
+            rvisMMC.OnFinishInspecPub += RvisMMC_OnFinishInspecPub;
             /* Start MMC */
             rvisMMC.Start();
 
             isInspecting = true;
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            /* Set overall status */
+            SetOverallStatus(OverallStatus.ERROR);
+
+            /* Subscribe to MMC event */
+            rvisMMC.OnSerialResultPub -= RvisMMC_OnSerialResultPub;
+            rvisMMC.OnResultStringPub -= RvisMMC_OnResultStringPub;
+            rvisMMC.OnFinishInspecPub -= RvisMMC_OnFinishInspecPub;
+
+            //Temporary bypass
+            isInspecting = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -130,7 +202,7 @@ namespace RVIS
             }
         }
         #endregion Form Controls-Buttons
-
+        
         #region Form Controls-BackgroundWorker
         private void InitializeBackgroundWorker()
         {
@@ -180,11 +252,11 @@ namespace RVIS
             }
             else if (e.Cancelled)
             {
-                throw new NotImplementedException();
+                //Do nothing
             }
             else
             {
-                throw new NotImplementedException();
+                //Do nothing
             }
         }
         #endregion Form Controls-BackgroundWorker
@@ -250,49 +322,6 @@ namespace RVIS
         #region MenuStrips-Connection
         private void tsmiConnect_Click(object sender, EventArgs e)
         {
-            ////var statusStrip     = ssTMRobot;
-            //string serverIP     = SettingData.PcServerIP;
-            //string serverPort   = SettingData.PcServerPort;
-            //string tmIP         = SettingData.TmIP;
-            //string tmModbusPort = SettingData.TmModbusPort;
-            //int error;
-
-            ///* Set status strip to Connecting */
-            //tmConnectionSts = CONNECTION_STS.Connecting;
-
-            ///* Start Listerner */
-            //error = StartListener(serverIP, serverPort);
-            //if(error != 0)
-            //{
-            //    MessageBox.Show("ErrorCode: "+ error);
-            //}
-
-            ///* Connect TM Modbus */
-            //error = ModbusControl.Connect(tmIP,tmModbusPort);
-            //if (error != 0)
-            //{
-            //    MessageBox.Show("ErrorCode: " + error);
-            //}
-
-            ///* If error */
-            //if (error != 0)
-            //{
-            //    StopAllConnectionAndBackgroundTask();
-            //    /* Set status strip to Disconnected */
-            //    tmConnectionSts = CONNECTION_STS.Disconnected;
-            //}
-            //else
-            //{
-            //    /* Start background task for status checking */
-            //    Task.Factory.StartNew(async () => { await rvisMMC.BackgroundSysCheck(); }, TaskCreationOptions.LongRunning);
-            //    /* Set status strip to Connected */
-            //    tmConnectionSts = CONNECTION_STS.Connected;
-
-            //    tsmiConnect.Enabled = false;
-            //    tsmiDisconnect.Enabled = true;
-            //}
-
-
             /* Set status strip to Connecting */
             tmConnectionSts = CONNECTION_STS.Connecting;
             Task.Run(() => { StartConnectionTask(); });
@@ -300,7 +329,6 @@ namespace RVIS
 
         private void StartConnectionTask()
         {
-
             string serverIP     = SettingData.PcServerIP;
             string serverPort   = SettingData.PcServerPort;
             string tmIP         = SettingData.TmIP;
@@ -310,7 +338,7 @@ namespace RVIS
             listenerError = StartListener(serverIP, serverPort);
             if (listenerError != 0)
             {
-                MessageBox.Show("ErrorCode: " + listenerError);
+                MessageBox.Show("ErrorCode: " + listenerError,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error,MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
 
 
@@ -318,7 +346,7 @@ namespace RVIS
             modbusError = ModbusControl.Connect(tmIP, tmModbusPort);
             if (modbusError != 0)
             {
-                MessageBox.Show("ErrorCode: " + modbusError);
+                MessageBox.Show("ErrorCode: " + modbusError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
 
             /* If error */
@@ -336,7 +364,6 @@ namespace RVIS
                 tmConnectionSts = CONNECTION_STS.Connected;
             }
         }
-
 
         private void tsmiDisconnect_Click(object sender, EventArgs e)
         {
@@ -627,6 +654,7 @@ namespace RVIS
             UpdateTMConnectionStatus(tmConnectionSts);
         }
         #endregion Update Display-Status Strips
+        
         private bool IsLoggedIn()
         {
             if (String.IsNullOrEmpty(UserData.ID))
@@ -662,6 +690,21 @@ namespace RVIS
             /* Add Operator ID to unit result */
             line = "Operator ID\t: " + UserData.ID;
             AddLineToUnitResult(line);
+        }
+
+        private void SetUnitResultFooter()
+        {
+            string line;
+
+            /* Add line separator to unit result */
+            AddLineToUnitResult(LINE_SEPARATOR);
+            /* Add Stop Timestamp to unit result */
+            stopTime = DateTime.Now;
+            line = "Stop Timestamp\t: " + stopTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            line += "\n" + CalculateCycleTimeInString(startTime, stopTime);
+            AddLineToUnitResult(line);
+            /* Add line separator to unit result */
+            AddLineToUnitResult(LINE_SEPARATOR);
         }
 
         private void AddLineToUnitResult(string line, bool isTestData = false)
@@ -884,12 +927,42 @@ namespace RVIS
             /* Show Images */
             ShowImages(masterImgDir, currentImgDir);
         }
+
+        private void RvisMMC_OnFinishInspecPub(bool sts)
+        {
+            bool isPassed = sts;
+
+            /* Set overall status */
+            if (isPassed)
+            {
+                SetOverallStatus(OverallStatus.PASS);
+            }
+            else
+            {
+                SetOverallStatus(OverallStatus.FAIL);
+            }
+
+            /* Increment test yield data */
+            IncrementTestYieldData(isPassed);
+            UpdateTestYieldData();
+            /* show unit test result footer */
+            SetUnitResultFooter();
+            /* set inspection status to false */
+            isInspecting = false;
+        }
+
+        private void IncrementTestYieldData(bool isPassUnit)
+        {
+            TestYieldData.TotalTestedUnits++;
+
+            if (isPassUnit) TestYieldData.TotalPassedUnits++;
+        }
         #endregion Event Handler
 
         #region Demo
         private void SampleUI()
             {
-                SampleOverallResult(OverallStatus.ERROR);
+                SetOverallStatus(OverallStatus.ERROR);
                 SampleOperatorID();
                 SampleResult();
                 SampleImage();
@@ -900,42 +973,6 @@ namespace RVIS
             private void SampleOperatorID()
             {
                 lblOperatorIDVal.Text = "12345";
-            }
-
-            private void SampleOverallResult(OverallStatus status)
-            {
-                string dispTxt = "";
-                Color backColor = Color.Orange;
-                Color fontColor = Color.Black;
-                switch (status)
-                {
-                    case OverallStatus.READY:
-                        dispTxt = "READY";
-                        backColor = Color.Orange;
-                        break;
-                    case OverallStatus.PASS:
-                        dispTxt = "PASS";
-                        backColor = Color.Lime;
-                        break;
-                    case OverallStatus.FAIL:
-                        dispTxt = "FAIL";
-                        backColor = Color.Red;
-                        break;
-                    case OverallStatus.TESTING:
-                        dispTxt = "TESTING";
-                        backColor = Color.Yellow;
-                        break;
-                    case OverallStatus.ERROR:
-                    default:
-                        dispTxt = "ERROR";
-                        backColor = Color.Red;
-                        fontColor = Color.White;
-                        break;
-                }
-
-                lblResult.Text = dispTxt;
-                lblResult.BackColor = backColor;
-            lblResult.ForeColor = fontColor;
             }
 
             private void SampleResult()

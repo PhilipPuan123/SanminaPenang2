@@ -73,7 +73,26 @@ namespace TMModbusIF
         GetControlBoxDIn,
         GetControlBoxDOut,
         GetEndModuleDIn,
-        GetEndModuleDOut
+        GetEndModuleDOut,
+        SetEndModuleDO0,
+        SetEndModuleDO1,
+        SetEndModuleDO2,
+        SetControlBoxDO0,
+        SetControlBoxDO1,
+        SetControlBoxDO2,
+        SetControlBoxDO3,
+        SetControlBoxDO4,
+        SetControlBoxDO5,
+        SetControlBoxDO6,
+        SetControlBoxDO7,
+        SetControlBoxDO8,
+        SetControlBoxDO9,
+        SetControlBoxDO10,
+        SetControlBoxDO11,
+        SetControlBoxDO12,
+        SetControlBoxDO13,
+        SetControlBoxDO14,
+        SetControlBoxDO15
     }
 
     internal class TMModbusAddress

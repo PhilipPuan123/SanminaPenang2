@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Collections;
 using System.Threading;
 using System.Net;
 using System.Net.Sockets;
@@ -29,6 +30,8 @@ namespace TestToolKit
         private Client tcpClient = null;
         private bool isClientStarted = false;
 
+        BitArray controlBoxOnOff = new BitArray(16);
+        BitArray endModuleOnOff = new BitArray(3);
         public FrmTestToolKit()
         {
             InitializeComponent();
@@ -508,10 +511,10 @@ namespace TestToolKit
         /// Execute Modbus command.
         /// </summary>
         /// <param name="command"></param>
-        private void execModbusCommand(TMModbusCmd command)
+        private void execModbusCommand(TMModbusCmd command, bool setOnOff = false)
         {
             string result;
-            int error = ModbusControl.ProcCommand(command, out result);
+            int error = ModbusControl.ProcCommand(command, out result, setOnOff);
             if (error == (int)MError.ConnectionLost || error == (int)MError.NotConnected)
             {
                 lblOutput.Text = error.ToString();
@@ -646,6 +649,139 @@ namespace TestToolKit
             {
                 ModbusControl.Disconnect();
             }
+        }
+
+        private void btnEndModDO0_Click(object sender, EventArgs e)
+        {
+            if (endModuleOnOff[0] == false) execModbusCommand(TMModbusCmd.SetEndModuleDO0, true);
+            else execModbusCommand(TMModbusCmd.SetEndModuleDO0, false);
+            endModuleOnOff[0] = !endModuleOnOff[0];
+        }
+
+        private void btnEndModDO1_Click(object sender, EventArgs e)
+        {
+            if (endModuleOnOff[1] == false) execModbusCommand(TMModbusCmd.SetEndModuleDO1, true);
+            else execModbusCommand(TMModbusCmd.SetEndModuleDO1, false);
+            endModuleOnOff[1] = !endModuleOnOff[1];
+        }
+
+        private void btnEndModDO2_Click(object sender, EventArgs e)
+        {
+            if (endModuleOnOff[2] == false) execModbusCommand(TMModbusCmd.SetEndModuleDO2, true);
+            else execModbusCommand(TMModbusCmd.SetEndModuleDO2, false);
+            endModuleOnOff[2] = !endModuleOnOff[2];
+        }
+
+        private void btnCtrlDO0_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[0] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO0, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO0, false);
+            controlBoxOnOff[0] = !controlBoxOnOff[0];
+        }
+
+        private void btnCtrlDO1_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[1] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO1, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO1, false);
+            controlBoxOnOff[1] = !controlBoxOnOff[1];
+        }
+
+        private void btnCtrlDO2_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[2] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO2, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO2, false);
+            controlBoxOnOff[2] = !controlBoxOnOff[2];
+        }
+
+        private void btnCtrlDO3_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[3] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO3, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO3, false);
+            controlBoxOnOff[3] = !controlBoxOnOff[3];
+        }
+
+        private void btnCtrlDO4_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[4] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO4, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO4, false);
+            controlBoxOnOff[4] = !controlBoxOnOff[4];
+        }
+
+        private void btnCtrlDO5_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[5] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO5, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO5, false);
+            controlBoxOnOff[5] = !controlBoxOnOff[5];
+        }
+
+        private void btnCtrlDO6_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[6] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO6, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO6, false);
+            controlBoxOnOff[6] = !controlBoxOnOff[6];
+        }
+
+        private void btnCtrlDO7_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[7] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO7, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO7, false);
+            controlBoxOnOff[7] = !controlBoxOnOff[7];
+        }
+
+        private void btnCtrlDO8_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[8] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO8, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO8, false);
+            controlBoxOnOff[8] = !controlBoxOnOff[8];
+        }
+
+        private void btnCtrlDO9_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[9] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO9, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO9, false);
+            controlBoxOnOff[9] = !controlBoxOnOff[9];
+        }
+
+        private void btnCtrlDO10_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[10] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO10, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO10, false);
+            controlBoxOnOff[10] = !controlBoxOnOff[10];
+        }
+
+        private void btnCtrlDO11_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[11] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO11, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO11, false);
+            controlBoxOnOff[11] = !controlBoxOnOff[11];
+        }
+
+        private void btnCtrlDO12_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[12] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO12, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO12, false);
+            controlBoxOnOff[12] = !controlBoxOnOff[12];
+        }
+
+        private void btnCtrlDO13_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[13] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO13, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO13, false);
+            controlBoxOnOff[13] = !controlBoxOnOff[13];
+        }
+
+        private void btnCtrlDO14_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[14] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO14, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO14, false);
+            controlBoxOnOff[14] = !controlBoxOnOff[14];
+        }
+
+        private void btnCtrlDO15_Click(object sender, EventArgs e)
+        {
+            if (controlBoxOnOff[15] == false) execModbusCommand(TMModbusCmd.SetControlBoxDO15, true);
+            else execModbusCommand(TMModbusCmd.SetControlBoxDO15, false);
+            controlBoxOnOff[15] = !controlBoxOnOff[15];
         }
     }
 }

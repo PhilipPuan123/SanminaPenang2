@@ -30,8 +30,6 @@
         {
             this.grpModbus = new System.Windows.Forms.GroupBox();
             this.grpControl = new System.Windows.Forms.GroupBox();
-            this.btnCtrlBoxDI = new System.Windows.Forms.Button();
-            this.btnEndModDI = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
@@ -77,18 +75,48 @@
             this.txtServerIP = new System.Windows.Forms.TextBox();
             this.btnConnectServer = new System.Windows.Forms.Button();
             this.rtxTcpClientLog = new System.Windows.Forms.RichTextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnCtrlBoxDO = new System.Windows.Forms.Button();
             this.btnEndModDO = new System.Windows.Forms.Button();
+            this.btnCtrlBoxDI = new System.Windows.Forms.Button();
+            this.btnEndModDI = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnCtrlDO0 = new System.Windows.Forms.Button();
+            this.btnCtrlDO1 = new System.Windows.Forms.Button();
+            this.btnCtrlDO2 = new System.Windows.Forms.Button();
+            this.btnCtrlDO3 = new System.Windows.Forms.Button();
+            this.btnCtrlDO4 = new System.Windows.Forms.Button();
+            this.btnCtrlDO5 = new System.Windows.Forms.Button();
+            this.btnCtrlDO6 = new System.Windows.Forms.Button();
+            this.btnCtrlDO7 = new System.Windows.Forms.Button();
+            this.btnCtrlDO8 = new System.Windows.Forms.Button();
+            this.btnCtrlDO15 = new System.Windows.Forms.Button();
+            this.btnCtrlDO14 = new System.Windows.Forms.Button();
+            this.btnCtrlDO13 = new System.Windows.Forms.Button();
+            this.btnCtrlDO12 = new System.Windows.Forms.Button();
+            this.btnCtrlDO11 = new System.Windows.Forms.Button();
+            this.btnCtrlDO10 = new System.Windows.Forms.Button();
+            this.btnCtrlDO9 = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnEndModDO2 = new System.Windows.Forms.Button();
+            this.btnEndModDO1 = new System.Windows.Forms.Button();
+            this.btnEndModDO0 = new System.Windows.Forms.Button();
             this.grpModbus.SuspendLayout();
             this.grpControl.SuspendLayout();
             this.grpStatus.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpTcpServer.SuspendLayout();
             this.grpTcpClient.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpModbus
             // 
+            this.grpModbus.Controls.Add(this.groupBox4);
+            this.grpModbus.Controls.Add(this.groupBox3);
+            this.grpModbus.Controls.Add(this.groupBox2);
             this.grpModbus.Controls.Add(this.grpControl);
             this.grpModbus.Controls.Add(this.grpStatus);
             this.grpModbus.Controls.Add(this.label3);
@@ -98,17 +126,13 @@
             this.grpModbus.Controls.Add(this.btnConnect);
             this.grpModbus.Location = new System.Drawing.Point(12, 12);
             this.grpModbus.Name = "grpModbus";
-            this.grpModbus.Size = new System.Drawing.Size(360, 545);
+            this.grpModbus.Size = new System.Drawing.Size(543, 545);
             this.grpModbus.TabIndex = 0;
             this.grpModbus.TabStop = false;
             this.grpModbus.Text = "Modbus";
             // 
             // grpControl
             // 
-            this.grpControl.Controls.Add(this.btnCtrlBoxDO);
-            this.grpControl.Controls.Add(this.btnEndModDO);
-            this.grpControl.Controls.Add(this.btnCtrlBoxDI);
-            this.grpControl.Controls.Add(this.btnEndModDI);
             this.grpControl.Controls.Add(this.btnStart);
             this.grpControl.Controls.Add(this.btnStop);
             this.grpControl.Controls.Add(this.btnPause);
@@ -126,30 +150,10 @@
             this.grpControl.Controls.Add(this.btnToolX);
             this.grpControl.Location = new System.Drawing.Point(6, 64);
             this.grpControl.Name = "grpControl";
-            this.grpControl.Size = new System.Drawing.Size(251, 363);
+            this.grpControl.Size = new System.Drawing.Size(251, 197);
             this.grpControl.TabIndex = 22;
             this.grpControl.TabStop = false;
             this.grpControl.Text = "Control:";
-            // 
-            // btnCtrlBoxDI
-            // 
-            this.btnCtrlBoxDI.Location = new System.Drawing.Point(87, 190);
-            this.btnCtrlBoxDI.Name = "btnCtrlBoxDI";
-            this.btnCtrlBoxDI.Size = new System.Drawing.Size(75, 23);
-            this.btnCtrlBoxDI.TabIndex = 20;
-            this.btnCtrlBoxDI.Text = "CtrlBox DI";
-            this.btnCtrlBoxDI.UseVisualStyleBackColor = true;
-            this.btnCtrlBoxDI.Click += new System.EventHandler(this.btnCtrlBoxDI_Click);
-            // 
-            // btnEndModDI
-            // 
-            this.btnEndModDI.Location = new System.Drawing.Point(6, 190);
-            this.btnEndModDI.Name = "btnEndModDI";
-            this.btnEndModDI.Size = new System.Drawing.Size(75, 23);
-            this.btnEndModDI.TabIndex = 19;
-            this.btnEndModDI.Text = "EndMod DI";
-            this.btnEndModDI.UseVisualStyleBackColor = true;
-            this.btnEndModDI.Click += new System.EventHandler(this.btnEndModDI_Click);
             // 
             // btnStart
             // 
@@ -310,7 +314,7 @@
             this.grpStatus.Controls.Add(this.btnRunSts);
             this.grpStatus.Controls.Add(this.btnErrorSts);
             this.grpStatus.Controls.Add(this.btnPermissionSts);
-            this.grpStatus.Location = new System.Drawing.Point(263, 64);
+            this.grpStatus.Location = new System.Drawing.Point(266, 64);
             this.grpStatus.Name = "grpStatus";
             this.grpStatus.Size = new System.Drawing.Size(88, 197);
             this.grpStatus.TabIndex = 21;
@@ -380,7 +384,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 430);
+            this.label3.Location = new System.Drawing.Point(6, 403);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 20;
@@ -389,9 +393,9 @@
             // lblOutput
             // 
             this.lblOutput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblOutput.Location = new System.Drawing.Point(9, 443);
+            this.lblOutput.Location = new System.Drawing.Point(6, 416);
             this.lblOutput.Name = "lblOutput";
-            this.lblOutput.Size = new System.Drawing.Size(345, 96);
+            this.lblOutput.Size = new System.Drawing.Size(528, 121);
             this.lblOutput.TabIndex = 19;
             // 
             // label1
@@ -429,7 +433,7 @@
             // 
             this.groupBox1.Controls.Add(this.lblMESLog);
             this.groupBox1.Controls.Add(this.rtxMESLog);
-            this.groupBox1.Location = new System.Drawing.Point(396, 389);
+            this.groupBox1.Location = new System.Drawing.Point(561, 387);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(382, 168);
             this.groupBox1.TabIndex = 22;
@@ -466,7 +470,7 @@
             this.grpTcpServer.Controls.Add(this.txtListenerIP);
             this.grpTcpServer.Controls.Add(this.btnStartListener);
             this.grpTcpServer.Controls.Add(this.rtxTcpServerLog);
-            this.grpTcpServer.Location = new System.Drawing.Point(396, 14);
+            this.grpTcpServer.Location = new System.Drawing.Point(561, 12);
             this.grpTcpServer.Name = "grpTcpServer";
             this.grpTcpServer.Size = new System.Drawing.Size(382, 180);
             this.grpTcpServer.TabIndex = 23;
@@ -532,7 +536,7 @@
             this.grpTcpClient.Controls.Add(this.txtServerIP);
             this.grpTcpClient.Controls.Add(this.btnConnectServer);
             this.grpTcpClient.Controls.Add(this.rtxTcpClientLog);
-            this.grpTcpClient.Location = new System.Drawing.Point(396, 198);
+            this.grpTcpClient.Location = new System.Drawing.Point(561, 196);
             this.grpTcpClient.Name = "grpTcpClient";
             this.grpTcpClient.Size = new System.Drawing.Size(382, 185);
             this.grpTcpClient.TabIndex = 24;
@@ -606,31 +610,287 @@
             this.rtxTcpClientLog.Text = "";
             this.rtxTcpClientLog.TextChanged += new System.EventHandler(this.rtxTcpClientLog_TextChanged);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnCtrlBoxDO);
+            this.groupBox2.Controls.Add(this.btnEndModDO);
+            this.groupBox2.Controls.Add(this.btnCtrlBoxDI);
+            this.groupBox2.Controls.Add(this.btnEndModDI);
+            this.groupBox2.Location = new System.Drawing.Point(257, 267);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(97, 142);
+            this.groupBox2.TabIndex = 23;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Digital IO Read:";
+            // 
             // btnCtrlBoxDO
             // 
-            this.btnCtrlBoxDO.Location = new System.Drawing.Point(87, 219);
+            this.btnCtrlBoxDO.Location = new System.Drawing.Point(6, 106);
             this.btnCtrlBoxDO.Name = "btnCtrlBoxDO";
             this.btnCtrlBoxDO.Size = new System.Drawing.Size(75, 23);
-            this.btnCtrlBoxDO.TabIndex = 22;
+            this.btnCtrlBoxDO.TabIndex = 26;
             this.btnCtrlBoxDO.Text = "CtrlBox DO";
             this.btnCtrlBoxDO.UseVisualStyleBackColor = true;
-            this.btnCtrlBoxDO.Click += new System.EventHandler(this.btnCtrlBoxDO_Click);
             // 
             // btnEndModDO
             // 
-            this.btnEndModDO.Location = new System.Drawing.Point(6, 219);
+            this.btnEndModDO.Location = new System.Drawing.Point(6, 48);
             this.btnEndModDO.Name = "btnEndModDO";
             this.btnEndModDO.Size = new System.Drawing.Size(75, 23);
-            this.btnEndModDO.TabIndex = 21;
+            this.btnEndModDO.TabIndex = 25;
             this.btnEndModDO.Text = "EndMod DO";
             this.btnEndModDO.UseVisualStyleBackColor = true;
-            this.btnEndModDO.Click += new System.EventHandler(this.btnEndModDO_Click);
+            // 
+            // btnCtrlBoxDI
+            // 
+            this.btnCtrlBoxDI.Location = new System.Drawing.Point(6, 77);
+            this.btnCtrlBoxDI.Name = "btnCtrlBoxDI";
+            this.btnCtrlBoxDI.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlBoxDI.TabIndex = 24;
+            this.btnCtrlBoxDI.Text = "CtrlBox DI";
+            this.btnCtrlBoxDI.UseVisualStyleBackColor = true;
+            // 
+            // btnEndModDI
+            // 
+            this.btnEndModDI.Location = new System.Drawing.Point(6, 19);
+            this.btnEndModDI.Name = "btnEndModDI";
+            this.btnEndModDI.Size = new System.Drawing.Size(75, 23);
+            this.btnEndModDI.TabIndex = 23;
+            this.btnEndModDI.Text = "EndMod DI";
+            this.btnEndModDI.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnCtrlDO15);
+            this.groupBox3.Controls.Add(this.btnCtrlDO14);
+            this.groupBox3.Controls.Add(this.btnCtrlDO13);
+            this.groupBox3.Controls.Add(this.btnCtrlDO12);
+            this.groupBox3.Controls.Add(this.btnCtrlDO11);
+            this.groupBox3.Controls.Add(this.btnCtrlDO10);
+            this.groupBox3.Controls.Add(this.btnCtrlDO9);
+            this.groupBox3.Controls.Add(this.btnCtrlDO8);
+            this.groupBox3.Controls.Add(this.btnCtrlDO7);
+            this.groupBox3.Controls.Add(this.btnCtrlDO6);
+            this.groupBox3.Controls.Add(this.btnCtrlDO5);
+            this.groupBox3.Controls.Add(this.btnCtrlDO4);
+            this.groupBox3.Controls.Add(this.btnCtrlDO3);
+            this.groupBox3.Controls.Add(this.btnCtrlDO2);
+            this.groupBox3.Controls.Add(this.btnCtrlDO1);
+            this.groupBox3.Controls.Add(this.btnCtrlDO0);
+            this.groupBox3.Location = new System.Drawing.Point(360, 148);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(177, 261);
+            this.groupBox3.TabIndex = 24;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Digital IO Write:";
+            // 
+            // btnCtrlDO0
+            // 
+            this.btnCtrlDO0.Location = new System.Drawing.Point(6, 19);
+            this.btnCtrlDO0.Name = "btnCtrlDO0";
+            this.btnCtrlDO0.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO0.TabIndex = 23;
+            this.btnCtrlDO0.Text = "Ctrl DO_0";
+            this.btnCtrlDO0.UseVisualStyleBackColor = true;
+            this.btnCtrlDO0.Click += new System.EventHandler(this.btnCtrlDO0_Click);
+            // 
+            // btnCtrlDO1
+            // 
+            this.btnCtrlDO1.Location = new System.Drawing.Point(6, 48);
+            this.btnCtrlDO1.Name = "btnCtrlDO1";
+            this.btnCtrlDO1.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO1.TabIndex = 24;
+            this.btnCtrlDO1.Text = "Ctrl DO_1";
+            this.btnCtrlDO1.UseVisualStyleBackColor = true;
+            this.btnCtrlDO1.Click += new System.EventHandler(this.btnCtrlDO1_Click);
+            // 
+            // btnCtrlDO2
+            // 
+            this.btnCtrlDO2.Location = new System.Drawing.Point(6, 77);
+            this.btnCtrlDO2.Name = "btnCtrlDO2";
+            this.btnCtrlDO2.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO2.TabIndex = 25;
+            this.btnCtrlDO2.Text = "Ctrl DO_2";
+            this.btnCtrlDO2.UseVisualStyleBackColor = true;
+            this.btnCtrlDO2.Click += new System.EventHandler(this.btnCtrlDO2_Click);
+            // 
+            // btnCtrlDO3
+            // 
+            this.btnCtrlDO3.Location = new System.Drawing.Point(6, 106);
+            this.btnCtrlDO3.Name = "btnCtrlDO3";
+            this.btnCtrlDO3.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO3.TabIndex = 26;
+            this.btnCtrlDO3.Text = "Ctrl DO_3";
+            this.btnCtrlDO3.UseVisualStyleBackColor = true;
+            this.btnCtrlDO3.Click += new System.EventHandler(this.btnCtrlDO3_Click);
+            // 
+            // btnCtrlDO4
+            // 
+            this.btnCtrlDO4.Location = new System.Drawing.Point(6, 135);
+            this.btnCtrlDO4.Name = "btnCtrlDO4";
+            this.btnCtrlDO4.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO4.TabIndex = 27;
+            this.btnCtrlDO4.Text = "Ctrl DO_4";
+            this.btnCtrlDO4.UseVisualStyleBackColor = true;
+            this.btnCtrlDO4.Click += new System.EventHandler(this.btnCtrlDO4_Click);
+            // 
+            // btnCtrlDO5
+            // 
+            this.btnCtrlDO5.Location = new System.Drawing.Point(6, 164);
+            this.btnCtrlDO5.Name = "btnCtrlDO5";
+            this.btnCtrlDO5.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO5.TabIndex = 28;
+            this.btnCtrlDO5.Text = "Ctrl DO_5";
+            this.btnCtrlDO5.UseVisualStyleBackColor = true;
+            this.btnCtrlDO5.Click += new System.EventHandler(this.btnCtrlDO5_Click);
+            // 
+            // btnCtrlDO6
+            // 
+            this.btnCtrlDO6.Location = new System.Drawing.Point(6, 193);
+            this.btnCtrlDO6.Name = "btnCtrlDO6";
+            this.btnCtrlDO6.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO6.TabIndex = 29;
+            this.btnCtrlDO6.Text = "Ctrl DO_6";
+            this.btnCtrlDO6.UseVisualStyleBackColor = true;
+            this.btnCtrlDO6.Click += new System.EventHandler(this.btnCtrlDO6_Click);
+            // 
+            // btnCtrlDO7
+            // 
+            this.btnCtrlDO7.Location = new System.Drawing.Point(6, 222);
+            this.btnCtrlDO7.Name = "btnCtrlDO7";
+            this.btnCtrlDO7.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO7.TabIndex = 30;
+            this.btnCtrlDO7.Text = "Ctrl DO_7";
+            this.btnCtrlDO7.UseVisualStyleBackColor = true;
+            this.btnCtrlDO7.Click += new System.EventHandler(this.btnCtrlDO7_Click);
+            // 
+            // btnCtrlDO8
+            // 
+            this.btnCtrlDO8.Location = new System.Drawing.Point(87, 19);
+            this.btnCtrlDO8.Name = "btnCtrlDO8";
+            this.btnCtrlDO8.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO8.TabIndex = 31;
+            this.btnCtrlDO8.Text = "Ctrl DO_8";
+            this.btnCtrlDO8.UseVisualStyleBackColor = true;
+            this.btnCtrlDO8.Click += new System.EventHandler(this.btnCtrlDO8_Click);
+            // 
+            // btnCtrlDO15
+            // 
+            this.btnCtrlDO15.Location = new System.Drawing.Point(87, 222);
+            this.btnCtrlDO15.Name = "btnCtrlDO15";
+            this.btnCtrlDO15.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO15.TabIndex = 38;
+            this.btnCtrlDO15.Text = "Ctrl DO_15";
+            this.btnCtrlDO15.UseVisualStyleBackColor = true;
+            this.btnCtrlDO15.Click += new System.EventHandler(this.btnCtrlDO15_Click);
+            // 
+            // btnCtrlDO14
+            // 
+            this.btnCtrlDO14.Location = new System.Drawing.Point(87, 193);
+            this.btnCtrlDO14.Name = "btnCtrlDO14";
+            this.btnCtrlDO14.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO14.TabIndex = 37;
+            this.btnCtrlDO14.Text = "Ctrl DO_14";
+            this.btnCtrlDO14.UseVisualStyleBackColor = true;
+            this.btnCtrlDO14.Click += new System.EventHandler(this.btnCtrlDO14_Click);
+            // 
+            // btnCtrlDO13
+            // 
+            this.btnCtrlDO13.Location = new System.Drawing.Point(87, 164);
+            this.btnCtrlDO13.Name = "btnCtrlDO13";
+            this.btnCtrlDO13.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO13.TabIndex = 36;
+            this.btnCtrlDO13.Text = "Ctrl DO_13";
+            this.btnCtrlDO13.UseVisualStyleBackColor = true;
+            this.btnCtrlDO13.Click += new System.EventHandler(this.btnCtrlDO13_Click);
+            // 
+            // btnCtrlDO12
+            // 
+            this.btnCtrlDO12.Location = new System.Drawing.Point(87, 135);
+            this.btnCtrlDO12.Name = "btnCtrlDO12";
+            this.btnCtrlDO12.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO12.TabIndex = 35;
+            this.btnCtrlDO12.Text = "Ctrl DO_12";
+            this.btnCtrlDO12.UseVisualStyleBackColor = true;
+            this.btnCtrlDO12.Click += new System.EventHandler(this.btnCtrlDO12_Click);
+            // 
+            // btnCtrlDO11
+            // 
+            this.btnCtrlDO11.Location = new System.Drawing.Point(87, 106);
+            this.btnCtrlDO11.Name = "btnCtrlDO11";
+            this.btnCtrlDO11.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO11.TabIndex = 34;
+            this.btnCtrlDO11.Text = "Ctrl DO_11";
+            this.btnCtrlDO11.UseVisualStyleBackColor = true;
+            this.btnCtrlDO11.Click += new System.EventHandler(this.btnCtrlDO11_Click);
+            // 
+            // btnCtrlDO10
+            // 
+            this.btnCtrlDO10.Location = new System.Drawing.Point(87, 77);
+            this.btnCtrlDO10.Name = "btnCtrlDO10";
+            this.btnCtrlDO10.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO10.TabIndex = 33;
+            this.btnCtrlDO10.Text = "Ctrl DO_10";
+            this.btnCtrlDO10.UseVisualStyleBackColor = true;
+            this.btnCtrlDO10.Click += new System.EventHandler(this.btnCtrlDO10_Click);
+            // 
+            // btnCtrlDO9
+            // 
+            this.btnCtrlDO9.Location = new System.Drawing.Point(87, 48);
+            this.btnCtrlDO9.Name = "btnCtrlDO9";
+            this.btnCtrlDO9.Size = new System.Drawing.Size(75, 23);
+            this.btnCtrlDO9.TabIndex = 32;
+            this.btnCtrlDO9.Text = "Ctrl DO_9";
+            this.btnCtrlDO9.UseVisualStyleBackColor = true;
+            this.btnCtrlDO9.Click += new System.EventHandler(this.btnCtrlDO9_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnEndModDO2);
+            this.groupBox4.Controls.Add(this.btnEndModDO1);
+            this.groupBox4.Controls.Add(this.btnEndModDO0);
+            this.groupBox4.Location = new System.Drawing.Point(366, 64);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(177, 78);
+            this.groupBox4.TabIndex = 25;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Digital IO Write:";
+            // 
+            // btnEndModDO2
+            // 
+            this.btnEndModDO2.Location = new System.Drawing.Point(87, 19);
+            this.btnEndModDO2.Name = "btnEndModDO2";
+            this.btnEndModDO2.Size = new System.Drawing.Size(75, 23);
+            this.btnEndModDO2.TabIndex = 31;
+            this.btnEndModDO2.Text = "EMod DO_2";
+            this.btnEndModDO2.UseVisualStyleBackColor = true;
+            this.btnEndModDO2.Click += new System.EventHandler(this.btnEndModDO2_Click);
+            // 
+            // btnEndModDO1
+            // 
+            this.btnEndModDO1.Location = new System.Drawing.Point(6, 48);
+            this.btnEndModDO1.Name = "btnEndModDO1";
+            this.btnEndModDO1.Size = new System.Drawing.Size(75, 23);
+            this.btnEndModDO1.TabIndex = 24;
+            this.btnEndModDO1.Text = "EMod DO_1";
+            this.btnEndModDO1.UseVisualStyleBackColor = true;
+            this.btnEndModDO1.Click += new System.EventHandler(this.btnEndModDO1_Click);
+            // 
+            // btnEndModDO0
+            // 
+            this.btnEndModDO0.Location = new System.Drawing.Point(6, 19);
+            this.btnEndModDO0.Name = "btnEndModDO0";
+            this.btnEndModDO0.Size = new System.Drawing.Size(75, 23);
+            this.btnEndModDO0.TabIndex = 23;
+            this.btnEndModDO0.Text = "EMod DO_0";
+            this.btnEndModDO0.UseVisualStyleBackColor = true;
+            this.btnEndModDO0.Click += new System.EventHandler(this.btnEndModDO0_Click);
             // 
             // FrmTestToolKit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.ClientSize = new System.Drawing.Size(954, 562);
             this.Controls.Add(this.grpTcpClient);
             this.Controls.Add(this.grpTcpServer);
             this.Controls.Add(this.groupBox1);
@@ -649,6 +909,9 @@
             this.grpTcpServer.PerformLayout();
             this.grpTcpClient.ResumeLayout(false);
             this.grpTcpClient.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -702,10 +965,32 @@
         private System.Windows.Forms.Button btnSendToServer;
         private System.Windows.Forms.TextBox txtClientMsg;
         private System.Windows.Forms.Button btnGetLastError;
-        private System.Windows.Forms.Button btnEndModDI;
-        private System.Windows.Forms.Button btnCtrlBoxDI;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnCtrlDO15;
+        private System.Windows.Forms.Button btnCtrlDO14;
+        private System.Windows.Forms.Button btnCtrlDO13;
+        private System.Windows.Forms.Button btnCtrlDO12;
+        private System.Windows.Forms.Button btnCtrlDO11;
+        private System.Windows.Forms.Button btnCtrlDO10;
+        private System.Windows.Forms.Button btnCtrlDO9;
+        private System.Windows.Forms.Button btnCtrlDO8;
+        private System.Windows.Forms.Button btnCtrlDO7;
+        private System.Windows.Forms.Button btnCtrlDO6;
+        private System.Windows.Forms.Button btnCtrlDO5;
+        private System.Windows.Forms.Button btnCtrlDO4;
+        private System.Windows.Forms.Button btnCtrlDO3;
+        private System.Windows.Forms.Button btnCtrlDO2;
+        private System.Windows.Forms.Button btnCtrlDO1;
+        private System.Windows.Forms.Button btnCtrlDO0;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnCtrlBoxDO;
         private System.Windows.Forms.Button btnEndModDO;
+        private System.Windows.Forms.Button btnCtrlBoxDI;
+        private System.Windows.Forms.Button btnEndModDI;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnEndModDO2;
+        private System.Windows.Forms.Button btnEndModDO1;
+        private System.Windows.Forms.Button btnEndModDO0;
     }
 }
 

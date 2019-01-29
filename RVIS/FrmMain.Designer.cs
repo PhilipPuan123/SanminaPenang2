@@ -313,6 +313,7 @@
             this.btnStop.TabIndex = 1;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // lblResult
             // 
@@ -597,6 +598,7 @@
             this.Text = "Robotic Vision Inspection System";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
             this.mns1.ResumeLayout(false);
             this.mns1.PerformLayout();
             this.ssStatus.ResumeLayout(false);

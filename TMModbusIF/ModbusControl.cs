@@ -95,7 +95,7 @@ namespace TMModbusIF
             }
         #endregion Disconnect
 
-        public static int ProcCommand(TMModbusCmd command, out string result)
+        public static int ProcCommand(TMModbusCmd command, out string result, bool setOnOff = false)
         {
             int error = 0;
             float coordinate = 0.00f;
@@ -225,6 +225,63 @@ namespace TMModbusIF
                     error = GetEndModuleAllDigitalOutputs(ref bytes);
                     data += "  " + BitConverter.ToString(bytes);
                     break;
+                case TMModbusCmd.SetEndModuleDO0:
+                    error = SetEndModule_DO0(setOnOff);
+                    break;
+                case TMModbusCmd.SetEndModuleDO1:
+                    error = SetEndModule_DO1(setOnOff);
+                    break;
+                case TMModbusCmd.SetEndModuleDO2:
+                    error = SetEndModule_DO2(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO0:
+                    error = SetControlBox_DO0(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO1:
+                    error = SetControlBox_DO1(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO2:
+                    error = SetControlBox_DO2(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO3:
+                    error = SetControlBox_DO3(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO4:
+                    error = SetControlBox_DO4(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO5:
+                    error = SetControlBox_DO5(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO6:
+                    error = SetControlBox_DO6(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO7:
+                    error = SetControlBox_DO7(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO8:
+                    error = SetControlBox_DO8(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO9:
+                    error = SetControlBox_DO9(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO10:
+                    error = SetControlBox_DO10(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO11:
+                    error = SetControlBox_DO11(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO12:
+                    error = SetControlBox_DO12(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO13:
+                    error = SetControlBox_DO13(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO14:
+                    error = SetControlBox_DO14(setOnOff);
+                    break;
+                case TMModbusCmd.SetControlBoxDO15:
+                    error = SetControlBox_DO15(setOnOff);
+                    break;
             }
 
             /* Set return parameter to empty if error */
@@ -321,7 +378,7 @@ namespace TMModbusIF
             }
         #endregion Read Project Status
 
-        #region Read IO
+        #region Read DI
         public static int GetControlBoxAllDigitalInputs(ref BitArray result)
         {
             return ReadDigitalInputs(TMModbusAddress.CTRL_DI0, 16, ref result);
@@ -341,7 +398,9 @@ namespace TMModbusIF
         {
             return ReadDigitalInputs(TMModbusAddress.EMOD_DI0, 3, ref result);
         }
+        #endregion Read DI
 
+        #region Read DO
         public static int GetControlBoxAllDigitalOutputs(ref BitArray result)
         {
             return ReadDigitalOutputs(TMModbusAddress.CTRL_DO0, 16, ref result);
@@ -361,7 +420,86 @@ namespace TMModbusIF
         {
             return ReadDigitalOutputs(TMModbusAddress.EMOD_DO0, 3, ref result);
         }
-        #endregion Read IO
+        #endregion Read DO
+
+        #region Write DO
+        public static int SetEndModule_DO0(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.EMOD_DO0, onOff);
+        }
+        public static int SetEndModule_DO1(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.EMOD_DO1, onOff);
+        }
+        public static int SetEndModule_DO2(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.EMOD_DO2, onOff);
+        }
+        public static int SetControlBox_DO0(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO0, onOff);
+        }
+        public static int SetControlBox_DO1(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO1, onOff);
+        }
+        public static int SetControlBox_DO2(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO2, onOff);
+        }
+        public static int SetControlBox_DO3(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO3, onOff);
+        }
+        public static int SetControlBox_DO4(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO4, onOff);
+        }
+        public static int SetControlBox_DO5(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO2, onOff);
+        }
+        public static int SetControlBox_DO6(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO6, onOff);
+        }
+        public static int SetControlBox_DO7(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO7, onOff);
+        }
+        public static int SetControlBox_DO8(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO8, onOff);
+        }
+        public static int SetControlBox_DO9(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO9, onOff);
+        }
+        public static int SetControlBox_DO10(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO10, onOff);
+        }
+        public static int SetControlBox_DO11(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO11, onOff);
+        }
+        public static int SetControlBox_DO12(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO12, onOff);
+        }
+        public static int SetControlBox_DO13(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO13, onOff);
+        }
+        public static int SetControlBox_DO14(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO14, onOff);
+        }
+        public static int SetControlBox_DO15(bool onOff)
+        {
+            return WriteSingleDigitalOut(TMModbusAddress.CTRL_DO15, onOff);
+        }
+        #endregion Write DO
 
         #region Read Robot Coordinate
         /// <summary>

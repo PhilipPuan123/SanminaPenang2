@@ -19,7 +19,6 @@ namespace RVISMMC
     {
         #region member data initialization
         //member data
-        string LOCAL_SERVER_PATH = RVISData.SettingData.LocalServerPath; // path the zip file going to store at their local server (user flexibility) //e.g. C:\Images\
         string TEMP_IMG_ZIP_PATH = @"C:\RVIS\Zip"; //this path directory is used when finish inspection and prepared to zip //** eliminate "\" 28/1-1649
 
         bool completeUnitSts = false; //flag for completion of 1 UUT
@@ -83,8 +82,12 @@ namespace RVISMMC
             //Refresh Temporary Zip directory
             if (Directory.Exists(TEMP_IMG_ZIP_PATH))
             {
-                Directory.Delete(TEMP_IMG_ZIP_PATH);
-                Directory.CreateDirectory(TEMP_IMG_ZIP_PATH);
+                Directory.Delete(TEMP_IMG_ZIP_PATH, true);
+            }
+            var dirInfo = Directory.CreateDirectory(TEMP_IMG_ZIP_PATH);
+            if (dirInfo.Exists == false)
+            {
+                // Throw error
             }
 
             //Start with system preliminary check (READY Condition)
@@ -116,6 +119,7 @@ namespace RVISMMC
         {
             string dateTime = null; //** addition naming for zip file 2801-1652
             dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");//** addition naming for zip file 2801-1652
+            string LOCAL_SERVER_PATH = RVISData.SettingData.LocalServerPath; // path the zip file going to store at their local server (user flexibility) //e.g. C:\Images\
 
             try
             {
