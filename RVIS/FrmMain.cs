@@ -150,20 +150,36 @@ namespace RVIS
         #region Form Controls-Buttons
         private void btnStart_Click(object sender, EventArgs e)
         {
-            /* Set overall status */
-            SetOverallStatus(OverallStatus.TESTING);
+            if (isResetTestYieldNeeded == false && isLogOffNeeded == false)
+            {
+                /* Set overall status */
+                SetOverallStatus(OverallStatus.TESTING);
 
-            /* Start new unit test result */
-            StartNewUnitResult();
+                /* Start new unit test result */
+                StartNewUnitResult();
 
-            /* Subscribe to MMC event */
-            rvisMMC.OnSerialResultPub += RvisMMC_OnSerialResultPub;
-            rvisMMC.OnResultStringPub += RvisMMC_OnResultStringPub;
-            rvisMMC.OnFinishInspecPub += RvisMMC_OnFinishInspecPub;
-            /* Start MMC */
-            rvisMMC.Start();
+                /* Subscribe to MMC event */
+                rvisMMC.OnSerialResultPub += RvisMMC_OnSerialResultPub;
+                rvisMMC.OnResultStringPub += RvisMMC_OnResultStringPub;
+                rvisMMC.OnFinishInspecPub += RvisMMC_OnFinishInspecPub;
+                /* Start MMC */
+                rvisMMC.Start();
 
-            isInspecting = true;
+                isInspecting = true;
+            }
+            else
+            {
+                if(isResetTestYieldNeeded)
+                {
+                    ResetTestYieldData();
+                    isResetTestYieldNeeded = false;
+                }
+                if(isLogOffNeeded)
+                {
+                    LoadLoginForm(null, null);
+                    isLogOffNeeded = false;
+                }
+            }
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -298,16 +314,16 @@ namespace RVIS
 
         private void SetResetTime()
         {
-            resetTime = DateTime.Now;
+            DateTime now = DateTime.Now;
 
             switch (SettingData.DataResetFreq)
             {
                 case "Hourly":
-                    resetTime.AddHours(1);
+                    resetTime = now.AddHours(1);
                     break;
                 case "Daily":
                 default:
-                    resetTime.AddDays(1);
+                    resetTime = now.AddDays(1);
                     break;
             }
         }

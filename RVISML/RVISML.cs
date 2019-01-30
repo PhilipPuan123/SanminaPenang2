@@ -230,7 +230,7 @@ namespace RVISMMC
                 robot_save_full_path = RVISData.SpecialSettingData.TMImageSavePath + ProcLiveImgDir; //take exact path of image file -> eg. \\PN175\Shared\10-17_067.png
                 rename_image = ProcSerial + ".png"; //rename image name to eg 18KLBN456.png
                 rename_img_path = TEMP_IMG_ZIP_PATH + @"\" + rename_image; //eg -> C:\RVIS\ZIP\18KLBN456.png /**addition "\" 28/1-1649
-                ProcMasterImgDir = MASTER_IMAGE_PATH + rename_image;
+                ProcMasterImgDir = MASTER_IMAGE_PATH + "sn.png";
 
                 if (File.Exists(robot_save_full_path))
                 {
@@ -243,7 +243,7 @@ namespace RVISMMC
                 }
                 if (OnSerialResultPub != null)
                 {
-                    OnSerialResultPub(ProcSerial, ProcLiveImgDir);
+                    OnSerialResultPub(ProcSerial, ProcMasterImgDir);
                 }
             }
 
