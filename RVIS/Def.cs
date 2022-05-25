@@ -12,7 +12,6 @@ namespace RVIS
         Connecting,
         Connected
     };
-
     internal class UserDataSetting
     {
         /* User id and password length */
@@ -21,11 +20,10 @@ namespace RVIS
         public const int PASSWORD_MIN_LENGTH = 8;
         public const int PASSWORD_MAX_LENGTH = 16;
         /* Service Key */
-        public const string SERVICEMAN_USER_ID = "PFSAP";
-        public const string SERVICEMAN_PASSWORD = "kr1st1n4f4y3";
-   
-    }
+        public const string SERVICEMAN_USER_ID = "PIDSM";//"PFSAP"
+        public const string SERVICEMAN_PASSWORD = "service";// kr1st1n4f4y3
 
+    }
     /*  DO NOT CHANGE THIS
      *  Changing this will affect existing password stored in database */
     internal class AuthenticationConstant

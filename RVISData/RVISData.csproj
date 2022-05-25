@@ -41,11 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GuiDataExchange.cs" />
     <Compile Include="TestYieldData.cs" />
     <Compile Include="SettingData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialSettingData.cs" />
     <Compile Include="UserData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MesMeasurement\MesMeasurement.csproj">
+      <Project>{3cd0923c-3d3f-48be-b050-43dee2bb201c}</Project>
+      <Name>MesMeasurement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

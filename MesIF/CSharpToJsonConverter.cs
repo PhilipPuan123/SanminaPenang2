@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace MesIF
 {
+    /*
     public class RVISData
     {
         public RVISData()
@@ -123,4 +124,5 @@ namespace MesIF
     {
         // TO-DO: Impelement json class
     }
+    */
 }
