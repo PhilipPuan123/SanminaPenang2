@@ -115,7 +115,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(464, 194);
+            this.btnCancel.Location = new System.Drawing.Point(467, 214);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -125,7 +125,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(141, 194);
+            this.btnOK.Location = new System.Drawing.Point(141, 214);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -143,7 +143,7 @@
             this.grpSoftwareDir.Controls.Add(this.lblUIImageLoadPath);
             this.grpSoftwareDir.Location = new System.Drawing.Point(12, 104);
             this.grpSoftwareDir.Name = "grpSoftwareDir";
-            this.grpSoftwareDir.Size = new System.Drawing.Size(695, 84);
+            this.grpSoftwareDir.Size = new System.Drawing.Size(695, 104);
             this.grpSoftwareDir.TabIndex = 5;
             this.grpSoftwareDir.TabStop = false;
             this.grpSoftwareDir.Text = "Software Directory:";
@@ -202,7 +202,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 225);
+            this.ClientSize = new System.Drawing.Size(719, 249);
             this.Controls.Add(this.grpSoftwareDir);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);

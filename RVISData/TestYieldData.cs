@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace RVISData
 {
     public static class TestYieldData
-    {
-        public static uint TotalTestedUnits { get; set; } = 0;
-        public static uint TotalPassedUnits { get; set; } = 0;
+   {                  //uint 
+        public static double TotalTestedUnits { get; set; } = 0;
+                       //uint
+        public static double TotalPassedUnits { get; set; } = 0;
         public static double PassingRate
         {
             get

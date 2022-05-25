@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using RVISData;
 
+
 namespace RVIS
 {
     public partial class FrmLogin : Form
@@ -25,6 +26,7 @@ namespace RVIS
         private SqlConnection sqlCon;   //SQL Connection
         #endregion Declaration
 
+
         #region Property
         public string UserID { get; private set; }
         public string Password { get; private set; }
@@ -35,6 +37,7 @@ namespace RVIS
         public FrmLogin()
         {
             InitializeComponent();
+
         }
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -43,10 +46,12 @@ namespace RVIS
             this.KeyPreview = true;
 
             InitializeSetting();
+
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+
             bool isAuthenticationOK = false;
             bool isSQLError = false;
             string userId = txtUserID.Text;
@@ -61,6 +66,7 @@ namespace RVIS
             {
                 UserAccess = AccessLevel.Service;
                 isAuthenticationOK = true;
+                
             }
             else
             {
@@ -155,6 +161,8 @@ namespace RVIS
                 Password = password;
                 DialogResult = DialogResult.OK;
                 this.Close();
+
+                
             }
             else if(!isSQLError)
             {

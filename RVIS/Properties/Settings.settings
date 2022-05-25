@@ -44,5 +44,62 @@
     <Setting Name="TMImageSavePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\RVIS\Img\TM\</Value>
     </Setting>
+    <Setting Name="mesClientID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">p88dcpdev1</Value>
+    </Setting>
+    <Setting Name="mesType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Device</Value>
+    </Setting>
+    <Setting Name="ErrLogPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\RVIS\Err\</Value>
+    </Setting>
+    <Setting Name="mesMeasureURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://portal-uat.42-q.com</Value>
+    </Setting>
+    <Setting Name="mesMeasureService" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mes-api</Value>
+    </Setting>
+    <Setting Name="mesMeasureSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5436c6505cffc0561ec502149b23f7f4131a9178e6d45829384a98ae80ed93af</Value>
+    </Setting>
+    <Setting Name="mesMeasureClientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cafbbdd0e64c61220228d6f355932213e33abb8ea21eedd76dd0d870f3792874</Value>
+    </Setting>
+    <Setting Name="mesMeasureStation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">S046</Value>
+    </Setting>
+    <Setting Name="mesMeasureProcessName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FLATNESS MEASUREMENT</Value>
+    </Setting>
+    <Setting Name="mesMeasureTestId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PN01</Value>
+    </Setting>
+    <Setting Name="mesMeasureFixture" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="mesConduitURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://portal-uat.42-q.com</Value>
+    </Setting>
+    <Setting Name="mesConduitStation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">165</Value>
+    </Setting>
+    <Setting Name="mesConduitClientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;Input conduit client id&gt;</Value>
+    </Setting>
+    <Setting Name="mesConduitParserToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;Input parser token&gt;</Value>
+    </Setting>
+    <Setting Name="mesMeasureResourceName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/mes-api/p5583dc1/measurement/async/transaction/801f22e7-710c-4305-b319-4756ea3d1166/Execute </Value>
+    </Setting>
+    <Setting Name="mesMeasureToolingId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="mesMeasureRevision" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="MesController" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ON</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

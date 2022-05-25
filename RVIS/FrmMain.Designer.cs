@@ -77,6 +77,11 @@
             this.grpSystemLog = new System.Windows.Forms.GroupBox();
             this.sfdUnitData = new System.Windows.Forms.SaveFileDialog();
             this.bgwUIThread = new System.ComponentModel.BackgroundWorker();
+            this.lightingGroup = new System.Windows.Forms.GroupBox();
+            this.chckBoxLight = new System.Windows.Forms.CheckBox();
+            this.btnLighting = new System.Windows.Forms.Button();
+            this.progressBarSts = new System.Windows.Forms.ProgressBar();
+            this.lblProgressBar = new System.Windows.Forms.Label();
             this.mns1.SuspendLayout();
             this.ssStatus.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -89,6 +94,7 @@
             this.grpUser.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.grpSystemLog.SuspendLayout();
+            this.lightingGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // mns1
@@ -100,7 +106,7 @@
             this.tsmiService});
             this.mns1.Location = new System.Drawing.Point(0, 0);
             this.mns1.Name = "mns1";
-            this.mns1.Size = new System.Drawing.Size(1264, 24);
+            this.mns1.Size = new System.Drawing.Size(1196, 24);
             this.mns1.TabIndex = 0;
             // 
             // tsmiFile
@@ -200,9 +206,9 @@
             this.ssTMRobot,
             this.ssMES,
             this.ssDateTime});
-            this.ssStatus.Location = new System.Drawing.Point(0, 657);
+            this.ssStatus.Location = new System.Drawing.Point(0, 826);
             this.ssStatus.Name = "ssStatus";
-            this.ssStatus.Size = new System.Drawing.Size(1264, 24);
+            this.ssStatus.Size = new System.Drawing.Size(1196, 24);
             this.ssStatus.TabIndex = 1;
             // 
             // ssTMRobot
@@ -218,19 +224,20 @@
             // 
             // ssMES
             // 
-            this.ssMES.BackColor = System.Drawing.Color.Red;
+            this.ssMES.ActiveLinkColor = System.Drawing.Color.Green;
+            this.ssMES.BackColor = System.Drawing.Color.Lime;
             this.ssMES.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.ssMES.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.ssMES.Name = "ssMES";
-            this.ssMES.Size = new System.Drawing.Size(76, 19);
-            this.ssMES.Text = "MES: Offline";
+            this.ssMES.Size = new System.Drawing.Size(75, 19);
+            this.ssMES.Text = "MES: Online";
             // 
             // ssDateTime
             // 
             this.ssDateTime.Name = "ssDateTime";
-            this.ssDateTime.Size = new System.Drawing.Size(1065, 19);
+            this.ssDateTime.Size = new System.Drawing.Size(998, 19);
             this.ssDateTime.Spring = true;
             this.ssDateTime.Text = "Date Time";
             this.ssDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -252,7 +259,6 @@
             // 
             // picProductLogo
             // 
-            this.picProductLogo.Image = ((System.Drawing.Image)(resources.GetObject("picProductLogo.Image")));
             this.picProductLogo.Location = new System.Drawing.Point(242, 5);
             this.picProductLogo.Name = "picProductLogo";
             this.picProductLogo.Size = new System.Drawing.Size(360, 60);
@@ -264,7 +270,7 @@
             this.picCustomerLogo.Image = ((System.Drawing.Image)(resources.GetObject("picCustomerLogo.Image")));
             this.picCustomerLogo.Location = new System.Drawing.Point(3, 3);
             this.picCustomerLogo.Name = "picCustomerLogo";
-            this.picCustomerLogo.Size = new System.Drawing.Size(125, 60);
+            this.picCustomerLogo.Size = new System.Drawing.Size(200, 60);
             this.picCustomerLogo.TabIndex = 3;
             this.picCustomerLogo.TabStop = false;
             // 
@@ -277,7 +283,7 @@
             this.rtxUnitResult.Location = new System.Drawing.Point(824, 128);
             this.rtxUnitResult.Name = "rtxUnitResult";
             this.rtxUnitResult.ReadOnly = true;
-            this.rtxUnitResult.Size = new System.Drawing.Size(322, 526);
+            this.rtxUnitResult.Size = new System.Drawing.Size(322, 670);
             this.rtxUnitResult.TabIndex = 5;
             this.rtxUnitResult.TabStop = false;
             this.rtxUnitResult.Text = "";
@@ -285,7 +291,7 @@
             // 
             // rtxLog
             // 
-            this.rtxLog.Location = new System.Drawing.Point(6, 19);
+            this.rtxLog.Location = new System.Drawing.Point(6, 20);
             this.rtxLog.Name = "rtxLog";
             this.rtxLog.ReadOnly = true;
             this.rtxLog.Size = new System.Drawing.Size(538, 176);
@@ -333,9 +339,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 101);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(128, 24);
+            this.label1.Size = new System.Drawing.Size(131, 24);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Good sample:";
+            this.label1.Text = "Good Sample:";
             // 
             // label2
             // 
@@ -343,9 +349,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(414, 101);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(114, 24);
+            this.label2.Size = new System.Drawing.Size(171, 24);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Current Unit:";
+            this.label2.Text = "Device Under Test:";
             // 
             // label4
             // 
@@ -360,7 +366,7 @@
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(1152, 593);
+            this.btnSave.Location = new System.Drawing.Point(1152, 582);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 60);
             this.btnSave.TabIndex = 2;
@@ -505,7 +511,7 @@
             // 
             this.grpUser.Controls.Add(this.tableLayoutPanel2);
             this.grpUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpUser.Location = new System.Drawing.Point(568, 448);
+            this.grpUser.Location = new System.Drawing.Point(568, 449);
             this.grpUser.Name = "grpUser";
             this.grpUser.Size = new System.Drawing.Size(250, 67);
             this.grpUser.TabIndex = 13;
@@ -523,7 +529,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(238, 32);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(238, 33);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // lblOperatorID
@@ -535,7 +541,7 @@
             this.lblOperatorID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOperatorID.Location = new System.Drawing.Point(3, 0);
             this.lblOperatorID.Name = "lblOperatorID";
-            this.lblOperatorID.Size = new System.Drawing.Size(102, 32);
+            this.lblOperatorID.Size = new System.Drawing.Size(102, 33);
             this.lblOperatorID.TabIndex = 15;
             this.lblOperatorID.Text = "Operator ID:";
             this.lblOperatorID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -550,14 +556,14 @@
             this.lblOperatorIDVal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOperatorIDVal.Location = new System.Drawing.Point(111, 0);
             this.lblOperatorIDVal.Name = "lblOperatorIDVal";
-            this.lblOperatorIDVal.Size = new System.Drawing.Size(124, 32);
+            this.lblOperatorIDVal.Size = new System.Drawing.Size(124, 33);
             this.lblOperatorIDVal.TabIndex = 19;
             this.lblOperatorIDVal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // grpSystemLog
             // 
             this.grpSystemLog.Controls.Add(this.rtxLog);
-            this.grpSystemLog.Location = new System.Drawing.Point(12, 448);
+            this.grpSystemLog.Location = new System.Drawing.Point(12, 438);
             this.grpSystemLog.Name = "grpSystemLog";
             this.grpSystemLog.Size = new System.Drawing.Size(550, 205);
             this.grpSystemLog.TabIndex = 14;
@@ -568,12 +574,68 @@
             // 
             this.bgwUIThread.WorkerReportsProgress = true;
             // 
+            // lightingGroup
+            // 
+            this.lightingGroup.BackColor = System.Drawing.SystemColors.Control;
+            this.lightingGroup.Controls.Add(this.chckBoxLight);
+            this.lightingGroup.Controls.Add(this.btnLighting);
+            this.lightingGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lightingGroup.Location = new System.Drawing.Point(1152, 274);
+            this.lightingGroup.Name = "lightingGroup";
+            this.lightingGroup.Size = new System.Drawing.Size(100, 154);
+            this.lightingGroup.TabIndex = 15;
+            this.lightingGroup.TabStop = false;
+            this.lightingGroup.Text = "LIGHTING CONTROL";
+            // 
+            // chckBoxLight
+            // 
+            this.chckBoxLight.AutoSize = true;
+            this.chckBoxLight.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chckBoxLight.Location = new System.Drawing.Point(0, 99);
+            this.chckBoxLight.Name = "chckBoxLight";
+            this.chckBoxLight.Size = new System.Drawing.Size(105, 17);
+            this.chckBoxLight.TabIndex = 1;
+            this.chckBoxLight.Text = "Door Override";
+            this.chckBoxLight.UseVisualStyleBackColor = true;
+            this.chckBoxLight.CheckedChanged += new System.EventHandler(this.chckBoxLight_CheckedChanged);
+            // 
+            // btnLighting
+            // 
+            this.btnLighting.Location = new System.Drawing.Point(6, 44);
+            this.btnLighting.Name = "btnLighting";
+            this.btnLighting.Size = new System.Drawing.Size(88, 49);
+            this.btnLighting.TabIndex = 0;
+            this.btnLighting.Text = "OFF";
+            this.btnLighting.UseVisualStyleBackColor = true;
+            this.btnLighting.Click += new System.EventHandler(this.btnLighting_Click);
+            // 
+            // progressBarSts
+            // 
+            this.progressBarSts.Location = new System.Drawing.Point(824, 804);
+            this.progressBarSts.Maximum = 34;
+            this.progressBarSts.Name = "progressBarSts";
+            this.progressBarSts.Size = new System.Drawing.Size(322, 27);
+            this.progressBarSts.TabIndex = 16;
+            // 
+            // lblProgressBar
+            // 
+            this.lblProgressBar.AutoSize = true;
+            this.lblProgressBar.Location = new System.Drawing.Point(970, 834);
+            this.lblProgressBar.Name = "lblProgressBar";
+            this.lblProgressBar.Size = new System.Drawing.Size(21, 13);
+            this.lblProgressBar.TabIndex = 17;
+            this.lblProgressBar.Text = "0%";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ClientSize = new System.Drawing.Size(1196, 850);
             this.ControlBox = false;
+            this.Controls.Add(this.lblProgressBar);
+            this.Controls.Add(this.progressBarSts);
+            this.Controls.Add(this.lightingGroup);
             this.Controls.Add(this.grpSystemLog);
             this.Controls.Add(this.grpUser);
             this.Controls.Add(this.grpTestYield);
@@ -590,6 +652,7 @@
             this.Controls.Add(this.picMasterImg);
             this.Controls.Add(this.ssStatus);
             this.Controls.Add(this.mns1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.mns1;
             this.Name = "FrmMain";
@@ -615,6 +678,8 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.grpSystemLog.ResumeLayout(false);
+            this.lightingGroup.ResumeLayout(false);
+            this.lightingGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -642,7 +707,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox picProductLogo;
         private System.Windows.Forms.RichTextBox rtxUnitResult;
-        private System.Windows.Forms.RichTextBox rtxLog;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Label lblResult;
@@ -669,6 +733,12 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiService;
         private System.Windows.Forms.ToolStripMenuItem tsmiSpecialSetting;
         private System.ComponentModel.BackgroundWorker bgwUIThread;
+        private System.Windows.Forms.GroupBox lightingGroup;
+        private System.Windows.Forms.CheckBox chckBoxLight;
+        private System.Windows.Forms.Button btnLighting;
+        public System.Windows.Forms.RichTextBox rtxLog;
+        private System.Windows.Forms.ProgressBar progressBarSts;
+        private System.Windows.Forms.Label lblProgressBar;
     }
 }
 

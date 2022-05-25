@@ -65,23 +65,26 @@ namespace RVIS
             errorMessage = "Details: \n";
 
             /* Check MES Config Settings */
-            if (ErrorCheckDeviceNumInput(txtMESDevNum, lblMESDevNumErr))
-            {
-                errorMessage += "- Invalid MES Device Number\n";
-            }
-            if (ErrorCheckIPAddressInput(txtMESIP, lblMESIPErr))
-            {
-                errorMessage += "- Invalid MES IP\n";
-            }
-            if (ErrorCheckPortNumInput(txtMESPort, lblMESPortErr))
-            {
-                errorMessage += "- Invalid MES Port\n";
-            }
+           // if (ErrorCheckDeviceNumInput(txtMESDevNum, lblMESDevNumErr))
+           // {
+             //   errorMessage += "- Invalid MES Device Number\n";
+           // }
+           // if (ErrorCheckIPAddressInput(txtMESIP, lblMESIPErr))
+            //{
+               // errorMessage += "- Invalid MES IP\n";
+            //}
+            //if (ErrorCheckPortNumInput(txtMESPort, lblMESPortErr))
+            //{
+              //  errorMessage += "- Invalid MES Port\n";
+           // }
             if (ErrorCheckPathInput(txtLocalServerPath, lblLocalServerPathErr))
             {
                 errorMessage += "- Invalid Local Server Path\n";
             }
-
+            if (ErrorCheckType(txtMESType, lblMESTypeErr))
+            {
+                errorMessage += "- Invalid MES Type\n";
+            }
             /* Check PC Config Settings */
             if (ErrorCheckIPAddressInput(txtPCServerIP, lblPCServerIPErr))
             {
@@ -91,7 +94,6 @@ namespace RVIS
             {
                 errorMessage += "- Invalid PC Server Port\n";
             }
-
             /* Check TM Config Settings */
             if (ErrorCheckIPAddressInput(txtTMIP, lblTMIPErr))
             {
@@ -208,18 +210,77 @@ namespace RVIS
             }
             return error;
         }
+        private bool ErrorCheckClientID(TextBox txtClientID, Label lblErr)
+        {
+            bool error = false;
+
+            if (string.IsNullOrEmpty(txtClientID.Text))
+            {
+                error = true;
+            }
+            /* If client ID  within allowable range 20*/
+            else if (txtClientID.TextLength <= 0 || txtClientID.TextLength > 20)
+            {
+                error = true;
+            }
+
+            /* if error */
+            if (error)
+            {
+                lblErr.Visible = true;
+                settingErr = true;
+            }
+            else
+            {
+                lblErr.Visible = false;
+            }
+            return error;
+        }
+
+        private bool ErrorCheckType(TextBox txtType, Label lblErr)
+        {
+            bool error = false;
+
+            if (string.IsNullOrEmpty(txtType.Text))
+            {
+                error = true;
+            }
+
+            /* if error */
+            if (error)
+            {
+                lblErr.Visible = true;
+                settingErr = true;
+            }
+            else
+            {
+                lblErr.Visible = false;
+            }
+            return error;
+        }
 
         private void LoadSettingFromConfigFile()
         {
             /* Update settngs on UI */
-            txtMESIP.Text           = Properties.Settings.Default.mesIP;
-            txtMESPort.Text         = Properties.Settings.Default.mesPort;
-            txtMESDevNum.Text       = Properties.Settings.Default.mesDevNum;
             txtLocalServerPath.Text = Properties.Settings.Default.localServerPath;
             txtTMIP.Text            = Properties.Settings.Default.tmIP;
             txtTMModbusPort.Text    = Properties.Settings.Default.tmModbusPort;
             txtPCServerIP.Text      = Properties.Settings.Default.pcServerIP;
             txtPCServerPort.Text    = Properties.Settings.Default.pcServerPort;
+            txtMESType.Text         = Properties.Settings.Default.mesType;
+            txtMESMeasureURL.Text   = Properties.Settings.Default.mesMeasureURL;
+            txtMESMeasureResourceName.Text = Properties.Settings.Default.mesMeasureResourceName;
+            txtMESMeasureService.Text = Properties.Settings.Default.mesMeasureService;
+            txtMESMeasureSecret.Text = Properties.Settings.Default.mesMeasureSecret;
+            txtMESMeasureClientId.Text = Properties.Settings.Default.mesMeasureClientId;
+            txtMESMeasureStation.Text = Properties.Settings.Default.mesMeasureStation;
+            txtMESMeasureProcessName.Text = Properties.Settings.Default.mesMeasureProcessName;
+            txtMESMeasureTestId.Text = Properties.Settings.Default.mesMeasureTestId;
+            txtMESMeasureToolingId.Text = Properties.Settings.Default.mesMeasureToolingId;
+            txtMESMeasureRevision.Text = Properties.Settings.Default.mesMeasureRevision;
+            txtMESConduitURL.Text = Properties.Settings.Default.mesConduitURL;
+            txtMESConduitStation.Text = Properties.Settings.Default.mesConduitStation;
+            txtMESConduitClientId.Text = Properties.Settings.Default.mesConduitClientId;
             switch (Properties.Settings.Default.dataResetFreq)
             {
                 case "Hourly":
@@ -230,19 +291,40 @@ namespace RVIS
                     rdoDaily.Checked = true;
                     break;
             }
+            switch (Properties.Settings.Default.MesController)
+            {
+                case "ON":
+                    rdo42Qon.Checked = true;
+                    break;
+                case "OFF":
+                default:
+                    rdo42Qoff.Checked = true;
+                    break;
+            }
         }
 
         private void SaveSettingToConfigFile()
         {
             /* Save settings in config file */
-            Properties.Settings.Default.mesIP           = txtMESIP.Text;
-            Properties.Settings.Default.mesPort         = txtMESPort.Text;
-            Properties.Settings.Default.mesDevNum       = txtMESDevNum.Text;
             Properties.Settings.Default.localServerPath = txtLocalServerPath.Text;
             Properties.Settings.Default.tmIP            = txtTMIP.Text;
             Properties.Settings.Default.tmModbusPort    = txtTMModbusPort.Text;
             Properties.Settings.Default.pcServerIP      = txtPCServerIP.Text;
             Properties.Settings.Default.pcServerPort    = txtPCServerPort.Text;
+            Properties.Settings.Default.mesType         = txtMESType.Text;
+            Properties.Settings.Default.mesMeasureURL = txtMESMeasureURL.Text;
+            Properties.Settings.Default.mesMeasureResourceName = txtMESMeasureResourceName.Text;
+            Properties.Settings.Default.mesMeasureService = txtMESMeasureService.Text;
+            Properties.Settings.Default.mesMeasureSecret = txtMESMeasureSecret.Text;
+            Properties.Settings.Default.mesMeasureClientId = txtMESMeasureClientId.Text;
+            Properties.Settings.Default.mesMeasureStation = txtMESMeasureStation.Text;
+            Properties.Settings.Default.mesMeasureProcessName = txtMESMeasureProcessName.Text;
+            Properties.Settings.Default.mesMeasureTestId = txtMESMeasureTestId.Text;
+            Properties.Settings.Default.mesMeasureToolingId = txtMESMeasureToolingId.Text;
+            Properties.Settings.Default.mesMeasureRevision = txtMESMeasureRevision.Text;
+            Properties.Settings.Default.mesConduitURL = txtMESConduitURL.Text;
+            Properties.Settings.Default.mesConduitStation = txtMESConduitStation.Text;
+            Properties.Settings.Default.mesConduitClientId = txtMESConduitClientId.Text;
             if (rdoDaily.Checked)
             {
                 Properties.Settings.Default.dataResetFreq = rdoDaily.Text;
@@ -250,6 +332,14 @@ namespace RVIS
             else if (rdoHourly.Checked)
             {
                 Properties.Settings.Default.dataResetFreq = rdoHourly.Text;
+            }
+            if (rdo42Qon.Checked)
+            {
+                Properties.Settings.Default.MesController = rdo42Qon.Text;
+            }
+            else if (rdo42Qoff.Checked)
+            {
+                Properties.Settings.Default.MesController = rdo42Qoff.Text;
             }
 
             Properties.Settings.Default.Save();

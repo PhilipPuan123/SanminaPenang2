@@ -54,9 +54,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MesConduit\MesConduit.csproj">
+      <Project>{deb2cf25-8566-4ce3-855b-e26262ad98ed}</Project>
+      <Name>MesConduit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MesIF\MesIF.csproj">
       <Project>{437bfa0c-0b3a-4fec-b572-2d02e36a1069}</Project>
       <Name>MesIF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MesMeasurement\MesMeasurement.csproj">
+      <Project>{3cd0923c-3d3f-48be-b050-43dee2bb201c}</Project>
+      <Name>MesMeasurement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RVISML\RVISMMC.csproj">
+      <Project>{250283b7-0911-4f46-a8f8-dd2a53c78aa9}</Project>
+      <Name>RVISMMC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemLog\SystemLog.csproj">
+      <Project>{3cb2d829-e393-459c-85b1-26695928694f}</Project>
+      <Name>SystemLog</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

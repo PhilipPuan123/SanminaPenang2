@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -42,10 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conduit.cs" />
+    <Compile Include="Measurement.cs" />
     <Compile Include="RVISML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MesConduitResponse\MesConduitResponse.csproj">
+      <Project>{bb5d70e6-72db-4230-a617-bef8f10db963}</Project>
+      <Name>MesConduitResponse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MesConduit\MesConduit.csproj">
+      <Project>{deb2cf25-8566-4ce3-855b-e26262ad98ed}</Project>
+      <Name>MesConduit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MesMeasurementResponse\MesMeasurementResponse.csproj">
+      <Project>{5e8b226e-092b-4bc6-aa1b-7fefb948a970}</Project>
+      <Name>MesMeasurementResponse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MesMeasurement\MesMeasurement.csproj">
+      <Project>{3cd0923c-3d3f-48be-b050-43dee2bb201c}</Project>
+      <Name>MesMeasurement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RVISData\RVISData.csproj">
       <Project>{edabc090-af3a-44b5-8f98-8e116c6bdf11}</Project>
       <Name>RVISData</Name>
@@ -65,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

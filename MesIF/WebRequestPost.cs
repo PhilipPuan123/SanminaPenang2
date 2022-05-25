@@ -8,6 +8,7 @@ using System.Net;
 
 namespace MesIF
 {
+    /*
     public class WebRequestPost
     {
         private string uri;
@@ -48,4 +49,5 @@ namespace MesIF
         }
 
     }
+    */
 }

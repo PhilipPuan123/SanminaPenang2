@@ -190,5 +190,234 @@ namespace RVIS.Properties {
                 this["TMImageSavePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("p88dcpdev1")]
+        public string mesClientID {
+            get {
+                return ((string)(this["mesClientID"]));
+            }
+            set {
+                this["mesClientID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Device")]
+        public string mesType {
+            get {
+                return ((string)(this["mesType"]));
+            }
+            set {
+                this["mesType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\RVIS\\Err\\")]
+        public string ErrLogPath {
+            get {
+                return ((string)(this["ErrLogPath"]));
+            }
+            set {
+                this["ErrLogPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://portal-uat.42-q.com")]
+        public string mesMeasureURL {
+            get {
+                return ((string)(this["mesMeasureURL"]));
+            }
+            set {
+                this["mesMeasureURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mes-api")]
+        public string mesMeasureService {
+            get {
+                return ((string)(this["mesMeasureService"]));
+            }
+            set {
+                this["mesMeasureService"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5436c6505cffc0561ec502149b23f7f4131a9178e6d45829384a98ae80ed93af")]
+        public string mesMeasureSecret {
+            get {
+                return ((string)(this["mesMeasureSecret"]));
+            }
+            set {
+                this["mesMeasureSecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("cafbbdd0e64c61220228d6f355932213e33abb8ea21eedd76dd0d870f3792874")]
+        public string mesMeasureClientId {
+            get {
+                return ((string)(this["mesMeasureClientId"]));
+            }
+            set {
+                this["mesMeasureClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("S046")]
+        public string mesMeasureStation {
+            get {
+                return ((string)(this["mesMeasureStation"]));
+            }
+            set {
+                this["mesMeasureStation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FLATNESS MEASUREMENT")]
+        public string mesMeasureProcessName {
+            get {
+                return ((string)(this["mesMeasureProcessName"]));
+            }
+            set {
+                this["mesMeasureProcessName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("PN01")]
+        public string mesMeasureTestId {
+            get {
+                return ((string)(this["mesMeasureTestId"]));
+            }
+            set {
+                this["mesMeasureTestId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string mesMeasureFixture {
+            get {
+                return ((string)(this["mesMeasureFixture"]));
+            }
+            set {
+                this["mesMeasureFixture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://portal-uat.42-q.com")]
+        public string mesConduitURL {
+            get {
+                return ((string)(this["mesConduitURL"]));
+            }
+            set {
+                this["mesConduitURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("165")]
+        public string mesConduitStation {
+            get {
+                return ((string)(this["mesConduitStation"]));
+            }
+            set {
+                this["mesConduitStation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<Input conduit client id>")]
+        public string mesConduitClientId {
+            get {
+                return ((string)(this["mesConduitClientId"]));
+            }
+            set {
+                this["mesConduitClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<Input parser token>")]
+        public string mesConduitParserToken {
+            get {
+                return ((string)(this["mesConduitParserToken"]));
+            }
+            set {
+                this["mesConduitParserToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/mes-api/p5583dc1/measurement/async/transaction/801f22e7-710c-4305-b319-4756ea3d1" +
+            "166/Execute ")]
+        public string mesMeasureResourceName {
+            get {
+                return ((string)(this["mesMeasureResourceName"]));
+            }
+            set {
+                this["mesMeasureResourceName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string mesMeasureToolingId {
+            get {
+                return ((string)(this["mesMeasureToolingId"]));
+            }
+            set {
+                this["mesMeasureToolingId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string mesMeasureRevision {
+            get {
+                return ((string)(this["mesMeasureRevision"]));
+            }
+            set {
+                this["mesMeasureRevision"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ON")]
+        public string MesController {
+            get {
+                return ((string)(this["MesController"]));
+            }
+            set {
+                this["MesController"] = value;
+            }
+        }
     }
 }

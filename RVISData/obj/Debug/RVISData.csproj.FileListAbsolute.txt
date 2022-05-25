@@ -4,3 +4,40 @@ E:\Visual Studio 2017\Projects\Work\RVIS\RVISData\obj\Debug\RVISData.csprojAssem
 E:\Visual Studio 2017\Projects\Work\RVIS\RVISData\obj\Debug\RVISData.csproj.CoreCompileInputs.cache
 E:\Visual Studio 2017\Projects\Work\RVIS\RVISData\obj\Debug\RVISData.dll
 E:\Visual Studio 2017\Projects\Work\RVIS\RVISData\obj\Debug\RVISData.pdb
+D:\PGproject\MasterSourceCode\RVIS\RVISData\bin\Debug\RVISData.dll
+D:\PGproject\MasterSourceCode\RVIS\RVISData\bin\Debug\RVISData.pdb
+D:\PGproject\MasterSourceCode\RVIS\RVISData\obj\Debug\RVISData.csproj.CoreCompileInputs.cache
+D:\PGproject\MasterSourceCode\RVIS\RVISData\obj\Debug\RVISData.dll
+D:\PGproject\MasterSourceCode\RVIS\RVISData\obj\Debug\RVISData.pdb
+C:\Users\USER1\Desktop\BAK\Source\RVIS\RVISData\bin\Debug\RVISData.dll
+C:\Users\USER1\Desktop\BAK\Source\RVIS\RVISData\bin\Debug\RVISData.pdb
+C:\Users\USER1\Desktop\BAK\Source\RVIS\RVISData\obj\Debug\RVISData.csproj.CoreCompileInputs.cache
+C:\Users\USER1\Desktop\BAK\Source\RVIS\RVISData\obj\Debug\RVISData.dll
+C:\Users\USER1\Desktop\BAK\Source\RVIS\RVISData\obj\Debug\RVISData.pdb
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\bin\Debug\RVISData.dll
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\bin\Debug\RVISData.pdb
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\bin\Debug\MesMeasurement.dll
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\bin\Debug\MesMeasurement.pdb
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\obj\Debug\RVISData.csprojAssemblyReference.cache
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\obj\Debug\RVISData.csproj.CoreCompileInputs.cache
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\obj\Debug\RVISData.csproj.CopyComplete
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\obj\Debug\RVISData.dll
+C:\Users\USER1\Desktop\BAK\Source\RVIS_old\RVISData\obj\Debug\RVISData.pdb
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\bin\Debug\RVISData.dll
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\bin\Debug\RVISData.pdb
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\bin\Debug\MesMeasurement.dll
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\bin\Debug\MesMeasurement.pdb
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\obj\Debug\RVISData.csprojAssemblyReference.cache
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\obj\Debug\RVISData.csproj.CoreCompileInputs.cache
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\obj\Debug\RVISData.csproj.CopyComplete
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\obj\Debug\RVISData.dll
+D:\PGproject\MasterSourceCode\GoldSource\RVIS\RVISData\obj\Debug\RVISData.pdb
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\bin\Debug\RVISData.dll
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\bin\Debug\RVISData.pdb
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\bin\Debug\MesMeasurement.dll
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\bin\Debug\MesMeasurement.pdb
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\obj\Debug\RVISData.csprojAssemblyReference.cache
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\obj\Debug\RVISData.csproj.CoreCompileInputs.cache
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\obj\Debug\RVISData.csproj.CopyComplete
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\obj\Debug\RVISData.dll
+D:\PGproject\MasterSourceCode\GoldSource_INTL\RVIS\RVISData\obj\Debug\RVISData.pdb

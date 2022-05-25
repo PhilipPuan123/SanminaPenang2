@@ -7,7 +7,7 @@
     <ProjectGuid>{82DD2D73-57E9-4DF8-B1F2-28311660E6AF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>RVIS</RootNamespace>
-    <AssemblyName>RVIS</AssemblyName>
+    <AssemblyName>RVIS_INTL</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,6 +52,9 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -96,6 +99,12 @@
     <Compile Include="FrmSpecialSetting.Designer.cs">
       <DependentUpon>FrmSpecialSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="OverallSts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OverallSts.Designer.cs">
+      <DependentUpon>OverallSts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security.cs" />
@@ -115,6 +124,9 @@
     <EmbeddedResource Include="FrmSpecialSetting.resx">
       <DependentUpon>FrmSpecialSetting.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OverallSts.resx">
+      <DependentUpon>OverallSts.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -124,6 +136,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -162,6 +175,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MesConduit\MesConduit.csproj">
+      <Project>{deb2cf25-8566-4ce3-855b-e26262ad98ed}</Project>
+      <Name>MesConduit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MesIF\MesIF.csproj">
       <Project>{437bfa0c-0b3a-4fec-b572-2d02e36a1069}</Project>
       <Name>MesIF</Name>
@@ -173,6 +190,10 @@
     <ProjectReference Include="..\RVISML\RVISMMC.csproj">
       <Project>{250283b7-0911-4f46-a8f8-dd2a53c78aa9}</Project>
       <Name>RVISMMC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemLog\SystemLog.csproj">
+      <Project>{3cb2d829-e393-459c-85b1-26695928694f}</Project>
+      <Name>SystemLog</Name>
     </ProjectReference>
     <ProjectReference Include="..\TcpIF\TcpIF.csproj">
       <Project>{1daa1e3f-10ff-4059-b400-f754d93f410e}</Project>

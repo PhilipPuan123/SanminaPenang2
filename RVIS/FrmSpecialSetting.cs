@@ -68,6 +68,7 @@ namespace RVIS
             /* Check Software Directory */
             ErrorCheckUIImageLoadPath(txtUIImageLoadPath, lblUIImageLoadPathErr);
             ErrorCheckTMImageSavePath(txtTMImageSavePath, lblTMImageSavePathErr);
+  
         }
 
         private void ErrorCheckSQLDataSourceInput(TextBox dataSource, Label lblErr)
@@ -162,6 +163,7 @@ namespace RVIS
             }
         }
 
+
         /// <summary>
         /// Create directory if it does not exist. Return true if able to create directory or directory already exists.
         /// </summary>
@@ -187,6 +189,7 @@ namespace RVIS
             txtAttachDBFilename.Text    = Properties.Settings.Default.SqlAttachDbFilename;
             txtUIImageLoadPath.Text     = Properties.Settings.Default.UIImageLoadPath;
             txtTMImageSavePath.Text     = Properties.Settings.Default.TMImageSavePath;
+
         }
 
         private void SaveSettingToConfigFile()
@@ -195,6 +198,7 @@ namespace RVIS
             Properties.Settings.Default.SqlAttachDbFilename = txtAttachDBFilename.Text;
             Properties.Settings.Default.UIImageLoadPath     = txtUIImageLoadPath.Text;
             Properties.Settings.Default.TMImageSavePath     = txtTMImageSavePath.Text;
+
 
             Properties.Settings.Default.Save();
         }
